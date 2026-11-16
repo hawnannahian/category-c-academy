@@ -315,18 +315,6 @@ $('#vsearch').oninput=renderVocab;$('#vcat').onchange=renderVocab;$('#vstate').o
 
 
 function rememberQuizPosition(){const q=questions[quizIndex];if(q){try{localStorage.setItem(LAST_KEY,String(q.id))}catch(e){}updateContinue()}}
-const ACT_KEY='cca-activity',GOAL=10;
-let lastSeenSize=seen.size;
-function dayKey(d=new Date()){const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
-function loadActivity(){try{const a=JSON.parse(localStorage.getItem(ACT_KEY)||'{}');return a&&typeof a==='object'?a:{}}catch(e){return {}}}
-function trackActivity(){const diff=seen.size-lastSeenSize;lastSeenSize=seen.size;if(diff<=0)return;const a=loadActivity(),k=dayKey();a[k]=(a[k]||0)+diff;const keys=Object.keys(a).sort();while(keys.length>60)delete a[keys.shift()];try{localStorage.setItem(ACT_KEY,JSON.stringify(a))}catch(e){}}
-function renderWeek(){
- const box=$('#week-days');if(!box)return;const a=loadActivity(),today=new Date(),names=['র','সো','ম','বু','বৃ','শু','শ'];
- box.replaceChildren();const dow=today.getDay();const start=new Date(today);start.setDate(today.getDate()-((dow+1)%7));
- for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const on=(a[dayKey(d)]||0)>0,el=document.createElement('div');el.className='week-day'+(on?' on':'')+(dayKey(d)===dayKey(today)?' today':'');el.setAttribute('role','listitem');el.textContent=names[d.getDay()];el.setAttribute('aria-label',names[d.getDay()]+(on?' — অনুশীলন করেছেন':''));box.appendChild(el)}
- let streak=0;const d=new Date(today);if(!(a[dayKey(d)]>0))d.setDate(d.getDate()-1);while(a[dayKey(d)]>0){streak++;d.setDate(d.getDate()-1)}
- const t=Math.min(GOAL,a[dayKey(today)]||0);$('#week-streak').textContent=bn(streak)+' দিন টানা';$('#week-goal-text').textContent='আজকের লক্ষ্য: '+bn(t)+' / '+bn(GOAL)+' প্রশ্ন';$('#week-fill').style.width=(t/GOAL*100)+'%';$('#week-track').setAttribute('aria-valuenow',t);
-}
 function heroPhoto(q){
  const el=$('#continue-photo');if(!el)return;const key='cca-hero-'+q.id;let c=null;try{c=localStorage.getItem(key)}catch(e){}
  if(c){el.style.backgroundImage='url("'+c+'")';el.classList.add('has-photo');return}
@@ -344,7 +332,7 @@ function updateContinue(){
  btn.textContent=q?'চালিয়ে যান':'শুরু করুন';
  const g=$('#home-greeting');if(g){const h=new Date().getHours();g.textContent=h<5?'শুভ রাত্রি':h<12?'শুভ সকাল':h<17?'শুভ দুপুর':h<20?'শুভ সন্ধ্যা':'শুভ রাত্রি'}
  if(q)heroPhoto(q);else{const p=$('#continue-photo');if(p){p.style.backgroundImage='';p.classList.remove('has-photo')}}
- renderWeek();renderDashboard()}
+ renderDashboard()}
 function renderDashboard(){
  if(!$('#home-stat-questions'))return;
  const totalQuestions=questions.length||TOTAL,totalVocab=vocab.length||133;
