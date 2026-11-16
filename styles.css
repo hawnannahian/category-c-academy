@@ -21,3 +21,25 @@
 .photo-viewer-close{position:absolute;right:10px;top:8px;width:38px;height:38px;border:1px solid rgba(255,255,255,.45);border-radius:50%;background:#fff;color:#102b4b;font-size:22px}
 .photo-viewer-caption{text-align:center;font-size:14px;color:#e7f2ff;margin:12px 0 0}
 @media(max-width:600px){.question-photo{max-width:100%;max-height:240px}.photo-viewer{padding-top:48px}}
+
+/* Center original PDF images within the question card */
+.qitem > .question-photo,
+.question-photo.quiz-photo{
+  display:block;
+  width:min(100%, 380px);
+  max-width:380px;
+  height:auto;
+  max-height:250px;
+  object-fit:contain;
+  object-position:center center;
+  margin:16px auto 18px;
+}
+@media(max-width:600px){
+ .qitem > .question-photo,
+ .question-photo.quiz-photo{
+  width:min(100%, 340px);
+  max-width:340px;
+  max-height:230px;
+  margin:14px auto 16px;
+ }
+}
