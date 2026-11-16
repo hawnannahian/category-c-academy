@@ -165,6 +165,38 @@ function showQuiz(){
  $('#reveal').hidden=true;
  $('#quizanswer').hidden=true;
 }
+
+/* Independent timed simulated exam */
+const EXAM_SIZE=20,EXAM_SECONDS=1500;
+let examQuestions=[],examIndex=0,examAnswers=new Map(),examFavourites=new Set(),examSeconds=EXAM_SECONDS,examTicker=null,examPaused=false,examShowBangla=false,examRunning=false;
+const examEl=$('#exam-mode');
+function examShuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function examStopClock(){if(examTicker){clearInterval(examTicker);examTicker=null}}
+function examClockText(){return String(Math.floor(examSeconds/60)).padStart(2,'0')+':'+String(examSeconds%60).padStart(2,'0')}
+function examUpdateClock(){$('#exam-timer').textContent=examClockText();$('#exam-timer').classList.toggle('urgent',examSeconds<=300);$('#exam-progress-fill').style.width=((examIndex+1)/EXAM_SIZE*100)+'%'}
+function examStartClock(){examStopClock();examTicker=setInterval(()=>{if(examPaused||!examRunning)return;examSeconds=Math.max(0,examSeconds-1);examUpdateClock();if(examSeconds===0)examFinish(true)},1000)}
+function examStart(){if(!questions.length)return;examQuestions=examShuffle(questions).slice(0,EXAM_SIZE);examIndex=0;examAnswers=new Map();examFavourites=new Set();examSeconds=EXAM_SECONDS;examPaused=false;examShowBangla=false;examRunning=true;$('#exam-pause-screen').hidden=true;$('#exam-result-screen').hidden=true;examEl.hidden=false;document.body.classList.add('exam-open');examRender();examStartClock();$('#exam-exit').focus()}
+function examMakeOption(o){const b=document.createElement('button');b.type='button';b.className='exam-option';b.setAttribute('aria-pressed','false');const letter=document.createElement('span');letter.className='exam-option-letter';letter.textContent=o.letter;const copy=document.createElement('span');copy.className='exam-option-text';const pt=document.createElement('span');pt.className='exam-option-pt';pt.textContent=o.pt;copy.append(pt);if(examShowBangla&&o.bn){const bnText=document.createElement('span');bnText.className='exam-option-bn';bnText.textContent=o.bn;copy.append(bnText)}b.append(letter,copy);if(examAnswers.get(examIndex)===o.letter){b.classList.add('selected');b.setAttribute('aria-pressed','true')}b.addEventListener('click',()=>{examAnswers.set(examIndex,o.letter);examRender()});return b}
+function examRender(){const q=examQuestions[examIndex];if(!q)return;const p=parseQuestion(q),host=$('#exam-question');host.replaceChildren();$('#exam-counter').textContent='QUESTION '+(examIndex+1)+' / '+EXAM_SIZE;$('#exam-answered').textContent=examAnswers.size+' ANSWERED';$('#exam-number').firstChild.textContent=examIndex+1;$('#exam-fav').firstChild.textContent=examFavourites.has(examIndex)?'★':'☆';$('#exam-fav').classList.toggle('is-favourite',examFavourites.has(examIndex));$('#exam-fav-state').textContent=examFavourites.has(examIndex)?'★ MARKED':'';
+if(PDF_IMAGE_Y[q.id]!==undefined){const wrap=document.createElement('div');wrap.className='exam-image-wrap';const img=document.createElement('img');img.className='exam-image';img.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(q.id);img.loading='eager';attachQuestionPhoto(q,img);wrap.append(img);host.append(wrap)}
+const prompt=document.createElement('div');prompt.className='exam-prompt';prompt.textContent=p.pt||'Question text unavailable';host.append(prompt);if(examShowBangla&&p.bn){const tr=document.createElement('div');tr.className='exam-bangla';tr.textContent=p.bn;host.append(tr)}
+const opts=document.createElement('div');opts.className='exam-options';p.options.forEach(o=>opts.append(examMakeOption(o)));host.append(opts);
+$('#exam-bn-toggle').textContent=examShowBangla?'বাংলা সহায়তা লুকান ⌃':'বাংলা সহায়তা দেখুন ⌄';$('#exam-bn-toggle').setAttribute('aria-expanded',String(examShowBangla));$('#exam-prev').disabled=examIndex===0;$('#exam-next').disabled=examIndex===EXAM_SIZE-1;examUpdateClock()}
+function examFinish(timeUp=false){if(!examRunning)return;examRunning=false;examPaused=false;examStopClock();let correct=0,wrong=0,skipped=0;examQuestions.forEach((q,i)=>{const key=parseQuestion(q).correct,ans=examAnswers.get(i);if(!ans)skipped++;else if(key&&ans===key)correct++;else wrong++});$('#exam-score').textContent=correct+' / '+EXAM_SIZE;$('#exam-correct').textContent=correct;$('#exam-wrong').textContent=wrong;$('#exam-skipped').textContent=skipped;const review=$('#exam-review');review.replaceChildren();const heading=document.createElement('h3');heading.textContent=timeUp?'সময় শেষ — ফলাফল':'উত্তর পর্যালোচনা';review.append(heading);examQuestions.forEach((q,i)=>{const p=parseQuestion(q),row=document.createElement('div');row.className='exam-review-row';const title=document.createElement('b');title.textContent='প্রশ্ন '+(i+1)+' · '+(examAnswers.get(i)||'—');const detail=document.createElement('span');detail.textContent='সঠিক উত্তর: '+(p.correct||'উত্তর অনুপলব্ধ');row.append(title,detail);review.append(row)});$('#exam-result-screen').hidden=false;$('#exam-pause-screen').hidden=true}
+function examClose(){examRunning=false;examPaused=false;examStopClock();examEl.hidden=true;document.body.classList.remove('exam-open')}
+$('#start-exam').addEventListener('click',examStart);
+$('#exam-exit').addEventListener('click',()=>{if(confirm('পরীক্ষা বন্ধ করলে বর্তমান ফলাফল সংরক্ষিত হবে না। বন্ধ করবেন?'))examClose()});
+$('#exam-pause').addEventListener('click',()=>{if(examRunning){examPaused=true;$('#exam-pause-screen').hidden=false;$('#exam-resume').focus()}});
+$('#exam-resume').addEventListener('click',()=>{examPaused=false;$('#exam-pause-screen').hidden=true;$('#exam-pause').focus()});
+$('#exam-prev').addEventListener('click',()=>{if(examIndex>0){examIndex--;examRender()}});
+$('#exam-next').addEventListener('click',()=>{if(examIndex<EXAM_SIZE-1){examIndex++;examRender()}});
+$('#exam-number').addEventListener('click',()=>{const raw=prompt('প্রশ্ন নম্বর লিখুন (১–২০):');if(raw!==null){const n=Number(fromBn(raw));if(Number.isInteger(n)&&n>=1&&n<=EXAM_SIZE){examIndex=n-1;examRender()}}});
+$('#exam-fav').addEventListener('click',()=>{examFavourites.has(examIndex)?examFavourites.delete(examIndex):examFavourites.add(examIndex);examRender()});
+$('#exam-bn-toggle').addEventListener('click',()=>{examShowBangla=!examShowBangla;examRender()});
+$('#exam-finish').addEventListener('click',()=>{if(confirm('পরীক্ষা শেষ করে ফলাফল দেখতে চান?'))examFinish(false)});
+$('#exam-retry').addEventListener('click',examStart);$('#exam-close-result').addEventListener('click',examClose);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!examEl.hidden){if(!$('#exam-result-screen').hidden)examClose();else if(!$('#exam-pause-screen').hidden){examPaused=false;$('#exam-pause-screen').hidden=true}else if(confirm('পরীক্ষা বন্ধ করবেন?'))examClose()}});
+
 $('#next').onclick=()=>{quizIndex=(quizIndex+1)%questions.length;showQuiz();rememberQuizPosition()};$('#prev').onclick=()=>{quizIndex=(quizIndex-1+questions.length)%questions.length;showQuiz();rememberQuizPosition()};
 function save(){try{localStorage.setItem('cca-seen',JSON.stringify([...seen]))}catch(e){}renderProgress()}
 function renderProgress(){$('#donecount').textContent=bn(seen.size);$('#bar').style.width=Math.min(100,seen.size/TOTAL*100)+'%';$('#bar').parentElement.setAttribute('aria-valuenow',seen.size)}
