@@ -303,3 +303,13 @@ body.exam-open{width:100%;max-width:100%;touch-action:pan-y}
  .learn-vocab-shortcut{align-items:flex-start;flex-direction:column}.learn-vocab-shortcut button{width:100%}
 }
 @media(min-width:701px) and (max-width:900px){.dashboard-stats{gap:9px}.dashboard-stat{padding:13px;grid-template-columns:36px 1fr}.dashboard-stat-icon{width:36px;height:36px}}
+
+/* Compact the landing masthead so the dashboard is the first-class screen */
+.hero{padding-top:27px;padding-bottom:22px}
+.hero-inner{display:block;max-width:1120px}
+.hero-art,.hero .stats{display:none!important}
+.hero h1{font-size:clamp(27px,3.5vw,36px);line-height:1.22;max-width:760px;margin-bottom:9px}
+.hero h1 span{display:inline}
+.hero-lead{font-size:14px;line-height:1.65}
+.hero-actions{margin-top:15px}
+@media(max-width:700px){.hero{padding:22px 18px 18px}.hero h1{font-size:27px}.hero h1 span{display:block}.hero-actions{gap:8px}.primary-cta,.secondary-cta{min-height:44px;padding:10px 13px;font-size:12px}}
