@@ -13,7 +13,7 @@ function ensurePdfDocument(){
  if(!window.pdfjsLib) return Promise.reject(new Error('PDF renderer unavailable'));
  if(!pdfDocumentPromise){
   pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  pdfDocumentPromise=pdfjsLib.getDocument({url:BOOK}).promise;
+  pdfDocumentPromise=pdfjsLib.getDocument({url:BOOK,disableWorker:true,disableRange:true,disableStream:true,disableAutoFetch:true}).promise;
  }
  return pdfDocumentPromise;
 }
@@ -42,7 +42,7 @@ function attachQuestionPhoto(q,img){
  }).catch(err=>{
   console.error('PDF image crop failed',q.id,err);
   img.classList.remove('photo-loading');img.classList.add('photo-error');
-  img.alt='PDF ছবি লোড হয়নি — পৃষ্ঠা '+bn(q.page);
+  img.alt='PDF ছবি লোড হয়নি — পৃষ্ঠা '+bn(q.page); img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="320" height="90"><rect width="100%" height="100%" rx="12" fill="#eef3f8"/><text x="50%" y="42%" text-anchor="middle" font-size="16" fill="#40566d">PDF image unavailable</text><text x="50%" y="68%" text-anchor="middle" font-size="13" fill="#40566d">Page '+q.page+'</text></svg>');
  });
 }
 const fromBn = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
