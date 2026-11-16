@@ -32,7 +32,7 @@ async function questionPhotoData(q){
  }
  const data=await pdfPageCanvasCache.get(q.page);
  const wanted='প্রশ্ন'+bn(q.id);
- let item=data.items.find(x=>String(x.str||'').replace(/\s+/g,'').includes(wanted));
+ let item=data.items.find(x=>x.transform&&x.transform[4]<120&&String(x.str||'').replace(/\s+/g,'').includes(wanted));
  if(!item){
   const ascii=String(q.id);
   item=data.items.find(x=>x.transform&&x.transform[4]<120&&String(x.str||'').replace(/\\s+/g,'').includes('প্রশ্ন'+ascii));
