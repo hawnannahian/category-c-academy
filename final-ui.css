@@ -88,3 +88,106 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 .update-banner button{min-height:40px;padding:0 16px;border:0;border-radius:12px;background:linear-gradient(180deg,#12A094,#0F8A80);color:#fff;font-weight:700;font-size:14px;white-space:nowrap}
 .update-banner button[hidden]{display:none}
 .check-update{margin:10px 0 0;padding:10px 14px;min-height:44px;border:1px solid #D7E0DD;border-radius:12px;background:#fff;color:#0B6B64;font-weight:600;font-size:13px}
+
+
+/* v53 — focused Chapter library: compact hierarchy, calm surfaces, readable progress */
+#study .sectionhead{
+  display:grid!important;grid-template-columns:1fr;gap:14px!important;
+  align-items:center!important;margin:0 0 18px!important;
+}
+#study .sectionhead h2{
+  margin:0!important;color:var(--f-g)!important;font-size:27px!important;
+  line-height:1.25!important;letter-spacing:-.35px!important;font-weight:750!important;
+}
+#study .search-wrap{width:100%!important;max-width:none!important}
+#study .search-wrap input{
+  min-height:52px!important;padding:12px 46px!important;border:1px solid var(--f-line)!important;
+  border-radius:15px!important;background:#fff!important;color:var(--f-g)!important;
+  box-shadow:inset 0 1px 0 #fff,0 2px 7px #202b3208!important;
+  font-size:15px!important;line-height:1.4!important;
+}
+#study .search-wrap input::placeholder{color:#82928e!important;opacity:1}
+#study .search-wrap>span{top:8px!important;left:15px!important;color:#71837e!important;font-size:23px!important}
+#study .search-clear{top:8px!important;right:9px!important;width:36px!important;height:36px!important}
+#study .chaptergrid{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;margin:0 0 18px!important;
+}
+#study .chapter{
+  position:relative!important;width:100%!important;min-width:0!important;min-height:0!important;
+  padding:14px 15px 13px!important;gap:6px!important;align-items:stretch!important;
+  border:1px solid var(--f-line)!important;border-radius:18px!important;
+  outline:0!important;background:#fff!important;color:var(--f-g)!important;
+  box-shadow:0 1px 2px #202b3208,0 5px 14px #202b320a!important;
+  text-align:left!important;transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease!important;
+}
+#study .chapter:focus-visible{outline:3px solid #0F8A8040!important;outline-offset:3px!important}
+#study .chapter:active{transform:scale(.992)!important}
+#study .chapter-meta{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}
+#study .chapter .chapter-meta strong{
+  color:var(--f-teal-d)!important;font-size:12px!important;line-height:1.35!important;
+  font-weight:750!important;letter-spacing:0!important;
+}
+#study .chapter-range{color:#71827d!important;font-size:11px!important;font-weight:650!important;line-height:1.35!important}
+#study .chapter .ch-bn{
+  display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;
+  overflow:hidden!important;margin:1px 0 0!important;color:var(--f-g)!important;
+  font-size:16px!important;font-weight:750!important;line-height:1.42!important;
+}
+#study .chapter small{
+  display:block!important;min-height:0!important;margin:0!important;color:#647872!important;
+  font-size:12px!important;font-weight:450!important;line-height:1.4!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+}
+#study .chapter-progress-label{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:8px!important;width:100%!important;margin:2px 0 0!important;
+  color:#71827d!important;font-size:10.5px!important;font-weight:600!important;line-height:1.35!important;
+}
+#study .chapter-progress-track{
+  display:block!important;width:100%!important;height:5px!important;margin:0!important;
+  border-radius:99px!important;background:#E8EEEC!important;overflow:hidden!important;
+}
+#study .chapter-progress-fill{
+  display:block!important;height:100%!important;border-radius:99px!important;
+  background:var(--f-teal)!important;transition:width .28s ease!important;
+}
+#study .chapter-action{
+  align-self:flex-end!important;margin:0!important;padding-top:1px!important;
+  color:var(--f-teal-d)!important;font-size:12px!important;font-weight:750!important;line-height:1.4!important;
+}
+#study .chapter.selected{
+  border-color:#8ABDB6!important;background:#F5FAF9!important;
+  box-shadow:inset 3px 0 0 var(--f-teal),0 2px 8px #0F8A800d!important;
+}
+#study .learn-vocab-shortcut{
+  margin:4px 0 18px!important;padding:13px 15px!important;
+  border:1px solid var(--f-line)!important;border-radius:15px!important;
+  background:#fff!important;box-shadow:0 1px 2px #202b3208!important;
+}
+#study .learn-vocab-shortcut strong{color:var(--f-g)!important;font-size:13px!important}
+#study .learn-vocab-shortcut button{color:var(--f-teal-d)!important;font-size:12px!important;font-weight:700!important}
+#study .qlist{scroll-margin-bottom:140px!important}
+@media(min-width:761px){
+  #study .sectionhead{grid-template-columns:minmax(180px,1fr) minmax(320px,460px)!important}
+}
+@media(max-width:760px){
+  body{padding-bottom:calc(122px + env(safe-area-inset-bottom))!important}
+  #study.panel{padding:22px 16px calc(136px + env(safe-area-inset-bottom))!important}
+  #study .sectionhead{gap:13px!important;margin-bottom:16px!important}
+  #study .sectionhead h2{font-size:26px!important}
+  #study .search-wrap input{min-height:50px!important;font-size:14px!important}
+  #study .chaptergrid{grid-template-columns:minmax(0,1fr)!important;gap:11px!important;margin-bottom:16px!important}
+  #study .chapter{padding:13px 14px 12px!important;gap:5px!important;border-radius:17px!important}
+  #study .chapter .ch-bn{font-size:15.5px!important;line-height:1.4!important}
+  #study .chapter small{font-size:11.5px!important}
+  #study .chapter-progress-label{font-size:10px!important}
+  #study .chapter-action{font-size:11.5px!important}
+}
+@media(max-width:360px){
+  #study .chapter{padding:12px!important}
+  #study .chapter .ch-bn{font-size:15px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #study .chapter,#study .chapter-progress-fill{transition:none!important}
+}
