@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./styles.css?v=40">
+<link rel="stylesheet" href="./styles.css?v=39">
 <title>Category C Academy — Portugal</title>
 </head>
 <body>
@@ -70,9 +70,15 @@
     <button class="dashboard-action action-exam" type="button" data-open-tab="quiz" data-start-exam="true"><span class="action-icon">⏱️</span><span><strong>মক পরীক্ষা</strong><small>২০টি প্রশ্ন · ২৫ মিনিট</small></span><b>→</b></button>
   </div>
   <div class="dashboard-progress">
-    <div class="dashboard-progress-copy"><span class="mini-label">YOUR PROGRESS</span><h3>আপনার শেখার অগ্রগতি</h3><p><strong id="home-seen">০</strong> / ৩০৭ প্রশ্ন পর্যালোচনা করেছেন · <strong id="home-vocab-seen">০</strong> শব্দ শিখেছেন</p></div>
-    <div class="dashboard-progress-bar" role="progressbar" aria-label="প্রশ্ন পর্যালোচনার অগ্রগতি" aria-valuemin="0" aria-valuemax="307" aria-valuenow="0"><i id="home-progress-bar"></i></div>
-    <button class="text-link" type="button" data-open-tab="progress">বিস্তারিত অগ্রগতি দেখুন →</button>
+    <div class="dashboard-progress-ring" id="home-question-ring" role="progressbar" aria-label="প্রশ্ন পর্যালোচনার অগ্রগতি" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="dashboard-ring-inner"><strong id="home-question-percent">০%</strong><span>প্রশ্ন দেখা</span></div>
+    </div>
+    <div class="dashboard-progress-details">
+      <div class="dashboard-progress-copy"><span class="mini-label">YOUR PROGRESS</span><h3>আপনার শেখার অগ্রগতি</h3><p><strong id="home-seen">০</strong> / ৩০৭ প্রশ্ন পর্যালোচনা করেছেন</p></div>
+      <div class="dashboard-progress-bar" role="progressbar" aria-label="প্রশ্ন পর্যালোচনার অগ্রগতি" aria-valuemin="0" aria-valuemax="307" aria-valuenow="0"><i id="home-progress-bar"></i></div>
+      <div class="dashboard-vocab-progress"><div><span>Português শব্দ শিখেছেন</span><strong id="home-vocab-seen">০ / ১৩৩</strong></div><div class="dashboard-progress-bar vocab-track" role="progressbar" aria-label="শব্দ শেখার অগ্রগতি" aria-valuemin="0" aria-valuemax="133" aria-valuenow="0"><i id="home-vocab-bar"></i></div></div>
+      <button class="text-link" type="button" data-open-tab="progress">বিস্তারিত অগ্রগতি দেখুন →</button>
+    </div>
   </div>
   <div class="dashboard-tip"><span>💡</span><p><strong>ছোট টিপ:</strong> প্রতিদিন কয়েকটি প্রশ্ন অনুশীলন করুন। ভুল বা কঠিন প্রশ্নগুলো আবার দেখে নিন।</p></div>
 </section>
@@ -95,6 +101,7 @@
 <section id="progress" class="panel" hidden>
   <div class="sectionhead"><div><p class="mini-label">YOUR LEARNING</p><h2>আপনার অগ্রগতি</h2><p class="section-subtitle">এই ডিভাইসে আপনার শেখার অগ্রগতি সংরক্ষিত থাকে।</p></div></div>
   <div class="progress-layout"><div class="progresscard"><span class="mini-label">QUESTIONS REVIEWED</span><strong id="donecount">০</strong><span>টি প্রশ্ন দেখা হয়েছে</span><div class="bar" role="progressbar" aria-label="প্রশ্ন দেখার অগ্রগতি" aria-valuemin="0" aria-valuemax="307" aria-valuenow="0"><i id="bar"></i></div><p class="muted">উত্তর প্রকাশ করলে প্রশ্নটি আপনার অগ্রগতিতে যোগ হবে।</p><button id="reset" class="ghost">অগ্রগতি রিসেট</button></div><div class="progress-tip"><span>💡</span><h3>নিয়মিত অনুশীলন করুন</h3><p>প্রতিদিন কয়েকটি প্রশ্ন পড়ুন। ভুল বা কঠিন প্রশ্নগুলো আবার দেখে নিন।</p></div></div>
+  <section class="progress-chapter-section"><div class="dashboard-section-title"><div><p class="mini-label">CHAPTER BREAKDOWN</p><h3>অধ্যায়ভিত্তিক অগ্রগতি</h3></div><span class="dashboard-note">প্রশ্নের ভিত্তিতে</span></div><div id="progress-chapters" class="progress-chapters" aria-live="polite"></div></section>
 </section>
 <footer><div class="footer-brand">🚛 Category C <b>Academy</b></div><p><b>শিক্ষামূলক নোট:</b> এটি IMT-এর সরকারি বা অনুমোদিত অ্যাপ নয়। বইয়ের উত্তরগুলো লেখকের প্রস্তাবিত অধ্যয়ন-উত্তর; সরকারি উত্তরসূচি নয়। আইন ও পরীক্ষার নিয়ম বদলাতে পারে—পরীক্ষার আগে IMT-এর সর্বশেষ তথ্য যাচাই করুন।</p><span>© ২০২৬ Hawnan Ahmed Nahian · Portugal</span>
   <span class="app-version">ওয়েবসাইট ভার্সন: 39.0.0</span></footer>
@@ -107,5 +114,5 @@
 <div id="bookdlg" class="book-overlay" role="dialog" aria-modal="true" aria-labelledby="bookTitle" hidden><section class="book-dialog"><div class="dlg-head"><h3 id="bookTitle"></h3><div class="dlg-actions"><a id="bookopen" target="_blank" rel="noopener">নতুন ট্যাবে খুলুন</a><button id="bookclose" type="button" aria-label="বন্ধ করুন">বন্ধ করুন</button></div></div><iframe id="bookframe" title="বইয়ের পৃষ্ঠা" loading="eager"></iframe><p class="dlg-note">পাতা না দেখা গেলে “নতুন ট্যাবে খুলুন” চাপুন।</p></section></div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="./app.js?v=38"></script>
+<script src="./app.js?v=39"></script>
 </body></html>
