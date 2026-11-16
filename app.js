@@ -75,12 +75,13 @@ function renderList(){const box=$('#questionlist');box.innerHTML='';const query=
 // Context-aware visual cards: every question gets a relevant learning illustration.
 function parseQuestion(x){
  const lines=String(x.raw||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
- const body=lines.filter((line,i)=>i!==0&&!/^প্রশ্ন\s*[০-৯0-9]+(?:\s+IMT.*)?$/.test(line));
+ const body=lines.filter((line,i)=>i!==0&&!/^প্রশ্ন\s*[০-৯0-9]+(?:\s+IMT.*)?$/.test(line)&&!/^IMT\s+\d/i.test(line));
  const stop=body.findIndex(line=>/^(সঠিক উত্তর|কেন|মনে রাখুন)\s*:/.test(line));
  const core=(stop<0?body:body.slice(0,stop));
- const firstOption=core.findIndex(line=>/^[ABC](?:\s+.*)?$/.test(line));
- const stem=firstOption<0?core:core.slice(0,firstOption);
  const bengaliLine=line=>/[\u0980-\u09FF]/.test(line);
+ const firstBengali=core.findIndex(bengaliLine);
+ const firstOption=core.findIndex((line,index)=>index>(firstBengali<0?-1:firstBengali)&&/^[ABC](?:\s+.*)?$/.test(line));
+ const stem=firstOption<0?core:core.slice(0,firstOption);
  const splitAt=stem.findIndex(bengaliLine);
  const pt=(splitAt<0?stem:stem.slice(0,splitAt)).join(' ').replace(/\s+/g,' ').trim();
  const bnText=(splitAt<0?[]:stem.slice(splitAt)).join(' ').replace(/\s+/g,' ').trim();
@@ -97,7 +98,7 @@ function parseQuestion(x){
  const parsedOptions=options.map(o=>{
   const split=o.lines.findIndex(bengaliLine);
   return {letter:o.letter,pt:(split<0?o.lines:o.lines.slice(0,split)).join(' ').replace(/\s+/g,' ').trim(),bn:(split<0?[]:o.lines.slice(split)).join(' ').replace(/\s+/g,' ').trim()};
- });
+ }).filter(o=>o.pt||o.bn);
  const explanation=lines.filter(line=>/^(কেন|মনে রাখুন)\s*:/.test(line)).map(line=>line.replace(/^(কেন|মনে রাখুন)\s*:\s*/,'').trim()).filter(Boolean);
  const correct=(String(x.answer||'').match(/^\s*([ABC])\s*[—–-]/)||[])[1]||((lines.join('\n').match(/সঠিক উত্তর\s*:\s*([ABC])/ )||[])[1]);
  return {pt,bn:bnText,options:parsedOptions,explanation,correct};
