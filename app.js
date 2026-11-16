@@ -152,8 +152,7 @@ function questionCard(x){
  const meta=document.createElement('span');meta.className='question-page-meta';meta.textContent=x.page?'PDF · পৃষ্ঠা '+bn(x.page):'Category C';
  top.append(h,meta);
  const body=makeQuestionBody(x,{onReveal:()=>{seen.add(x.id);save();h.textContent='প্রশ্ন '+bn(x.id)+' ✓'}});
- const book=document.createElement('button');book.type='button';book.className='question-book-link';book.textContent=x.page?'📖 বইয়ের পৃষ্ঠা '+bn(x.page)+' দেখুন':'বইয়ের পৃষ্ঠা নেই';book.disabled=!x.page;book.onclick=()=>openBookPage(x,book);
- el.append(top,body,book);return el;
+ el.append(top,body);return el;
 }
 $('#search').oninput=()=>{shown=PAGE_SIZE;renderList()};
 function showQuiz(){
