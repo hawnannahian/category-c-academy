@@ -554,3 +554,61 @@ body{background:#f3f5f7;color:#243447}
  .tab.active{background:#17324d;color:#fff;box-shadow:none}
  .chapter{border-radius:13px}
 }
+
+/* v40 — Graphite & Teal: calm, editorial, professional */
+:root{
+ --navy:#202B32;--navy-2:#344650;--blue:#168C83;--sky:#B7D8D2;
+ --ink:#26343A;--muted:#6D7B80;--line:#DCE5E2;--bg:#F2F5F4;
+ --white:#FFFFFF;--green:#287B59;--shadow:0 2px 10px rgba(32,43,50,.045);--radius:14px;
+}
+html,body{background:#F2F5F4;color:#26343A}
+.site-header{background:#202B32;box-shadow:0 2px 8px rgba(20,30,35,.12)}
+.brand b,.footer-brand b{color:#B7D8D2}
+.free-pill{border-color:#64757D;background:transparent;color:#E7EFED}
+.hero{background:#263940}
+.eyebrow,.mini-label{color:#A9CFC8}
+.hero h1 span{color:#B7D8D2}
+.primary-cta{background:#168C83;color:#fff;box-shadow:none}
+.primary-cta:hover{background:#11766F}
+.secondary-cta{border-color:#78918F;background:transparent;color:#E7EFED}
+.dashboard-continue{background:#344650;box-shadow:none}
+.dashboard-continue-icon{background:#ffffff12;border-color:#ffffff24}
+.dashboard-continue .continue-btn{background:#168C83;color:#fff}
+.dashboard-stat,.dashboard-action,.dashboard-progress,.chapter,.qitem,.quizbox,.vocab-card,.progresscard,.progress-tip{border-color:#DCE5E2;box-shadow:0 2px 10px rgba(32,43,50,.045)}
+.dashboard-stat-icon.blue,.action-learn .action-icon,.vocab-mark{background:#E7F0EE;color:#286B65}
+.dashboard-stat-icon.purple,.action-vocab .action-icon{background:#EEF2F0;color:#596E70}
+.dashboard-stat-icon.green,.action-practice .action-icon{background:#E8F1EC;color:#287B59}
+.action-exam .action-icon{background:#F2EEE7;color:#806A4C}
+.dashboard-action>b,.text-link,.chapter strong,.chapter-action,.quiz-tag,.progresscard strong{color:#16786F}
+.dashboard-progress-bar i,.quiz-progress i,.progresscard .bar i,.bar i{background:#168C83}
+.dashboard-tip,.progress-tip{background:#EDF2F0;color:#586A6C}
+.main-nav .tab.active,.tab.active{background:#202B32;color:#fff;box-shadow:0 2px 8px rgba(32,43,50,.12)}
+.tab{border-radius:12px}
+.chapter{background:#fff;border:1px solid #DCE5E2;border-radius:14px;box-shadow:0 2px 8px rgba(32,43,50,.035)}
+.chapter:hover{border-color:#A9C9C3;box-shadow:0 3px 10px rgba(32,43,50,.06)}
+.chapter.selected{border-color:#168C83;background:#F8FBFA;box-shadow:inset 3px 0 0 #168C83}
+.chapter .chapter-meta strong{color:#16786F}
+.chapter .ch-bn{color:#26343A}
+.chapter-progress-track{background:#E8EFED}
+.chapter-progress-fill{background:#168C83}
+.chapter-action{color:#16786F}
+.search-wrap input{border-color:#D5E0DD;box-shadow:none;border-radius:12px}
+.search-wrap>span{color:#71827F}
+.search-clear{background:#EDF2F0;color:#526563}
+.question-card-next,.question-reveal,.reveal-btn{background:#168C83;color:#fff;border-color:#168C83;box-shadow:none;border-radius:12px}
+.question-card-next:hover,.question-reveal:hover,.reveal-btn:hover{background:#11766F}
+.question-card-prev{background:#EDF2F0;color:#405A59;border-color:#DCE5E2}
+.exam-launch-card{background:#263940;border:1px solid #40575B;border-radius:16px;box-shadow:none}
+.exam-launch-card .exam-launch-kicker{color:#B7D8D2}
+.exam-launch-card button{background:#168C83;color:#fff}
+.exam-option.selected{border-color:#168C83;background:#EFF7F5}
+.exam-option-letter{background:#E5F0ED;color:#246C65}
+.exam-option.correct{border-color:#438466;background:#EDF5F0}
+.exam-result-actions button:first-child{background:#168C83}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(22,140,131,.28);outline-offset:2px}
+@media(max-width:760px){
+ body{background:#F2F5F4}
+ .main-nav{background:rgba(255,255,255,.97);border-top:1px solid #DCE5E2}
+ .tab.active{background:#202B32;color:#fff;box-shadow:none}
+ .chapter{border-radius:13px}
+}
