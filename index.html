@@ -13,34 +13,15 @@
 <link rel="stylesheet" href="./styles.css?v=42">
 <link rel="stylesheet" href="./ios-redesign.css?v=48">
 <link rel="stylesheet" href="./premium-ui.css?v=49">
+<link rel="stylesheet" href="./clean-ui.css?v=50">
 <title>Category C Academy — Portugal</title>
 </head>
 <body>
 <header class="site-header">
-  <a class="brand" href="./" aria-label="Category C Academy home"><span class="brand-mark">🚛</span><span>Category C <b>Academy</b><small>PORTUGAL · PORTUGUÊS — বাংলা</small></span></a>
-  <div class="header-actions"><span class="free-pill">100% FREE</span><button id="install" class="install-btn" hidden>ইনস্টল</button></div>
+  <a class="brand" href="./" aria-label="Category C Academy home"><span class="brand-mark">🚛</span><span>Category C <b>Academy</b></span></a>
+  <div class="header-actions"><button id="install" class="install-btn" hidden>ইনস্টল</button></div>
 </header>
 <main>
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="eyebrow"><span class="eyebrow-dot"></span> YOUR CATEGORY C LEARNING JOURNEY</p>
-      <h1>Category C পরীক্ষার প্রস্তুতি <span>এখন আরও সহজ।</span></h1>
-      <p class="hero-lead">পর্তুগিজ প্রশ্ন বুঝুন বাংলায়, অনুশীলন করুন নিজের গতিতে, আর অগ্রগতি রাখুন নিজের হাতে।</p>
-      <div class="hero-actions">
-        <button class="primary-cta" data-open-tab="quiz">প্রশ্ন অনুশীলন শুরু করুন <span aria-hidden="true">→</span></button>
-        <a class="secondary-cta" href="./Category_C_Study_Guide_PT-BN_2026_FINAL_v4.pdf" target="_blank" rel="noopener">📖 Study Guide PDF</a>
-      </div>
-      <div class="trust-note"><span>✓</span> বিনামূল্যে · কোনো অ্যাকাউন্ট প্রয়োজন নেই · Portuguese + বাংলা</div>
-    </div>
-    <div class="hero-art" aria-hidden="true"><div class="art-glow"></div><div class="road-line"></div><div class="truck-emoji">🚛</div><div class="art-caption"><strong>LEARN WITH CONFIDENCE</strong><span>Categoria C · Portugal</span></div></div>
-  </div>
-  <div class="stats" aria-label="শিক্ষার উপকরণ">
-    <div class="stat-card"><span class="stat-icon">✍️</span><strong>৩০৭</strong><small>অনুশীলনী প্রশ্ন</small></div>
-    <div class="stat-card"><span class="stat-icon">📚</span><strong>৮</strong><small>শিক্ষার অধ্যায়</small></div>
-    <div class="stat-card"><span class="stat-icon">🌐</span><strong>১৩৩</strong><small>Português শব্দ</small></div>
-  </div>
-</section>
 <nav class="main-nav" role="tablist" aria-label="প্রধান বিভাগ">
   <button class="tab active" role="tab" aria-selected="true" data-tab="home"><span class="tab-icon" aria-hidden="true">⌂</span><span class="tab-label">হোম</span></button>
   <button class="tab" role="tab" aria-selected="false" data-tab="study"><span class="tab-icon" aria-hidden="true">▤</span><span class="tab-label">শিখুন</span></button>
@@ -49,72 +30,61 @@
   <button class="tab tab-proxy" role="tab" aria-selected="false" data-tab="vocab" hidden tabindex="-1" aria-hidden="true">শব্দভান্ডার</button>
 </nav>
 <section id="home" class="panel home-panel active-panel">
-  <div class="dashboard-heading">
-    <div><p class="mini-label">YOUR LEARNING DASHBOARD</p><h2>আবার শুরু করি! 👋</h2><p class="section-subtitle">Category C পরীক্ষার প্রস্তুতি—এক ধাপ করে এগিয়ে চলুন।</p></div>
-    <a class="dashboard-guide" href="./Category_C_Study_Guide_PT-BN_2026_FINAL_v4.pdf" target="_blank" rel="noopener">📖 Study Guide</a>
-  </div>
+  <div class="dashboard-heading"><h2>আজ কী শিখবেন?</h2><a class="dashboard-guide" href="./Category_C_Study_Guide_PT-BN_2026_FINAL_v4.pdf" target="_blank" rel="noopener">বই খুলুন ↗</a></div>
   <div class="dashboard-continue">
     <div class="dashboard-continue-icon">▶</div>
-    <div class="dashboard-continue-copy"><span class="mini-label">PICK UP WHERE YOU LEFT OFF</span><h3>আপনার শেখা চালিয়ে যান</h3><p id="continue-text">প্রথম অধ্যায় থেকে শুরু করুন অথবা যেকোনো প্রশ্ন অনুশীলন করুন।</p></div>
-    <button id="continue-btn" class="continue-btn" type="button">শুরু করুন <span>→</span></button>
+    <div class="dashboard-continue-copy"><h3>চালিয়ে যান</h3><p id="continue-text">প্রথম অধ্যায় থেকে শুরু করুন</p></div>
+    <button id="continue-btn" class="continue-btn" type="button">শুরু করুন →</button>
   </div>
-  <div class="dashboard-section-title"><div><p class="mini-label">YOUR STUDY MATERIAL</p><h3>আপনার প্রস্তুতি</h3></div><span class="dashboard-note">সবকিছু এক জায়গায়</span></div>
-  <div class="dashboard-stats">
-    <button class="dashboard-stat" type="button" data-open-tab="quiz"><span class="dashboard-stat-icon blue">✓</span><strong id="home-stat-questions">৩০৭</strong><span>অনুশীলনী প্রশ্ন</span></button>
-    <button class="dashboard-stat" type="button" data-open-tab="study"><span class="dashboard-stat-icon green">▦</span><strong id="home-stat-chapters">৮</strong><span>শিক্ষার অধ্যায়</span></button>
-    <button class="dashboard-stat" type="button" data-open-tab="vocab"><span class="dashboard-stat-icon purple">文</span><strong id="home-stat-vocab">১৩৩</strong><span>Português শব্দ</span></button>
-  </div>
-  <div class="dashboard-section-title"><div><p class="mini-label">CHOOSE YOUR NEXT STEP</p><h3>কী শিখতে চান?</h3></div></div>
   <div class="dashboard-actions">
-    <button class="dashboard-action action-learn" type="button" data-open-tab="study"><span class="action-icon">📚</span><span><strong>অধ্যায়ভিত্তিক শিক্ষা</strong><small>৮টি অধ্যায় থেকে শিখুন</small></span><b>→</b></button>
-    <button class="dashboard-action action-practice" type="button" data-open-tab="quiz"><span class="action-icon">✍️</span><span><strong>প্রশ্ন অনুশীলন</strong><small>উত্তর ও বাংলা ব্যাখ্যা দেখুন</small></span><b>→</b></button>
-    <button class="dashboard-action action-vocab" type="button" data-open-tab="vocab"><span class="action-icon">🌐</span><span><strong>Português–বাংলা শব্দভান্ডার</strong><small>শব্দের অর্থ ও ব্যবহার শিখুন</small></span><b>→</b></button>
-    <button class="dashboard-action action-exam" type="button" data-open-tab="quiz" data-start-exam="true"><span class="action-icon">⏱️</span><span><strong>মক পরীক্ষা</strong><small>২০টি প্রশ্ন · ২৫ মিনিট</small></span><b>→</b></button>
+    <button class="dashboard-action action-learn" type="button" data-open-tab="study"><span class="action-icon">▤</span><span><strong>অধ্যায়</strong><small><span id="home-stat-chapters">৮</span>টি</small></span><b>→</b></button>
+    <button class="dashboard-action action-practice" type="button" data-open-tab="quiz"><span class="action-icon">✓</span><span><strong>প্রশ্ন অনুশীলন</strong><small><span id="home-stat-questions">৩০৭</span>টি</small></span><b>→</b></button>
+    <button class="dashboard-action action-vocab" type="button" data-open-tab="vocab"><span class="action-icon">文</span><span><strong>শব্দভান্ডার</strong><small><span id="home-stat-vocab">১৩৩</span>টি শব্দ</small></span><b>→</b></button>
+    <button class="dashboard-action action-exam" type="button" data-open-tab="quiz" data-start-exam="true"><span class="action-icon">◷</span><span><strong>মক পরীক্ষা</strong><small>২০ প্রশ্ন · ২৫ মিনিট</small></span><b>→</b></button>
   </div>
   <div class="dashboard-progress">
     <div class="dashboard-progress-ring" id="home-question-ring" role="progressbar" aria-label="প্রশ্ন পর্যালোচনার অগ্রগতি" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-      <div class="dashboard-ring-inner"><strong id="home-question-percent">০%</strong><span>প্রশ্ন দেখা</span></div>
+      <div class="dashboard-ring-inner"><strong id="home-question-percent">০%</strong><span>সম্পন্ন</span></div>
     </div>
     <div class="dashboard-progress-details">
-      <div class="dashboard-progress-copy"><span class="mini-label">YOUR PROGRESS</span><h3>আপনার শেখার অগ্রগতি</h3><p><strong id="home-seen">০</strong> / ৩০৭ প্রশ্ন পর্যালোচনা করেছেন</p></div>
+      <div class="dashboard-progress-copy"><h3>প্রশ্ন দেখা</h3><p><strong id="home-seen">০</strong> / ৩০৭</p></div>
       <div class="dashboard-progress-bar" role="progressbar" aria-label="প্রশ্ন পর্যালোচনার অগ্রগতি" aria-valuemin="0" aria-valuemax="307" aria-valuenow="0"><i id="home-progress-bar"></i></div>
-      <div class="dashboard-vocab-progress"><div><span>Português শব্দ শিখেছেন</span><strong id="home-vocab-seen">০ / ১৩৩</strong></div><div class="dashboard-progress-bar vocab-track" role="progressbar" aria-label="শব্দ শেখার অগ্রগতি" aria-valuemin="0" aria-valuemax="133" aria-valuenow="0"><i id="home-vocab-bar"></i></div></div>
-      <button class="text-link" type="button" data-open-tab="progress">বিস্তারিত অগ্রগতি দেখুন →</button>
+      <div class="dashboard-vocab-progress"><div><span>শব্দ শেখা</span><strong id="home-vocab-seen">০ / ১৩৩</strong></div><div class="dashboard-progress-bar vocab-track" role="progressbar" aria-label="শব্দ শেখার অগ্রগতি" aria-valuemin="0" aria-valuemax="133" aria-valuenow="0"><i id="home-vocab-bar"></i></div></div>
+      <button class="text-link" type="button" data-open-tab="progress">বিস্তারিত →</button>
     </div>
   </div>
-  <div class="dashboard-tip"><span>💡</span><p><strong>ছোট টিপ:</strong> প্রতিদিন কয়েকটি প্রশ্ন অনুশীলন করুন। ভুল বা কঠিন প্রশ্নগুলো আবার দেখে নিন।</p></div>
 </section>
 <section id="study" class="panel" hidden>
-  <div class="sectionhead"><div><p class="mini-label">STUDY BY TOPIC</p><h2>অধ্যায়ভিত্তিক শিক্ষা</h2><p class="section-subtitle">আপনার সুবিধামতো একটি অধ্যায় বেছে নিন।</p></div><label class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="প্রশ্ন বা Portuguese শব্দ খুঁজুন…" aria-label="প্রশ্ন বা Portuguese শব্দ খুঁজুন"><button id="search-clear" class="search-clear" type="button" aria-label="সার্চ মুছুন" hidden>×</button></label></div>
-  <div id="chapters" class="chaptergrid"></div><div class="learn-vocab-shortcut"><div><strong>Português–বাংলা শব্দভান্ডার</strong><small>১৩৩টি প্রয়োজনীয় শব্দ ও অর্থ</small></div><button type="button" data-open-tab="vocab">শব্দ শিখুন →</button></div>
+  <div class="sectionhead"><div><h2>অধ্যায়</h2></div><label class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="প্রশ্ন বা Portuguese শব্দ খুঁজুন…" aria-label="প্রশ্ন বা Portuguese শব্দ খুঁজুন"><button id="search-clear" class="search-clear" type="button" aria-label="সার্চ মুছুন" hidden>×</button></label></div>
+  <div id="chapters" class="chaptergrid"></div><div class="learn-vocab-shortcut"><div><strong>শব্দভান্ডার</strong></div><button type="button" data-open-tab="vocab">খুলুন →</button></div>
   <div id="questionlist" class="qlist"><p class="notice">প্রশ্ন লোড হচ্ছে…</p></div>
 </section>
 <section id="quiz" class="panel" hidden>
-  <div class="sectionhead"><div><p class="mini-label">PRACTICE MODE</p><h2>নিজেকে যাচাই করুন</h2><p class="section-subtitle">প্রশ্ন পড়ুন, উত্তর ভাবুন, তারপর ব্যাখ্যা দেখুন।</p></div></div>
-  <div class="exam-launch-card"><div><span class="exam-launch-kicker">SIMULATED EXAM</span><h3>পরীক্ষার পরিবেশে অনুশীলন করুন</h3><p>২০টি এলোমেলো প্রশ্ন · ২৫ মিনিট · শেষে ফলাফল</p></div><button id="start-exam" type="button">পরীক্ষা শুরু করুন →</button></div>
-  <div class="quizbox"><div class="quiz-top"><span class="quiz-tag">CATEGORY C · PRACTICE</span><div id="quizcount"></div></div><div class="quiz-progress"><i id="quiz-progress-bar"></i></div><div id="quiztext"></div><button id="reveal" class="reveal-btn">উত্তর ও ব্যাখ্যা দেখুন</button><div id="quizanswer" class="quiz-answer" hidden></div><div class="actions"><button id="prev" class="ghost">← আগের প্রশ্ন</button><button id="next">পরের প্রশ্ন →</button></div></div>
+  <div class="sectionhead"><div><h2>প্রশ্ন অনুশীলন</h2></div></div>
+  <div class="exam-launch-card"><div><h3>মক পরীক্ষা</h3><p>২০ প্রশ্ন · ২৫ মিনিট</p></div><button id="start-exam" type="button">শুরু করুন →</button></div>
+  <div class="quizbox"><div class="quiz-top"><span class="quiz-tag">প্রশ্ন</span><div id="quizcount"></div></div><div class="quiz-progress"><i id="quiz-progress-bar"></i></div><div id="quiztext"></div><button id="reveal" class="reveal-btn">উত্তর দেখুন</button><div id="quizanswer" class="quiz-answer" hidden></div><div class="actions"><button id="prev" class="ghost">← আগের</button><button id="next">পরের →</button></div></div>
 </section>
 <section id="vocab" class="panel" hidden>
-  <div class="sectionhead"><div><p class="mini-label">PORTUGUESE · BANGLA</p><h2>পর্তুগিজ–বাংলা শব্দভান্ডার</h2><p class="section-subtitle">শব্দ শিখুন, অর্থ বুঝুন, শেখা হলে চিহ্ন দিন।</p></div></div>
+  <div class="sectionhead"><div><h2>শব্দভান্ডার</h2></div></div>
   <div class="vocab-progress"><div><strong id="vocabdone">০ / ১৩৩</strong><span>টি শব্দ শিখেছেন</span></div><div class="bar" role="progressbar" aria-label="শব্দ শেখার অগ্রগতি" aria-valuemin="0" aria-valuemax="133" aria-valuenow="0"><i id="vocabbar"></i></div></div>
   <div class="vocab-tools"><label>শব্দ খুঁজুন<input id="vsearch" type="search" placeholder="Português, বাংলা অর্থ বা ব্যাখ্যা…"></label><label>বিষয়<select id="vcat"><option value="0">সব বিষয়</option></select></label><label>শেখার অবস্থা<select id="vstate"><option value="all">সব শব্দ</option><option value="unlearned">শিখিনি</option><option value="learned">শিখেছি</option></select></label></div>
   <p id="vocabcount" class="count" aria-live="polite"></p><div id="vocabtext" class="vocab-grid"></div>
 </section>
 <section id="progress" class="panel" hidden>
-  <div class="sectionhead"><div><p class="mini-label">YOUR LEARNING</p><h2>আপনার অগ্রগতি</h2><p class="section-subtitle">এই ডিভাইসে আপনার শেখার অগ্রগতি সংরক্ষিত থাকে।</p></div></div>
-  <div class="progress-layout"><div class="progresscard"><span class="mini-label">QUESTIONS REVIEWED</span><strong id="donecount">০</strong><span>টি প্রশ্ন দেখা হয়েছে</span><div class="bar" role="progressbar" aria-label="প্রশ্ন দেখার অগ্রগতি" aria-valuemin="0" aria-valuemax="307" aria-valuenow="0"><i id="bar"></i></div><p class="muted">উত্তর প্রকাশ করলে প্রশ্নটি আপনার অগ্রগতিতে যোগ হবে।</p><button id="reset" class="ghost">অগ্রগতি রিসেট</button></div><div class="progress-tip"><span>💡</span><h3>নিয়মিত অনুশীলন করুন</h3><p>প্রতিদিন কয়েকটি প্রশ্ন পড়ুন। ভুল বা কঠিন প্রশ্নগুলো আবার দেখে নিন।</p></div></div>
-  <section class="progress-chapter-section"><div class="dashboard-section-title"><div><p class="mini-label">CHAPTER BREAKDOWN</p><h3>অধ্যায়ভিত্তিক অগ্রগতি</h3></div><span class="dashboard-note">প্রশ্নের ভিত্তিতে</span></div><div id="progress-chapters" class="progress-chapters" aria-live="polite"></div></section>
+  <div class="sectionhead"><div><h2>অগ্রগতি</h2></div></div>
+  <div class="progress-layout"><div class="progresscard"><strong id="donecount">০</strong><span> / ৩০৭ প্রশ্ন দেখা</span><div class="bar" role="progressbar" aria-label="প্রশ্ন দেখার অগ্রগতি" aria-valuemin="0" aria-valuemax="307" aria-valuenow="0"><i id="bar"></i></div><button id="reset" class="ghost">রিসেট</button></div></div>
+  <section class="progress-chapter-section"><div class="dashboard-section-title"><h3>অধ্যায়ভিত্তিক অগ্রগতি</h3></div><div id="progress-chapters" class="progress-chapters" aria-live="polite"></div></section>
 </section>
-<footer><div class="footer-brand">🚛 Category C <b>Academy</b></div><p><b>শিক্ষামূলক নোট:</b> এটি IMT-এর সরকারি বা অনুমোদিত অ্যাপ নয়। বইয়ের উত্তরগুলো লেখকের প্রস্তাবিত অধ্যয়ন-উত্তর; সরকারি উত্তরসূচি নয়। আইন ও পরীক্ষার নিয়ম বদলাতে পারে—পরীক্ষার আগে IMT-এর সর্বশেষ তথ্য যাচাই করুন।</p><span>© ২০২৬ Hawnan Ahmed Nahian · Portugal</span>
-  <span class="app-version">ওয়েবসাইট ভার্সন: 49.0.0</span></footer>
+<footer><div class="footer-brand">🚛 Category C <b>Academy</b></div><p>এটি IMT-এর সরকারি বা অনুমোদিত অ্যাপ নয়। উত্তরগুলো অধ্যয়নের জন্য প্রস্তাবিত; সরকারি উত্তরসূচি নয়।</p><span>© ২০২৬ Hawnan Ahmed Nahian · Portugal</span>
+  <span class="app-version">ভার্সন 50.0.0</span></footer>
 <div id="exam-mode" class="exam-mode" role="dialog" aria-modal="true" aria-label="Category C পরীক্ষার অনুশীলন" hidden>
-<header class="exam-header"><button id="exam-exit" class="exam-icon-btn" type="button" aria-label="পরীক্ষা বন্ধ করুন">✕</button><div class="exam-brand"><span>🚛</span><b>CATEGORY C <em>EXAM</em></b><small>SIMULATED TEST · PORTUGAL</small></div><div class="exam-header-actions"><div class="exam-clock"><span>◷</span><strong id="exam-timer">25:00</strong></div><button id="exam-pause" class="exam-pause-btn" type="button" aria-label="পরীক্ষা বিরতি">Ⅱ</button></div></header>
+<header class="exam-header"><button id="exam-exit" class="exam-icon-btn" type="button" aria-label="পরীক্ষা বন্ধ করুন">✕</button><div class="exam-brand"><span>🚛</span><b>CATEGORY C <em>EXAM</em></b></div><div class="exam-header-actions"><div class="exam-clock"><span>◷</span><strong id="exam-timer">25:00</strong></div><button id="exam-pause" class="exam-pause-btn" type="button" aria-label="পরীক্ষা বিরতি">Ⅱ</button></div></header>
 <div class="exam-progress-track"><i id="exam-progress-fill"></i></div><div class="exam-main"><div class="exam-status-row"><span id="exam-counter">QUESTION 1 / 20</span><span id="exam-answered">0 ANSWERED</span></div><div id="exam-question" class="exam-question"></div><div class="exam-help-row"><button id="exam-bn-toggle" type="button">বাংলা সহায়তা দেখুন ⌄</button><span id="exam-fav-state"></span></div>
-<div class="exam-bottom-bar"><button id="exam-prev" type="button" aria-label="আগের প্রশ্ন"><span>‹</span><small>Previous</small></button><button id="exam-fav" type="button" aria-label="প্রিয় প্রশ্ন"><span>☆</span><small>Favourite</small></button><button id="exam-next" type="button" aria-label="পরের প্রশ্ন"><span>›</span><small>Next</small></button><button id="exam-finish" type="button"><span>Finish</span><small>পরীক্ষা শেষ</small></button></div></div>
-<div id="exam-pause-screen" class="exam-state-screen" hidden><div class="exam-state-card"><span>Ⅱ</span><h2>পরীক্ষা বিরতিতে আছে</h2><p>সময় থামানো হয়েছে। প্রস্তুত হলে আবার শুরু করুন।</p><button id="exam-resume" type="button">আবার শুরু করুন</button></div></div>
-<div id="exam-result-screen" class="exam-state-screen" hidden><div class="exam-result-card"><span class="exam-result-icon">🏁</span><p class="exam-launch-kicker">TEST COMPLETED</p><h2>আপনার পরীক্ষার ফলাফল</h2><strong id="exam-score" class="exam-score">0 / 20</strong><div class="exam-result-stats"><div><b id="exam-correct">0</b><span>সঠিক</span></div><div><b id="exam-wrong">0</b><span>ভুল</span></div><div><b id="exam-skipped">0</b><span>উত্তর দেননি</span></div></div><div id="exam-review" class="exam-review"></div><div class="exam-result-actions"><button id="exam-retry" type="button">আবার পরীক্ষা দিন</button><button id="exam-close-result" type="button">বন্ধ করুন</button></div></div></div></div>
+<div class="exam-bottom-bar"><button id="exam-prev" type="button" aria-label="আগের প্রশ্ন"><span>‹</span><small>আগে</small></button><button id="exam-fav" type="button" aria-label="প্রিয় প্রশ্ন"><span>☆</span><small>পছন্দ</small></button><button id="exam-next" type="button" aria-label="পরের প্রশ্ন"><span>›</span><small>পরে</small></button><button id="exam-finish" type="button"><span>শেষ</span><small>পরীক্ষা শেষ</small></button></div></div>
+<div id="exam-pause-screen" class="exam-state-screen" hidden><div class="exam-state-card"><span>Ⅱ</span><h2>পরীক্ষা বিরতিতে আছে</h2><button id="exam-resume" type="button">আবার শুরু করুন</button></div></div>
+<div id="exam-result-screen" class="exam-state-screen" hidden><div class="exam-result-card"><span class="exam-result-icon">🏁</span><h2>আপনার পরীক্ষার ফলাফল</h2><strong id="exam-score" class="exam-score">0 / 20</strong><div class="exam-result-stats"><div><b id="exam-correct">0</b><span>সঠিক</span></div><div><b id="exam-wrong">0</b><span>ভুল</span></div><div><b id="exam-skipped">0</b><span>উত্তর দেননি</span></div></div><div id="exam-review" class="exam-review"></div><div class="exam-result-actions"><button id="exam-retry" type="button">আবার পরীক্ষা দিন</button><button id="exam-close-result" type="button">বন্ধ করুন</button></div></div></div></div>
 <div id="bookdlg" class="book-overlay" role="dialog" aria-modal="true" aria-labelledby="bookTitle" hidden><section class="book-dialog"><div class="dlg-head"><h3 id="bookTitle"></h3><div class="dlg-actions"><a id="bookopen" target="_blank" rel="noopener">নতুন ট্যাবে খুলুন</a><button id="bookclose" type="button" aria-label="বন্ধ করুন">বন্ধ করুন</button></div></div><iframe id="bookframe" title="বইয়ের পৃষ্ঠা" loading="eager"></iframe><p class="dlg-note">পাতা না দেখা গেলে “নতুন ট্যাবে খুলুন” চাপুন।</p></section></div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="./app.js?v=41"></script>
+<script src="./app.js?v=50"></script>
 </body></html>

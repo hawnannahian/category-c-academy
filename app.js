@@ -298,7 +298,7 @@ $('#vsearch').oninput=renderVocab;$('#vcat').onchange=renderVocab;$('#vstate').o
 
 
 function rememberQuizPosition(){const q=questions[quizIndex];if(q){try{localStorage.setItem(LAST_KEY,String(q.id))}catch(e){}updateContinue()}}
-function updateContinue(){const el=$('#continue-text'),btn=$('#continue-btn');if(!el||!btn||!questions.length)return;let id=0;try{id=Number(localStorage.getItem(LAST_KEY)||0)}catch(e){}const q=questions.find(x=>x.id===id);if(q){el.textContent='শেষবার প্রশ্ন '+bn(q.id)+' পর্যন্ত পড়েছিলেন। সেখান থেকেই আবার শুরু করুন।';btn.textContent='চালিয়ে যান →'}else{el.textContent='প্রথম অধ্যায় থেকে শুরু করুন অথবা যেকোনো প্রশ্ন অনুশীলন করুন।';btn.textContent='শুরু করুন →'}renderDashboard()}
+function updateContinue(){const el=$('#continue-text'),btn=$('#continue-btn');if(!el||!btn||!questions.length)return;let id=0;try{id=Number(localStorage.getItem(LAST_KEY)||0)}catch(e){}const q=questions.find(x=>x.id===id);el.textContent=q?'শেষ প্রশ্ন '+bn(q.id):'প্রথম অধ্যায় থেকে শুরু করুন';btn.textContent=q?'চালিয়ে যান →':'শুরু করুন →';renderDashboard()}
 function renderDashboard(){
  if(!$('#home-stat-questions'))return;
  const totalQuestions=questions.length||TOTAL,totalVocab=vocab.length||133;
