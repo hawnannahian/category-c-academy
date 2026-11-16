@@ -17,60 +17,34 @@ function ensurePdfDocument(){
  }
  return pdfDocumentPromise;
 }
+const PDF_IMAGE_Y={"1":140.998,"2":351.74,"3":549.732,"4":61.501,"5":285.742,"6":509.983,"7":61.501,"8":270.743,"9":468.735,"10":61.501,"11":272.243,"12":442.486,"13":61.501,"14":272.243,"15":496.484,"16":61.501,"17":298.492,"18":521.233,"19":61.501,"20":272.243,"21":496.484,"22":61.501,"23":259.493,"24":496.484,"25":61.501,"26":284.992,"27":482.984,"28":61.501,"29":284.242,"30":442.486,"31":61.501,"32":140.998,"33":365.239,"34":589.48,"35":61.501,"36":272.243,"37":545.232,"38":140.998,"39":375.739,"40":61.501,"41":272.243,"42":482.234,"43":61.501,"44":308.241,"45":518.983,"46":61.501,"47":310.491,"48":521.233,"150":61.501,"172":140.998,"173":363.739,"174":586.48,"175":61.501,"176":259.493,"177":496.484,"178":61.501,"179":284.242,"180":494.984,"181":61.501,"182":272.243,"183":482.984,"184":61.501,"185":284.242,"186":467.985,"187":61.501,"188":259.493,"189":458.235,"191":259.493,"192":470.235,"193":61.501,"194":272.243,"195":470.235,"196":140.998,"197":351.74,"198":61.501,"199":334.49,"200":545.232,"201":61.501,"202":323.991,"203":61.501,"204":308.241,"205":518.983,"206":61.501,"207":296.242,"208":506.983,"209":61.501,"210":308.241,"211":569.231,"212":61.501,"213":259.493,"214":482.234,"215":61.501,"216":296.242,"217":61.501,"218":372.739,"219":61.501,"220":272.243,"221":545.232,"222":61.501,"223":297.742,"224":508.483,"225":61.501,"226":123.749,"227":347.99,"228":557.981,"229":61.501,"230":259.493,"231":481.484,"232":61.501,"233":245.244,"234":455.985,"235":61.501,"236":308.241,"237":518.983,"238":61.501,"239":296.242,"240":518.983,"241":61.501,"242":272.243,"243":481.484,"244":61.501,"245":284.242,"246":507.733,"247":61.501,"248":320.991,"249":505.483,"250":61.501,"251":272.243,"252":468.735,"253":61.501,"254":259.493,"255":506.983,"256":61.501,"257":296.242,"258":506.983,"259":61.501,"260":296.242,"261":544.482,"262":61.501,"263":296.242,"264":530.982,"265":61.501,"266":297.742,"267":521.233,"268":61.501,"269":321.741,"270":532.482,"271":61.501,"272":271.493,"273":467.985,"274":61.501,"275":270.743,"276":479.984,"277":61.501,"278":334.49,"279":61.501,"280":320.991,"281":530.233,"282":61.501,"283":270.743,"284":479.984,"285":61.501,"286":270.743,"287":479.984,"288":61.501,"289":272.243,"290":518.983,"291":61.501,"292":272.243,"293":496.484,"294":61.501,"295":272.243,"296":518.233,"297":61.501,"298":284.242,"299":492.734,"300":61.501,"301":332.99,"302":61.501,"303":321.741,"304":532.482,"305":61.501,"306":272.243,"307":496.484};
 async function questionPhotoData(q){
- const pdf=await ensurePdfDocument();
- if(!pdfPageCanvasCache.has(q.page)){
-  if(pdfPageCanvasCache.size>=6) pdfPageCanvasCache.delete(pdfPageCanvasCache.keys().next().value);
-  pdfPageCanvasCache.set(q.page,(async()=>{
-   const page=await pdf.getPage(q.page);
-   const scale=1.5, viewport=page.getViewport({scale});
-   const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
-   const ctx=canvas.getContext('2d',{alpha:false});
-   await page.render({canvasContext:ctx,viewport}).promise;
-   const text=await page.getTextContent();
-   return {canvas,items:text.items,scale,viewport};
-  })());
- }
- const data=await pdfPageCanvasCache.get(q.page);
- const wanted='প্রশ্ন'+bn(q.id);
- let item=data.items.find(x=>x.transform&&x.transform[4]<120&&String(x.str||'').replace(/\s+/g,'').includes(wanted));
- if(!item){
-  const ascii=String(q.id);
-  item=data.items.find(x=>x.transform&&x.transform[4]<120&&String(x.str||'').replace(/\\s+/g,'').includes('প্রশ্ন'+ascii));
- }
- if(!item){
-  for(let i=0;i<data.items.length;i++){
-   const current=String(data.items[i].str||'').replace(/\\s+/g,'');
-   const next=String(data.items[i+1]?.str||'').replace(/\\s+/g,'');
-   if(data.items[i].transform&&data.items[i].transform[4]<120&&current==='প্রশ্ন'&&(next===bn(q.id)||next===String(q.id))){item=data.items[i];break}
-  }
- }
- if(!item) throw new Error('Question heading not found on PDF page '+q.page);
- const scale=data.scale;
- const top=data.viewport.height-(item.transform[5]*scale)-(item.height*scale);
- const x=Math.round(438.9*scale), y=Math.round(top+19.5*scale);
- const w=Math.round(96.7*scale), h=Math.round(63.7*scale);
- const crop=document.createElement('canvas');crop.width=w*2;crop.height=h*2;
- crop.getContext('2d').drawImage(data.canvas,x,y,w,h,0,0,crop.width,crop.height);
- return crop.toDataURL('image/webp',0.88);
-}
-async function pdfPageFallback(q){
+ const y=PDF_IMAGE_Y[q.id];
+ if(y===undefined) return null;
  const pdf=await ensurePdfDocument();
  const page=await pdf.getPage(q.page);
- const viewport=page.getViewport({scale:1});
+ const scale=1.5, viewport=page.getViewport({scale});
  const canvas=document.createElement('canvas');
  canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
  await page.render({canvasContext:canvas.getContext('2d',{alpha:false}),viewport}).promise;
- return canvas.toDataURL('image/jpeg',0.82);
+ const x=438.903, w=96.746, h=64.5;
+ const crop=document.createElement('canvas');
+ crop.width=Math.round(w*scale*2);crop.height=Math.round(h*scale*2);
+ crop.getContext('2d').drawImage(canvas,Math.round(x*scale),Math.round(y*scale),Math.round(w*scale),Math.round(h*scale),0,0,crop.width,crop.height);
+ return crop.toDataURL('image/jpeg',0.9);
 }
 function attachQuestionPhoto(q,img){
- questionPhotoData(q).then(src=>{img.src=src;img.classList.add('loaded')}).catch(async err=>{
-  console.warn('PDF photo crop unavailable for question',q.id,err);
-  try{img.src=await pdfPageFallback(q);img.classList.add('loaded','page-fallback');img.alt='প্রশ্ন '+bn(q.id)+'-এর মূল PDF পৃষ্ঠা '+bn(q.page)+' — আসল পৃষ্ঠা থেকে';}
-  catch(fallbackError){console.error('PDF page image unavailable',q.id,fallbackError);img.classList.add('photo-error');img.alt='PDF-এর ছবি লোড করা যায়নি — পৃষ্ঠা '+bn(q.page);}
+ img.classList.add('photo-loading');
+ img.alt='PDF-এর আসল ছবি লোড হচ্ছে — প্রশ্ন '+bn(q.id);
+ questionPhotoData(q).then(src=>{
+  if(!src){img.remove();return}
+  img.src=src;img.classList.remove('photo-loading');img.classList.add('loaded');
+ }).catch(err=>{
+  console.error('PDF image crop failed',q.id,err);
+  img.classList.remove('photo-loading');img.classList.add('photo-error');
+  img.alt='PDF ছবি লোড হয়নি — পৃষ্ঠা '+bn(q.page);
  });
 }
-
 const fromBn = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
 function loadSeen(){try{return JSON.parse(localStorage.getItem('cca-seen')||'[]')}catch(e){return []}}
 function loadVocabSeen(){try{return JSON.parse(localStorage.getItem('cca-vocab-seen')||'[]')}catch(e){return []}}
