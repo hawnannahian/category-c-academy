@@ -258,7 +258,7 @@ $('#exam-retry').addEventListener('click',examStart);$('#exam-close-result').add
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!examEl.hidden){if(!$('#exam-result-screen').hidden)examClose();else if(!$('#exam-pause-screen').hidden){examPaused=false;$('#exam-pause-screen').hidden=true}else if(confirm('পরীক্ষা বন্ধ করবেন?'))examClose()}});
 
 $('#next').onclick=()=>{quizIndex=(quizIndex+1)%questions.length;showQuiz();rememberQuizPosition()};$('#prev').onclick=()=>{quizIndex=(quizIndex-1+questions.length)%questions.length;showQuiz();rememberQuizPosition()};
-function save(){try{localStorage.setItem('cca-seen',JSON.stringify([...seen]))}catch(e){}renderProgress();renderDashboard()}
+function save(){try{localStorage.setItem('cca-seen',JSON.stringify([...seen]))}catch(e){}trackActivity();renderProgress();renderDashboard();renderWeek()}
 function renderProgress(){
  $('#donecount').textContent=bn(seen.size);
  $('#bar').style.width=Math.min(100,seen.size/TOTAL*100)+'%';
@@ -298,7 +298,36 @@ $('#vsearch').oninput=renderVocab;$('#vcat').onchange=renderVocab;$('#vstate').o
 
 
 function rememberQuizPosition(){const q=questions[quizIndex];if(q){try{localStorage.setItem(LAST_KEY,String(q.id))}catch(e){}updateContinue()}}
-function updateContinue(){const el=$('#continue-text'),btn=$('#continue-btn');if(!el||!btn||!questions.length)return;let id=0;try{id=Number(localStorage.getItem(LAST_KEY)||0)}catch(e){}const q=questions.find(x=>x.id===id);el.textContent=q?'শেষ প্রশ্ন '+bn(q.id):'প্রথম অধ্যায় থেকে শুরু করুন';btn.textContent=q?'চালিয়ে যান →':'শুরু করুন →';renderDashboard()}
+const ACT_KEY='cca-activity',GOAL=10;
+let lastSeenSize=seen.size;
+function dayKey(d=new Date()){const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
+function loadActivity(){try{const a=JSON.parse(localStorage.getItem(ACT_KEY)||'{}');return a&&typeof a==='object'?a:{}}catch(e){return {}}}
+function trackActivity(){const diff=seen.size-lastSeenSize;lastSeenSize=seen.size;if(diff<=0)return;const a=loadActivity(),k=dayKey();a[k]=(a[k]||0)+diff;const keys=Object.keys(a).sort();while(keys.length>60)delete a[keys.shift()];try{localStorage.setItem(ACT_KEY,JSON.stringify(a))}catch(e){}}
+function renderWeek(){
+ const box=$('#week-days');if(!box)return;const a=loadActivity(),today=new Date(),names=['র','সো','ম','বু','বৃ','শু','শ'];
+ box.replaceChildren();const dow=today.getDay();const start=new Date(today);start.setDate(today.getDate()-((dow+1)%7));
+ for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const on=(a[dayKey(d)]||0)>0,el=document.createElement('div');el.className='week-day'+(on?' on':'')+(dayKey(d)===dayKey(today)?' today':'');el.setAttribute('role','listitem');el.textContent=names[d.getDay()];el.setAttribute('aria-label',names[d.getDay()]+(on?' — অনুশীলন করেছেন':''));box.appendChild(el)}
+ let streak=0;const d=new Date(today);if(!(a[dayKey(d)]>0))d.setDate(d.getDate()-1);while(a[dayKey(d)]>0){streak++;d.setDate(d.getDate()-1)}
+ const t=Math.min(GOAL,a[dayKey(today)]||0);$('#week-streak').textContent=bn(streak)+' দিন টানা';$('#week-goal-text').textContent='আজকের লক্ষ্য: '+bn(t)+' / '+bn(GOAL)+' প্রশ্ন';$('#week-fill').style.width=(t/GOAL*100)+'%';$('#week-track').setAttribute('aria-valuenow',t);
+}
+function heroPhoto(q){
+ const el=$('#continue-photo');if(!el)return;const key='cca-hero-'+q.id;let c=null;try{c=localStorage.getItem(key)}catch(e){}
+ if(c){el.style.backgroundImage='url("'+c+'")';el.classList.add('has-photo');return}
+ const run=()=>questionPhotoData(q).then(src=>{if(!src)return;const img=new Image();img.onload=()=>{try{const cv=document.createElement('canvas');cv.width=480;cv.height=Math.round(480*img.height/img.width);cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);const data=cv.toDataURL('image/jpeg',.8);Object.keys(localStorage).filter(k=>k.startsWith('cca-hero-')).forEach(k=>localStorage.removeItem(k));localStorage.setItem(key,data);el.style.backgroundImage='url("'+data+'")';el.classList.add('has-photo')}catch(e){}};img.src=src}).catch(()=>{});
+ if(window.requestIdleCallback)requestIdleCallback(run,{timeout:1500});else setTimeout(run,1500);
+}
+function updateContinue(){
+ const el=$('#continue-text'),btn=$('#continue-btn');if(!el||!btn||!questions.length)return;
+ let id=0;try{id=Number(localStorage.getItem(LAST_KEY)||0)}catch(e){}
+ const q=questions.find(x=>x.id===id),ci=chapterFor(q?q.id:1),ch=chapters[ci];
+ if(ch){const[a,b]=chapterRange(ch),total=b-a+1;let done=0;for(let n=a;n<=b;n++)if(seen.has(n))done++;
+  $('#continue-title').textContent=ch.bn;$('#continue-tag').textContent='অধ্যায় '+ch.number+(q?' · প্রশ্ন '+bn(q.id):'');
+  $('#continue-meter-count').textContent=bn(done)+' / '+bn(total);$('#continue-bar-fill').style.width=(done/total*100)+'%'}
+ el.textContent=q?'শেষ প্রশ্ন '+bn(q.id):'প্রথম অধ্যায় থেকে শুরু করুন';
+ btn.textContent=q?'চালিয়ে যান →':'শুরু করুন →';
+ const g=$('#home-greeting');if(g){const h=new Date().getHours();g.textContent=h<5?'শুভ রাত্রি':h<12?'শুভ সকাল':h<17?'শুভ দুপুর':h<20?'শুভ সন্ধ্যা':'শুভ রাত্রি'}
+ if(q)heroPhoto(q);else{const p=$('#continue-photo');if(p){p.style.backgroundImage='';p.classList.remove('has-photo')}}
+ renderWeek();renderDashboard()}
 function renderDashboard(){
  if(!$('#home-stat-questions'))return;
  const totalQuestions=questions.length||TOTAL,totalVocab=vocab.length||133;

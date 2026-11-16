@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="./ios-redesign.css?v=48">
 <link rel="stylesheet" href="./premium-ui.css?v=49">
 <link rel="stylesheet" href="./clean-ui.css?v=50">
+<link rel="stylesheet" href="./final-ui.css?v=51">
 <title>Category C Academy — Portugal</title>
 </head>
 <body>
@@ -30,10 +31,14 @@
   <button class="tab tab-proxy" role="tab" aria-selected="false" data-tab="vocab" hidden tabindex="-1" aria-hidden="true">শব্দভান্ডার</button>
 </nav>
 <section id="home" class="panel home-panel active-panel">
-  <div class="dashboard-heading"><h2>আজ কী শিখবেন?</h2><a class="dashboard-guide" href="./Category_C_Study_Guide_PT-BN_2026_FINAL_v4.pdf" target="_blank" rel="noopener">বই খুলুন ↗</a></div>
-  <div class="dashboard-continue">
-    <div class="dashboard-continue-icon">▶</div>
-    <div class="dashboard-continue-copy"><h3>চালিয়ে যান</h3><p id="continue-text">প্রথম অধ্যায় থেকে শুরু করুন</p></div>
+  <div class="dashboard-heading"><div><p class="home-greeting" id="home-greeting">শুভ দিন</p><h2>আজ কী শিখবেন?</h2></div><a class="dashboard-guide" href="./Category_C_Study_Guide_PT-BN_2026_FINAL_v4.pdf" target="_blank" rel="noopener">বই খুলুন ↗</a></div>
+  <div class="dashboard-continue" id="continue-card">
+    <div class="continue-photo" id="continue-photo" aria-hidden="true"></div>
+    <span class="continue-tag" id="continue-tag">অধ্যায় ১</span>
+    <div class="dashboard-continue-icon" aria-hidden="true">▶</div>
+    <div class="dashboard-continue-copy"><h3 id="continue-title">প্রথম অধ্যায় থেকে শুরু করুন</h3><p id="continue-text">শেষ প্রশ্ন</p></div>
+    <div class="continue-meter" aria-hidden="true"><span id="continue-meter-label">অধ্যায়ের অগ্রগতি</span><b id="continue-meter-count">০ / ০</b></div>
+    <div class="continue-bar" aria-hidden="true"><i id="continue-bar-fill"></i></div>
     <button id="continue-btn" class="continue-btn" type="button">শুরু করুন →</button>
   </div>
   <div class="dashboard-actions">
@@ -41,6 +46,11 @@
     <button class="dashboard-action action-practice" type="button" data-open-tab="quiz"><span class="action-icon">✓</span><span><strong>প্রশ্ন অনুশীলন</strong><small><span id="home-stat-questions">৩০৭</span>টি</small></span><b>→</b></button>
     <button class="dashboard-action action-vocab" type="button" data-open-tab="vocab"><span class="action-icon">文</span><span><strong>শব্দভান্ডার</strong><small><span id="home-stat-vocab">১৩৩</span>টি শব্দ</small></span><b>→</b></button>
     <button class="dashboard-action action-exam" type="button" data-open-tab="quiz" data-start-exam="true"><span class="action-icon">◷</span><span><strong>মক পরীক্ষা</strong><small>২০ প্রশ্ন · ২৫ মিনিট</small></span><b>→</b></button>
+  </div>
+  <div class="week-card" id="week-card">
+    <div class="week-head"><strong>এই সপ্তাহ</strong><span id="week-streak">০ দিন টানা</span></div>
+    <div class="week-days" id="week-days" role="list" aria-label="সপ্তাহের অনুশীলনের দিন"></div>
+    <div class="week-goal"><div class="week-track" role="progressbar" aria-label="আজকের লক্ষ্য" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="week-track"><i id="week-fill"></i></div><p id="week-goal-text">আজকের লক্ষ্য: ০ / ১০ প্রশ্ন</p></div>
   </div>
   <div class="dashboard-progress">
     <div class="dashboard-progress-ring" id="home-question-ring" role="progressbar" aria-label="প্রশ্ন পর্যালোচনার অগ্রগতি" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
