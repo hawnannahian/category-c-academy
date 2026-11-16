@@ -2,8 +2,7 @@ const $ = s => document.querySelector(s);
 const BOOK = './Category_C_Study_Guide_PT-BN_2026_FINAL_v4.pdf';
 const PAGE_SIZE = 20;
 const TOTAL = 307;
-let questions = [], chapters = [], vocab = [];
-let vocabSeen = new Set(loadVocabSeen());
+let questions = [], chapters = [], pages = [];
 let selectedChapter = 0, quizIndex = 0, shown = PAGE_SIZE;
 let seen = new Set(loadSeen());
 
@@ -12,11 +11,6 @@ const fromBn = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬�
 
 function loadSeen() {
   try { return JSON.parse(localStorage.getItem('cca-seen') || '[]'); }
-  catch (e) { return []; }
-}
-
-function loadVocabSeen() {
-  try { return JSON.parse(localStorage.getItem('cca-vocab-seen') || '[]').map(Number); }
   catch (e) { return []; }
 }
 
@@ -36,9 +30,9 @@ async function loadJSON(url) {
   catch (e) { throw new Error(url + ' invalid JSON'); }
 }
 
-Promise.all(['./questions.json', './chapters.json', './vocab.json'].map(loadJSON))
-  .then(([q, c, v]) => {
-    questions = q; chapters = c; vocab = v;
+Promise.all(['./questions.json', './chapters.json', './book-text.json'].map(loadJSON))
+  .then(([q, c, p]) => {
+    questions = q; chapters = c; pages = p;
     renderChapters(); renderList(); renderProgress(); renderVocab(); showQuiz();
   })
   .catch(err => {
@@ -180,61 +174,25 @@ $('#reset').onclick = () => {
 };
 
 function renderVocab() {
-  const category = $('#vcat');
-  const categoryNames = [...new Set(vocab.map(x => x.categoryName))];
-  if (category.options.length <= 1) categoryNames.forEach((name, i) => {
-    const option = document.createElement('option');
-    option.value = String(i + 1); option.textContent = name; category.appendChild(option);
-  });
-  const query = $('#vsearch').value.trim().toLocaleLowerCase();
-  const selected = Number(category.value || 0);
-  const state = $('#vstate').value;
-  const list = vocab.filter(x => {
-    const searchMatch = !query || [x.portuguese, x.bengali, x.explanation].some(s => s.toLocaleLowerCase().includes(query));
-    const categoryMatch = !selected || x.category === selected;
-    const stateMatch = state === 'all' || (state === 'learned' ? vocabSeen.has(x.id) : !vocabSeen.has(x.id));
-    return searchMatch && categoryMatch && stateMatch;
-  });
+  const v = pages.filter(p => p.page >= 26 && p.page <= 35);
   const box = $('#vocabtext');
   box.innerHTML = '';
-  $('#vocabcount').textContent = query || selected || state !== 'all'
-    ? `${bn(list.length)}টি শব্দ পাওয়া গেছে`
-    : `${bn(list.length)}টি শব্দ · ${bn(vocab.length)}টির মধ্যে`;
-  if (!list.length) {
-    const empty = document.createElement('p'); empty.className = 'notice';
-    empty.textContent = 'কোনো শব্দ মেলেনি। অন্য শব্দ লিখে দেখুন বা ফিল্টার বদলান।'; box.appendChild(empty);
-  }
-  list.forEach(x => {
-    const card = document.createElement('article'); card.className = 'vocab-card' + (vocabSeen.has(x.id) ? ' learned' : '');
-    const meta = document.createElement('div'); meta.className = 'vocab-meta';
-    const topic = document.createElement('span'); topic.textContent = x.categoryName;
-    const source = document.createElement('span'); source.textContent = `বই · পৃষ্ঠা ${bn(x.page)}`;
-    meta.append(topic, source);
-    const term = document.createElement('h3'); term.textContent = x.portuguese;
-    const meaning = document.createElement('p'); meaning.className = 'vocab-meaning'; meaning.textContent = x.bengali;
-    const explanation = document.createElement('p'); explanation.className = 'vocab-explanation'; explanation.textContent = x.explanation;
-    const mark = document.createElement('button'); mark.className = 'vocab-mark';
-    mark.setAttribute('aria-pressed', String(vocabSeen.has(x.id)));
-    mark.textContent = vocabSeen.has(x.id) ? '✓ শিখেছি' : 'শিখেছি';
-    mark.onclick = () => {
-      if (vocabSeen.has(x.id)) vocabSeen.delete(x.id); else vocabSeen.add(x.id);
-      try { localStorage.setItem('cca-vocab-seen', JSON.stringify([...vocabSeen])); } catch (e) {}
-      renderVocabProgress(); renderVocab();
-    };
-    card.append(meta, term, meaning, explanation, mark); box.appendChild(card);
+  v.forEach(p => {
+    const art = document.createElement('article');
+    art.className = 'vpage';
+    const b = document.createElement('b');
+    b.textContent = `বইয়ের পৃষ্ঠা ${bn(p.page)}`;
+    const d = document.createElement('div');
+    d.className = 'qraw';
+    d.textContent = p.text;
+    art.append(b, d);
+    box.appendChild(art);
   });
-  renderVocabProgress();
 }
-function renderVocabProgress() {
-  const total = vocab.length, done = vocabSeen.size;
-  $('#vocabdone').textContent = `${bn(done)} / ${bn(total)}`;
-  const bar = $('#vocabbar');
-  bar.style.width = total ? Math.min(100, done / total * 100) + '%' : '0%';
-  bar.parentElement.setAttribute('aria-valuenow', done);
-}
-$('#vsearch').oninput = renderVocab;
-$('#vcat').onchange = renderVocab;
-$('#vstate').onchange = renderVocab;
+$('#vsearch').oninput = () => {
+  const q = $('#vsearch').value.trim().toLowerCase();
+  [...$('#vocabtext').children].forEach(el => el.hidden = !el.textContent.toLowerCase().includes(q));
+};
 
 /* ---- book page viewer (modal) ---- */
 const dlg = $('#bookdlg');
