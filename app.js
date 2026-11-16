@@ -319,7 +319,3 @@ document.querySelectorAll('[data-open-tab]').forEach(b=>b.addEventListener('clic
 $('#continue-btn').addEventListener('click',()=>{let id=0;try{id=Number(localStorage.getItem(LAST_KEY)||0)}catch(e){}const i=questions.findIndex(x=>x.id===id);if(i>=0){quizIndex=i;showQuiz();rememberQuizPosition()}openTab('quiz');window.scrollTo({top:0,behavior:'smooth'})});
 const originalShowQuiz=showQuiz;
 showQuiz=function(){originalShowQuiz();const q=questions[quizIndex];const bar=$('#quiz-progress-bar');if(q&&bar)bar.style.width=(q.id/TOTAL*100)+'%'};function openTab(tab){const b=document.querySelector('.tab[data-tab="'+tab+'"]');if(b)b.click()}
-document.querySelectorAll('[data-open-tab]').forEach(b=>b.addEventListener('click',()=>{openTab(b.dataset.openTab);if(b.dataset.startExam==='true')setTimeout(()=>$('#start-exam')?.click(),0)}));
-$('#continue-btn').addEventListener('click',()=>{let id=0;try{id=Number(localStorage.getItem(LAST_KEY)||0)}catch(e){}const i=questions.findIndex(x=>x.id===id);if(i>=0){quizIndex=i;showQuiz();rememberQuizPosition()}openTab('quiz');window.scrollTo({top:0,behavior:'smooth'})});
-const originalShowQuiz=showQuiz;
-showQuiz=function(){originalShowQuiz();const q=questions[quizIndex];const bar=$('#quiz-progress-bar');if(q&&bar)bar.style.width=(q.id/TOTAL*100)+'%'};
