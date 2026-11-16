@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./styles.css?v=35">
+<link rel="stylesheet" href="./styles.css?v=36">
 <title>Category C Academy — Portugal</title>
 </head>
 <body>
@@ -39,22 +39,46 @@
     <div class="stat-card"><span class="stat-icon">🌐</span><strong>১৩৩</strong><small>Português শব্দ</small></div>
   </div>
 </section>
-<section class="continue-wrap" aria-label="পড়াশোনা চালিয়ে যান">
-  <div class="continue-card">
-    <div class="continue-icon">▶</div>
-    <div class="continue-copy"><span class="mini-label">PICK UP WHERE YOU LEFT OFF</span><h2>আপনার শেখা চালিয়ে যান</h2><p id="continue-text">প্রথম অধ্যায় থেকে শুরু করুন অথবা যেকোনো প্রশ্ন অনুশীলন করুন।</p></div>
+<nav class="main-nav" role="tablist" aria-label="প্রধান বিভাগ">
+  <button class="tab active" role="tab" aria-selected="true" data-tab="home"><span>⌂</span> হোম</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="study"><span>▦</span> শিখুন</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="quiz"><span>✓</span> পরীক্ষা</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="progress"><span>◔</span> অগ্রগতি</button>
+  <button class="tab tab-proxy" role="tab" aria-selected="false" data-tab="vocab" hidden tabindex="-1" aria-hidden="true">শব্দভান্ডার</button>
+</nav>
+<section id="home" class="panel home-panel active-panel">
+  <div class="dashboard-heading">
+    <div><p class="mini-label">YOUR LEARNING DASHBOARD</p><h2>আবার শুরু করি! 👋</h2><p class="section-subtitle">Category C পরীক্ষার প্রস্তুতি—এক ধাপ করে এগিয়ে চলুন।</p></div>
+    <a class="dashboard-guide" href="./Category_C_Study_Guide_PT-BN_2026_FINAL_v4.pdf" target="_blank" rel="noopener">📖 Study Guide</a>
+  </div>
+  <div class="dashboard-continue">
+    <div class="dashboard-continue-icon">▶</div>
+    <div class="dashboard-continue-copy"><span class="mini-label">PICK UP WHERE YOU LEFT OFF</span><h3>আপনার শেখা চালিয়ে যান</h3><p id="continue-text">প্রথম অধ্যায় থেকে শুরু করুন অথবা যেকোনো প্রশ্ন অনুশীলন করুন।</p></div>
     <button id="continue-btn" class="continue-btn" type="button">শুরু করুন <span>→</span></button>
   </div>
+  <div class="dashboard-section-title"><div><p class="mini-label">YOUR STUDY MATERIAL</p><h3>আপনার প্রস্তুতি</h3></div><span class="dashboard-note">সবকিছু এক জায়গায়</span></div>
+  <div class="dashboard-stats">
+    <button class="dashboard-stat" type="button" data-open-tab="quiz"><span class="dashboard-stat-icon blue">✓</span><strong id="home-stat-questions">৩০৭</strong><span>অনুশীলনী প্রশ্ন</span></button>
+    <button class="dashboard-stat" type="button" data-open-tab="study"><span class="dashboard-stat-icon green">▦</span><strong id="home-stat-chapters">৮</strong><span>শিক্ষার অধ্যায়</span></button>
+    <button class="dashboard-stat" type="button" data-open-tab="vocab"><span class="dashboard-stat-icon purple">文</span><strong id="home-stat-vocab">১৩৩</strong><span>Português শব্দ</span></button>
+  </div>
+  <div class="dashboard-section-title"><div><p class="mini-label">CHOOSE YOUR NEXT STEP</p><h3>কী শিখতে চান?</h3></div></div>
+  <div class="dashboard-actions">
+    <button class="dashboard-action action-learn" type="button" data-open-tab="study"><span class="action-icon">📚</span><span><strong>অধ্যায়ভিত্তিক শিক্ষা</strong><small>৮টি অধ্যায় থেকে শিখুন</small></span><b>→</b></button>
+    <button class="dashboard-action action-practice" type="button" data-open-tab="quiz"><span class="action-icon">✍️</span><span><strong>প্রশ্ন অনুশীলন</strong><small>উত্তর ও বাংলা ব্যাখ্যা দেখুন</small></span><b>→</b></button>
+    <button class="dashboard-action action-vocab" type="button" data-open-tab="vocab"><span class="action-icon">🌐</span><span><strong>Português–বাংলা শব্দভান্ডার</strong><small>শব্দের অর্থ ও ব্যবহার শিখুন</small></span><b>→</b></button>
+    <button class="dashboard-action action-exam" type="button" data-open-tab="quiz" data-start-exam="true"><span class="action-icon">⏱️</span><span><strong>মক পরীক্ষা</strong><small>২০টি প্রশ্ন · ২৫ মিনিট</small></span><b>→</b></button>
+  </div>
+  <div class="dashboard-progress">
+    <div class="dashboard-progress-copy"><span class="mini-label">YOUR PROGRESS</span><h3>আপনার শেখার অগ্রগতি</h3><p><strong id="home-seen">০</strong> / ৩০৭ প্রশ্ন পর্যালোচনা করেছেন · <strong id="home-vocab-seen">০</strong> শব্দ শিখেছেন</p></div>
+    <div class="dashboard-progress-bar" role="progressbar" aria-label="প্রশ্ন পর্যালোচনার অগ্রগতি" aria-valuemin="0" aria-valuemax="307" aria-valuenow="0"><i id="home-progress-bar"></i></div>
+    <button class="text-link" type="button" data-open-tab="progress">বিস্তারিত অগ্রগতি দেখুন →</button>
+  </div>
+  <div class="dashboard-tip"><span>💡</span><p><strong>ছোট টিপ:</strong> প্রতিদিন কয়েকটি প্রশ্ন অনুশীলন করুন। ভুল বা কঠিন প্রশ্নগুলো আবার দেখে নিন।</p></div>
 </section>
-<nav class="main-nav" role="tablist" aria-label="প্রধান বিভাগ">
-  <button class="tab active" role="tab" aria-selected="true" data-tab="study"><span>▦</span> অধ্যায়</button>
-  <button class="tab" role="tab" aria-selected="false" data-tab="quiz"><span>✓</span> প্রশ্ন অনুশীলন</button>
-  <button class="tab" role="tab" aria-selected="false" data-tab="vocab"><span>文</span> শব্দভান্ডার</button>
-  <button class="tab" role="tab" aria-selected="false" data-tab="progress"><span>◔</span> অগ্রগতি</button>
-</nav>
-<section id="study" class="panel active-panel">
+<section id="study" class="panel" hidden>
   <div class="sectionhead"><div><p class="mini-label">STUDY BY TOPIC</p><h2>অধ্যায়ভিত্তিক শিক্ষা</h2><p class="section-subtitle">আপনার সুবিধামতো একটি অধ্যায় বেছে নিন।</p></div><label class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="প্রশ্ন বা Portuguese শব্দ খুঁজুন…" aria-label="প্রশ্ন বা Portuguese শব্দ খুঁজুন"></label></div>
-  <div id="chapters" class="chaptergrid"></div>
+  <div id="chapters" class="chaptergrid"></div><div class="learn-vocab-shortcut"><div><strong>Português–বাংলা শব্দভান্ডার</strong><small>১৩৩টি প্রয়োজনীয় শব্দ ও অর্থ</small></div><button type="button" data-open-tab="vocab">শব্দ শিখুন →</button></div>
   <div id="questionlist" class="qlist"><p class="notice">প্রশ্ন লোড হচ্ছে…</p></div>
 </section>
 <section id="quiz" class="panel" hidden>
@@ -83,5 +107,5 @@
 <div id="bookdlg" class="book-overlay" role="dialog" aria-modal="true" aria-labelledby="bookTitle" hidden><section class="book-dialog"><div class="dlg-head"><h3 id="bookTitle"></h3><div class="dlg-actions"><a id="bookopen" target="_blank" rel="noopener">নতুন ট্যাবে খুলুন</a><button id="bookclose" type="button" aria-label="বন্ধ করুন">বন্ধ করুন</button></div></div><iframe id="bookframe" title="বইয়ের পৃষ্ঠা" loading="eager"></iframe><p class="dlg-note">পাতা না দেখা গেলে “নতুন ট্যাবে খুলুন” চাপুন।</p></section></div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="./app.js?v=35"></script>
+<script src="./app.js?v=36"></script>
 </body></html>
