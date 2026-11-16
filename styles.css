@@ -707,3 +707,16 @@ nav .tab.tab-proxy,nav .tab[hidden]{display:none!important}
 nav[role=tablist],body>nav,main>nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 .tab{min-width:0}
 .tab .tab-label{white-space:nowrap}
+
+/* exam mode covers the tab bar */
+body.exam-open .main-nav,body.exam-open nav{display:none!important}
+
+/* exam: consistent light option cards with readable text */
+.exam-mode .exam-option{background:#fff;color:#202B32;border:1.5px solid #D5DEDB}
+.exam-mode .exam-option *{color:inherit}
+.exam-mode .exam-option .exam-option-letter{color:#168C83}
+.exam-mode .exam-option.selected{background:#E9EFED;border-color:#168C83;color:#202B32;box-shadow:0 0 0 2px #168C8330}
+.exam-mode .exam-option.selected *{color:#202B32}
+.exam-mode .exam-option.selected .exam-option-letter{color:#168C83}
+.exam-mode{background:#F2F5F4}
+.exam-mode .exam-counter,.exam-mode #exam-counter,.exam-mode #exam-answered{color:#4D605C!important}
