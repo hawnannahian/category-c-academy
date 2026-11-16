@@ -66,7 +66,7 @@ main{max-width:720px;margin:0 auto}
 
 /* ───────── 3. App shell ───────── */
 .site-header{
-  position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;
+  position:relative;top:auto;z-index:1;display:flex;align-items:center;justify-content:space-between;
   max-width:720px;margin:0 auto;padding:calc(var(--safe-t) + 10px) 20px 6px;background:transparent;
 }
 body:not([data-tab="home"]) .site-header{display:none}
@@ -92,8 +92,8 @@ body:not([data-tab="home"]) .site-header{display:none}
 body.exam-open .main-nav{display:none}
 
 /* Screens */
-.panel{padding:4px 16px 8px;animation:screen-in .4s var(--ease) both}
-@keyframes screen-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.panel{padding:4px 16px 8px;animation:screen-fade .16s ease-out both}
+@keyframes screen-fade{from{opacity:.82}to{opacity:1}}
 .sectionhead{padding:calc(var(--safe-t) + 14px) 4px 14px}
 .sectionhead h2{font-size:32px;line-height:1.25;font-weight:800;letter-spacing:-.02em}
 .sectionhead .search-wrap{margin-top:12px}
