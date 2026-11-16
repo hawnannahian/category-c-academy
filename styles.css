@@ -313,3 +313,15 @@ body.exam-open{width:100%;max-width:100%;touch-action:pan-y}
 .hero-lead{font-size:14px;line-height:1.65}
 .hero-actions{margin-top:15px}
 @media(max-width:700px){.hero{padding:22px 18px 18px}.hero h1{font-size:27px}.hero h1 span{display:block}.hero-actions{gap:8px}.primary-cta,.secondary-cta{min-height:44px;padding:10px 13px;font-size:12px}}
+
+/* v37: per-question navigation in the study list */
+.qitem-modern{scroll-margin-top:105px}
+.question-card-nav{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:9px;margin-top:18px;padding-top:14px;border-top:1px solid #e7edf4}
+.question-card-nav button{min-width:0;min-height:48px;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 12px;border-radius:13px;font-family:"Noto Sans Bengali",sans-serif;font-size:13px;font-weight:800;line-height:1.25;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.question-card-prev{background:#edf2f7;color:#38516b;border:1px solid #d9e2ec}
+.question-card-next{background:linear-gradient(135deg,#1769aa,#07589c);color:#fff;border:1px solid #07589c;box-shadow:0 4px 12px rgba(23,105,170,.16)}
+.question-card-nav button:disabled{opacity:.38;box-shadow:none;cursor:not-allowed}
+.question-card-nav button:not(:disabled):active{transform:scale(.98)}
+.question-card-nav button span[aria-hidden="true"]{font-family:system-ui,sans-serif;font-size:20px;line-height:1}
+.question-card-position{white-space:nowrap;color:#708197;font-size:11px;font-weight:800;font-variant-numeric:tabular-nums}
+@media(max-width:420px){.question-card-nav{gap:6px}.question-card-nav button{min-height:46px;padding:9px 7px;font-size:12px}.question-card-position{font-size:10px}}
