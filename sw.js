@@ -1,5 +1,5 @@
-const CACHE='category-c-academy-v47';
-const CORE=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icon.svg','./questions.json','./chapters.json','./book-text.json','./vocab.json'];
+const CACHE='category-c-academy-v48';
+const CORE=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icon.svg','./questions.json','./chapters.json','./book-text.json','./vocab.json','./ios-redesign.css'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
