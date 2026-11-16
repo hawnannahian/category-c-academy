@@ -75,7 +75,7 @@ function renderList(){const box=$('#questionlist');box.innerHTML='';const query=
 // Context-aware visual cards: every question gets a relevant learning illustration.
 function parseQuestion(x){
  const lines=String(x.raw||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
- const body=lines.filter((line,i)=>i!==0&&!/^প্রশ্ন\s*[০-৯0-9]+(?:\s+IMT.*)?$/.test(line)&&!/^IMT\s+\d/i.test(line));
+ const body=lines.filter((line,i)=>i!==0&&!/^প্রশ্ন\s*[০-৯0-9]+(?:\s+IMT.*)?$/.test(line)&&!/^IMT\s+/i.test(line));
  const stop=body.findIndex(line=>/^(সঠিক উত্তর|কেন|মনে রাখুন)\s*:/.test(line));
  const core=(stop<0?body:body.slice(0,stop));
  const bengaliLine=line=>/[\u0980-\u09FF]/.test(line);
