@@ -172,16 +172,16 @@
   },
   {
     "id": 20,
-    "portuguese": "aquecedor de curtas paragens হিটার) গরম রাখতে পারে।",
-    "bengali": "স্বল্প-বিরতির হিটার (পার্কিং",
-    "explanation": "কিছু ভারী যানবাহনে ইঞ্জিন বন্ধ রেখেও কেবিন",
+    "portuguese": "aquecedor de curtas paragens",
+    "bengali": "স্বল্প-বিরতির হিটার (পার্কিং হিটার)",
+    "explanation": "কিছু ভারী যানবাহনে ইঞ্জিন বন্ধ রেখেও কেবিন গরম রাখতে পারে।",
     "category": 1,
     "categoryName": "চালক, কেবিন ও যাত্রার প্রস্তুতি",
     "page": 27
   },
   {
     "id": 21,
-    "portuguese": "painel de instrumentos ২ াচ,ক্ গিয়ারবক্স ও শক্তি সঞ্চালন ৯টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "painel de instrumentos",
     "bengali": "ইন্সট্রুমেন্ট প্যানেল / ড্যাশবোর্ড",
     "explanation": "গতি, RPM, সতর্কবাতি ও অন্যান্য তথ্য দেখায়।",
     "category": 1,
@@ -191,8 +191,8 @@
   {
     "id": 22,
     "portuguese": "disco de embraiagem",
-    "bengali": "ক্লাচ ডিস্ক অংশ।",
-    "explanation": "ইঞ্জিনের শক্তি গিয়ারবক্সে পাঠাতে ক্লাচ ব্যবস্থার",
+    "bengali": "ক্লাচ ডিস্ক",
+    "explanation": "ইঞ্জিনের শক্তি গিয়ারবক্সে পাঠাতে ক্লাচ ব্যবস্থার অংশ।",
     "category": 2,
     "categoryName": "ক্লাচ, গিয়ারবক্স ও শক্তি সঞ্চালন",
     "page": 28
@@ -226,9 +226,9 @@
   },
   {
     "id": 26,
-    "portuguese": "rolamento / carvão de encosto করে।",
+    "portuguese": "rolamento / carvão de encosto",
     "bengali": "রিলিজ বেয়ারিং",
-    "explanation": "ক্লাচ প্যাডেল চাপলে ক্লাচ বিচ্ছিন্ন করতে সাহায্য",
+    "explanation": "ক্লাচ প্যাডেল চাপলে ক্লাচ বিচ্ছিন্ন করতে সাহায্য করে।",
     "category": 2,
     "categoryName": "ক্লাচ, গিয়ারবক্স ও শক্তি সঞ্চালন",
     "page": 28
@@ -262,9 +262,9 @@
   },
   {
     "id": 30,
-    "portuguese": "embraiagem §c3§ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "embraiagem",
     "bengali": "ক্লাচ",
-    "explanation": "ইঞ্জিন ও ট্রান্সমিশনের সংযোগ সাময়িক বিচ্ছিন্ন/ যুক্ত করে। ৬টি শব্দ ৩ ইঞ্জিন ও ঘূর্ণন ব্যবস্থা",
+    "explanation": "ইঞ্জিন ও ট্রান্সমিশনের সংযোগ সাময়িকভাবে বিচ্ছিন্ন বা যুক্ত করে।",
     "category": 2,
     "categoryName": "ক্লাচ, গিয়ারবক্স ও শক্তি সঞ্চালন",
     "page": 28
@@ -316,7 +316,7 @@
   },
   {
     "id": 36,
-    "portuguese": "rotações do motor ৪ সাসপেনশন ও শক শোষণ ব্যবস্থা ১৮টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "rotações do motor",
     "bengali": "ইঞ্জিনের RPM",
     "explanation": "প্রতি মিনিটে ইঞ্জিন কতবার ঘোরে।",
     "category": 3,
@@ -335,7 +335,7 @@
   {
     "id": 38,
     "portuguese": "danificados / avariados",
-    "bengali": "ক্ষতিগ্রস্ত/ বিকল",
+    "bengali": "ক্ষতিগ্রস্ত / বিকল",
     "explanation": "যন্ত্রাংশ ঠিকমতো কাজ করছে না।",
     "category": 4,
     "categoryName": "সাসপেনশন ও শক শোষণ ব্যবস্থা",
@@ -345,7 +345,7 @@
     "id": 39,
     "portuguese": "piso irregular",
     "bengali": "অসমতল রাস্তা",
-    "explanation": "উঁচু-নিচু বা ক্ষতিগ্রস্তত রাস্তার পৃষ্ঠ।",
+    "explanation": "উঁচু-নিচু বা ক্ষতিগ্রস্ত রাস্তার পৃষ্ঠ।",
     "category": 4,
     "categoryName": "সাসপেনশন ও শক শোষণ ব্যবস্থা",
     "page": 29
@@ -371,8 +371,8 @@
   {
     "id": 42,
     "portuguese": "molas",
-    "bengali": "স্প্রিং অংশ।",
-    "explanation": "রাস্তার ধাক্কা শোষণে সাসপেনশনের ইলাস্টিক",
+    "bengali": "স্প্রিং",
+    "explanation": "রাস্তার ধাক্কা শোষণে সাসপেনশনের ইলাস্টিক অংশ।",
     "category": 4,
     "categoryName": "সাসপেনশন ও শক শোষণ ব্যবস্থা",
     "page": 29
@@ -471,14 +471,14 @@
     "id": 53,
     "portuguese": "suspensão pneumática",
     "bengali": "এয়ার সাসপেনশন",
-    "explanation": "স্প্রংয়ের কাজে বায়ু-বেলো ব্যবহার করা সাসপেনশন।",
+    "explanation": "স্প্রিংয়ের কাজে বায়ু-বেলো ব্যবহার করা সাসপেনশন।",
     "category": 4,
     "categoryName": "সাসপেনশন ও শক শোষণ ব্যবস্থা",
     "page": 29
   },
   {
     "id": 54,
-    "portuguese": "amortecedor hidráulico ৫ স্টিয়ারিং ও চাকার দিক নিয়ন্ত্রণ ১১টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "amortecedor hidráulico",
     "bengali": "হাইড্রোলিক শক অ্যাবজর্বার",
     "explanation": "তেলের প্রবাহের প্রতিরোধ দিয়ে দোলন কমায়।",
     "category": 4,
@@ -577,9 +577,9 @@
   },
   {
     "id": 65,
-    "portuguese": "convergência / divergência পরস্পরের কাছে (টো-ইন) বা দূরে (টো-আউট) §c6§ ৬ ব্রেক সিস্টেম ৬টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "convergência / divergência",
     "bengali": "টো-ইন / টো-আউট",
-    "explanation": "ওপর থেকে দেখলে দুই চাকার সামনের প্রান্ত থাকা।",
+    "explanation": "ওপর থেকে দেখলে দুই চাকার সামনের প্রান্ত পরস্পরের কাছে (টো-ইন) বা দূরে (টো-আউট) থাকা।",
     "category": 5,
     "categoryName": "স্টিয়ারিং ও চাকার দিক নিয়ন্ত্রণ",
     "page": 30
@@ -596,8 +596,8 @@
   {
     "id": 67,
     "portuguese": "maxilas dos travões",
-    "bengali": "ব্রেক শু অংশ।",
-    "explanation": "ড্রাম ব্রেকের ভেতরে লাইনিং বহনকারী বাঁকানো",
+    "bengali": "ব্রেক শু",
+    "explanation": "ড্রাম ব্রেকের ভেতরে লাইনিং বহনকারী বাঁকানো অংশ।",
     "category": 6,
     "categoryName": "ব্রেক সিস্টেম",
     "page": 30
@@ -631,7 +631,7 @@
   },
   {
     "id": 71,
-    "portuguese": "servo-freio ৭ রাস্তা ও চলাচলের অবস্থা ৪টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "servo-freio",
     "bengali": "ব্রেক সার্ভো / বুস্টার",
     "explanation": "চালকের প্যাডেল বল বাড়িয়ে ব্রেক প্রয়োগ সহজ করে।",
     "category": 6,
@@ -667,7 +667,7 @@
   },
   {
     "id": 75,
-    "portuguese": "automóveis pesados §c8§ ৮ সাধারণ নির্দেশক ও অন্যান্য শব্দ ৩টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "automóveis pesados",
     "bengali": "ভারী মোটরযান",
     "explanation": "ট্রাক/বাসসহ ভারী শ্রেণির যানবাহন।",
     "category": 7,
@@ -694,7 +694,7 @@
   },
   {
     "id": 78,
-    "portuguese": "regra geral ৯ ওজন, ভর ও লোড বণ্টন ১২টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "regra geral",
     "bengali": "সাধারণ নিয়মে",
     "explanation": "বেশিরভাগ ক্ষেত্রে প্রযোজ্য সাধারণ নীতি।",
     "category": 8,
@@ -713,8 +713,8 @@
   {
     "id": 80,
     "portuguese": "peso bruto",
-    "bengali": "মোট অনুমোদিত ওজন ওজন।",
-    "explanation": "খালি ওজন (tara) ও সর্বোচ্চ অনুমোদিত মাল/ যাত্রী মিলিয়ে আইনত অনুমোদিত সর্বোচ্চ মোট",
+    "bengali": "মোট অনুমোদিত ওজন",
+    "explanation": "খালি ওজন (tara) ও সর্বোচ্চ অনুমোদিত মাল/ যাত্রী মিলিয়ে আইনত অনুমোদিত সর্বোচ্চ মোট ওজন।",
     "category": 9,
     "categoryName": "ওজন, ভর ও লোড বণ্টন",
     "page": 32
@@ -739,9 +739,9 @@
   },
   {
     "id": 83,
-    "portuguese": "massa máxima autorizada (MMA) ভর।",
+    "portuguese": "massa máxima autorizada (MMA)",
     "bengali": "সর্বোচ্চ অনুমোদিত ভর",
-    "explanation": "গাড়ির জন্য নির্ধারিত সর্বোচ্চ অনুমোদিত মোট",
+    "explanation": "গাড়ির জন্য নির্ধারিত সর্বোচ্চ অনুমোদিত মোট ভর।",
     "category": 9,
     "categoryName": "ওজন, ভর ও লোড বণ্টন",
     "page": 32
@@ -802,7 +802,7 @@
   },
   {
     "id": 90,
-    "portuguese": "carga concentrada ১০ পণ্য পরিবহন ও মাল সুরক্ষা ১৪টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "carga concentrada",
     "bengali": "এক জায়গায় জমা মাল",
     "explanation": "গাড়ির বডির একটি অংশে অতিরিক্ত মাল রাখা।",
     "category": 9,
@@ -811,9 +811,9 @@
   },
   {
     "id": 91,
-    "portuguese": "transporte de mercadorias জায়গায় নেওয়া।",
+    "portuguese": "transporte de mercadorias",
     "bengali": "পণ্য পরিবহন",
-    "explanation": "ট্রাক দিয়ে মালামাল এক জায়গা থেকে অন্য",
+    "explanation": "ট্রাক দিয়ে মালামাল এক জায়গা থেকে অন্য জায়গায় নেওয়া।",
     "category": 10,
     "categoryName": "পণ্য পরিবহন ও মাল সুরক্ষা",
     "page": 33
@@ -838,9 +838,9 @@
   },
   {
     "id": 94,
-    "portuguese": "acondicionamento da carga প্যাক করা সঠিকভাবে রাখা।",
-    "bengali": "মাল সঠিকভাবে সাজানো ও",
-    "explanation": "যাত্রার সময় মাল নড়াচড়া বা ক্ষতি ঠেকাতে",
+    "portuguese": "acondicionamento da carga",
+    "bengali": "মাল সঠিকভাবে সাজানো ও প্যাক করা",
+    "explanation": "যাত্রার সময় মাল নড়াচড়া বা ক্ষতি ঠেকাতে সঠিকভাবে রাখা।",
     "category": 10,
     "categoryName": "পণ্য পরিবহন ও মাল সুরক্ষা",
     "page": 33
@@ -875,8 +875,8 @@
   {
     "id": 98,
     "portuguese": "matérias pulverulentas",
-    "bengali": "গুঁড়ো জাতীয় পদার্থ এমন মাল।",
-    "explanation": "সিমেন্ট বা ময়দার মতো ধুলা/গুঁড়ো হতে পারে",
+    "bengali": "গুঁড়ো জাতীয় পদার্থ",
+    "explanation": "সিমেন্ট বা ময়দার মতো ধুলা/গুঁড়ো হতে পারে এমন মাল।",
     "category": 10,
     "categoryName": "পণ্য পরিবহন ও মাল সুরক্ষা",
     "page": 33
@@ -893,8 +893,8 @@
   {
     "id": 100,
     "portuguese": "carga indivisível",
-    "bengali": "অবিভাজ্য মাল করা যায় না।",
-    "explanation": "যে মাল সহজে ছোট ভাগে ভাগ করে পরিবহন",
+    "bengali": "অবিভাজ্য মাল",
+    "explanation": "যে মাল সহজে ছোট ভাগে ভাগ করে পরিবহন করা যায় না।",
     "category": 10,
     "categoryName": "পণ্য পরিবহন ও মাল সুরক্ষা",
     "page": 33
@@ -928,9 +928,9 @@
   },
   {
     "id": 104,
-    "portuguese": "carga instável ১১ ট্রেলার ও কাপলিং ব্যবস্থা ৯টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
-    "bengali": "অস্থিতিশীল মাল পড়ে যেতে পারে।",
-    "explanation": "যে মাল যাত্রার সময় সরে যেতে, কাত হতে বা",
+    "portuguese": "carga instável",
+    "bengali": "অস্থিতিশীল মাল",
+    "explanation": "যে মাল যাত্রার সময় সরে যেতে, কাত হতে বা পড়ে যেতে পারে।",
     "category": 10,
     "categoryName": "পণ্য পরিবহন ও মাল সুরক্ষা",
     "page": 33
@@ -993,7 +993,7 @@
     "id": 111,
     "portuguese": "eixos",
     "bengali": "অ্যাক্সেল",
-    "explanation": "চাকার ভার বহন ও ঘূর্ণনের সঙ্গে যুক্ত অক্ষ/ অ্যাসেম্বলি।",
+    "explanation": "চাকার ভার বহন ও ঘূর্ণনের সঙ্গে যুক্ত অক্ষ বা অ্যাসেম্বলি।",
     "category": 11,
     "categoryName": "ট্রেলার ও কাপলিং ব্যবস্থা",
     "page": 34
@@ -1001,26 +1001,26 @@
   {
     "id": 112,
     "portuguese": "tomadas pneumáticas",
-    "bengali": "বায়ুচাপের সংযোগ সংযোগ পোর্ট।",
-    "explanation": "ট্রাক ও সেমি-ট্রেলারের ব্রেকের জন্য বাতাসের",
+    "bengali": "বায়ুচাপের সংযোগ",
+    "explanation": "ট্রাক ও সেমি-ট্রেলারের ব্রেকের জন্য বাতাসের সংযোগ পোর্ট।",
     "category": 11,
     "categoryName": "ট্রেলার ও কাপলিং ব্যবস্থা",
     "page": 34
   },
   {
     "id": 113,
-    "portuguese": "ligações elétricas (eléctricas) সংযোগ। §c12§ ১২ যানবাহনের মাত্রা ও কাঠামো ৮টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
+    "portuguese": "ligações elétricas (eléctricas)",
     "bengali": "বৈদ্যুতিক সংযোগ",
-    "explanation": "ট্রাক ও ট্রেলারের বাতি/বৈদ্যুতিক ব্যবস্থার",
+    "explanation": "ট্রাক ও ট্রেলারের বাতি/বৈদ্যুতিক ব্যবস্থার সংযোগ।",
     "category": 11,
     "categoryName": "ট্রেলার ও কাপলিং ব্যবস্থা",
     "page": 34
   },
   {
     "id": 114,
-    "portuguese": "distância entre eixos (D.E.E.) দূরত্ব।",
+    "portuguese": "distância entre eixos (D.E.E.)",
     "bengali": "অ্যাক্সেল-টু-অ্যাক্সেল দূরত্ব",
-    "explanation": "একই গাড়ির দুই অ্যাক্সেলের কেন্দ্রের মধ্যবর্তী",
+    "explanation": "একই গাড়ির দুই অ্যাক্সেলের কেন্দ্রের মধ্যবর্তী দূরত্ব।",
     "category": 12,
     "categoryName": "যানবাহনের মাত্রা ও কাঠামো",
     "page": 34
@@ -1081,9 +1081,9 @@
   },
   {
     "id": 121,
-    "portuguese": "basculamento da cabina ১৩ সড়ক নিরাপত্তা, থামার দূরত্ব ও চালনা-বিশ্রাম ১২টি শব্দ # Português বাংলা অর্থ সহজ ব্যাখ্যা ✓",
-    "bengali": "কেবিন কাত করে তোলা কাত করা।",
-    "explanation": "ইঞ্জিনে কাজ করার জন্য ট্রাকের কেবিন সামনে",
+    "portuguese": "basculamento da cabina",
+    "bengali": "কেবিন কাত করে তোলা",
+    "explanation": "ইঞ্জিনে কাজ করার জন্য ট্রাকের কেবিন সামনে কাত করা।",
     "category": 12,
     "categoryName": "যানবাহনের মাত্রা ও কাঠামো",
     "page": 34
@@ -1154,8 +1154,8 @@
   {
     "id": 129,
     "portuguese": "travão de estacionamento",
-    "bengali": "পার্কিং ব্রেক আটকায়।",
-    "explanation": "গাড়ি দাঁড় করিয়ে রাখার সময় নড়াচড়া",
+    "bengali": "পার্কিং ব্রেক",
+    "explanation": "গাড়ি দাঁড় করিয়ে রাখার সময় নড়াচড়া আটকায়।",
     "category": 13,
     "categoryName": "সড়ক নিরাপত্তা, থামার দূরত্ব ও চালনা-বিশ্রাম",
     "page": 35
@@ -1172,8 +1172,8 @@
   {
     "id": 131,
     "portuguese": "tacógrafo",
-    "bengali": "ট্যাকোগ্রাফ সময় রেকর্ড করে।",
-    "explanation": "গাড়ির গতি, দূরত্ব এবং চালকের কাজ/বিশ্রামের",
+    "bengali": "ট্যাকোগ্রাফ",
+    "explanation": "গাড়ির গতি, দূরত্ব এবং চালকের কাজ/বিশ্রামের সময় রেকর্ড করে।",
     "category": 13,
     "categoryName": "সড়ক নিরাপত্তা, থামার দূরত্ব ও চালনা-বিশ্রাম",
     "page": 35
