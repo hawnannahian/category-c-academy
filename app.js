@@ -23,22 +23,37 @@ async function questionPhotoData(q){
  if(y===undefined) return null;
  const pdf=await ensurePdfDocument();
  const page=await pdf.getPage(q.page);
- const scale=1.5, viewport=page.getViewport({scale});
+ const scale=3.5, viewport=page.getViewport({scale});
  const canvas=document.createElement('canvas');
  canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
  await page.render({canvasContext:canvas.getContext('2d',{alpha:false}),viewport}).promise;
  const x=438.903, w=96.746, h=64.5;
  const crop=document.createElement('canvas');
- crop.width=Math.round(w*scale*2);crop.height=Math.round(h*scale*2);
- crop.getContext('2d').drawImage(canvas,Math.round(x*scale),Math.round(y*scale),Math.round(w*scale),Math.round(h*scale),0,0,crop.width,crop.height);
- return crop.toDataURL('image/jpeg',0.9);
+ crop.width=Math.round(w*scale);crop.height=Math.round(h*scale);
+ crop.getContext('2d',{alpha:false}).drawImage(canvas,Math.round(x*scale),Math.round(y*scale),Math.round(w*scale),Math.round(h*scale),0,0,crop.width,crop.height);
+ return crop.toDataURL('image/jpeg',0.96);
+}
+let questionPhotoViewer=null;
+function openQuestionPhoto(src,alt){
+ if(!questionPhotoViewer){
+  const dialog=document.createElement('dialog');dialog.className='photo-viewer';
+  const close=document.createElement('button');close.type='button';close.className='photo-viewer-close';close.textContent='✕';close.setAttribute('aria-label','ছবি বন্ধ করুন');
+  const image=document.createElement('img');image.className='photo-viewer-image';
+  const caption=document.createElement('p');caption.className='photo-viewer-caption';
+  close.addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+  dialog.append(close,image,caption);document.body.appendChild(dialog);questionPhotoViewer={dialog,image,caption};
+ }
+ questionPhotoViewer.image.src=src;questionPhotoViewer.image.alt=alt||'PDF-এর আসল ছবি';
+ questionPhotoViewer.caption.textContent='বড় করে দেখতে ট্যাপ করুন · বন্ধ করতে ✕ চাপুন';
+ if(!questionPhotoViewer.dialog.open)questionPhotoViewer.dialog.showModal();
 }
 function attachQuestionPhoto(q,img){
  img.classList.add('photo-loading');
  img.alt='PDF-এর আসল ছবি লোড হচ্ছে — প্রশ্ন '+bn(q.id);
  questionPhotoData(q).then(src=>{
   if(!src){img.remove();return}
-  img.src=src;img.classList.remove('photo-loading');img.classList.add('loaded');
+  img.src=src;img.classList.remove('photo-loading');img.classList.add('loaded');img.setAttribute('role','button');img.setAttribute('tabindex','0');img.setAttribute('aria-label','ছবি বড় করে দেখুন');img.addEventListener('click',()=>openQuestionPhoto(img.src,img.alt));img.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openQuestionPhoto(img.src,img.alt)}});
  }).catch(err=>{
   console.error('PDF image crop failed',q.id,err);
   img.classList.remove('photo-loading');img.classList.add('photo-error');
