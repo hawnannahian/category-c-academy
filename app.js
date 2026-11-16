@@ -55,7 +55,7 @@ async function questionPhotoData(q){
  return crop.toDataURL('image/webp',0.88);
 }
 function attachQuestionPhoto(q,img){
- questionPhotoData(q).then(src=>{img.src=src;img.classList.add('loaded')}).catch(err=>{console.warn('PDF photo unavailable for question',q.id,err);img.hidden=true});
+ questionPhotoData(q).then(src=>{img.src=src;img.classList.add('loaded')}).catch(err=>{console.warn('PDF photo unavailable for question',q.id,err);img.classList.add('photo-error');img.alt='PDF-এর আসল ছবি লোড করা যায়নি — প্রশ্ন '+bn(q.id)});
 }
 
 const fromBn = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
