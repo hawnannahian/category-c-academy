@@ -166,14 +166,32 @@ function makeQuestionBody(x,{onReveal}={}){
  body.append(reveal,result);
  return body;
 }
+function goToStudyQuestion(id){
+ const list=filtered(),index=list.findIndex(q=>q.id===id);
+ if(index<0)return;
+ shown=Math.max(shown,index+1);
+ renderList();
+ requestAnimationFrame(()=>{
+  const target=document.getElementById('question-card-'+id);
+  if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+ });
+}
 function questionCard(x){
- const el=document.createElement('article');el.className='qitem qitem-modern';
+ const el=document.createElement('article');el.className='qitem qitem-modern';el.id='question-card-'+x.id;
  const top=document.createElement('div');top.className='question-card-top';
  const h=document.createElement('h3');h.textContent='প্রশ্ন '+bn(x.id)+(seen.has(x.id)?' ✓':'');
  const meta=document.createElement('span');meta.className='question-page-meta';meta.textContent=x.page?'PDF · পৃষ্ঠা '+bn(x.page):'Category C';
  top.append(h,meta);
  const body=makeQuestionBody(x,{onReveal:()=>{seen.add(x.id);save();h.textContent='প্রশ্ন '+bn(x.id)+' ✓'}});
- el.append(top,body);return el;
+ const list=filtered(),index=list.findIndex(q=>q.id===x.id);
+ const nav=document.createElement('nav');nav.className='question-card-nav';nav.setAttribute('aria-label','প্রশ্ন নেভিগেশন');
+ const prev=document.createElement('button');prev.type='button';prev.className='question-card-prev';prev.disabled=index<=0;prev.innerHTML='<span aria-hidden="true">←</span><span>আগের প্রশ্ন</span>';
+ prev.addEventListener('click',()=>{if(index>0)goToStudyQuestion(list[index-1].id)});
+ const position=document.createElement('span');position.className='question-card-position';position.textContent=bn(index+1)+' / '+bn(list.length);
+ const next=document.createElement('button');next.type='button';next.className='question-card-next';next.disabled=index<0||index>=list.length-1;next.innerHTML='<span>পরের প্রশ্ন</span><span aria-hidden="true">→</span>';
+ next.addEventListener('click',()=>{if(index>=0&&index<list.length-1)goToStudyQuestion(list[index+1].id)});
+ nav.append(prev,position,next);
+ el.append(top,body,nav);return el;
 }
 $('#search').oninput=()=>{shown=PAGE_SIZE;renderList()};
 function showQuiz(){
