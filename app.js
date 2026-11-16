@@ -54,8 +54,21 @@ async function questionPhotoData(q){
  crop.getContext('2d').drawImage(data.canvas,x,y,w,h,0,0,crop.width,crop.height);
  return crop.toDataURL('image/webp',0.88);
 }
+async function pdfPageFallback(q){
+ const pdf=await ensurePdfDocument();
+ const page=await pdf.getPage(q.page);
+ const viewport=page.getViewport({scale:1});
+ const canvas=document.createElement('canvas');
+ canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
+ await page.render({canvasContext:canvas.getContext('2d',{alpha:false}),viewport}).promise;
+ return canvas.toDataURL('image/jpeg',0.82);
+}
 function attachQuestionPhoto(q,img){
- questionPhotoData(q).then(src=>{img.src=src;img.classList.add('loaded')}).catch(err=>{console.warn('PDF photo unavailable for question',q.id,err);img.classList.add('photo-error');img.alt='PDF-এর আসল ছবি লোড করা যায়নি — প্রশ্ন '+bn(q.id)});
+ questionPhotoData(q).then(src=>{img.src=src;img.classList.add('loaded')}).catch(async err=>{
+  console.warn('PDF photo crop unavailable for question',q.id,err);
+  try{img.src=await pdfPageFallback(q);img.classList.add('loaded','page-fallback');img.alt='প্রশ্ন '+bn(q.id)+'-এর মূল PDF পৃষ্ঠা '+bn(q.page)+' — আসল পৃষ্ঠা থেকে';}
+  catch(fallbackError){console.error('PDF page image unavailable',q.id,fallbackError);img.classList.add('photo-error');img.alt='PDF-এর ছবি লোড করা যায়নি — পৃষ্ঠা '+bn(q.page);}
+ });
 }
 
 const fromBn = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
