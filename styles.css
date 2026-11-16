@@ -91,3 +91,8 @@
  .option-bengali{font-size:13px}
  .question-reveal{min-height:52px;font-size:17px}
 }
+
+/* Practice mode uses the same structured question component */
+#quiztext{white-space:normal;margin:0 0 18px;font-size:16px;line-height:1.6}
+#quiztext .question-body{gap:15px}
+#quiztext .question-image-wrap{margin:2px 0 5px}
