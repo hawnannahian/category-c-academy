@@ -81,3 +81,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{ou
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 .question-reveal,.showanswer,.qitem .question-reveal{background:var(--f-g)!important;color:#fff!important;border-radius:var(--f-r-btn)!important}
 .question-next,.question-nav .primary{background:linear-gradient(180deg,#12A094,var(--f-teal))!important;color:#fff!important}
+
+/* update banner + manual check */
+.update-banner{position:fixed;left:14px;right:14px;bottom:calc(98px + env(safe-area-inset-bottom));z-index:200;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:18px;background:#202B32;color:#fff;box-shadow:0 14px 34px #0e1d2040;font-size:14px;font-weight:600;max-width:560px;margin:0 auto}
+.update-banner[hidden]{display:none!important}
+.update-banner button{min-height:40px;padding:0 16px;border:0;border-radius:12px;background:linear-gradient(180deg,#12A094,#0F8A80);color:#fff;font-weight:700;font-size:14px;white-space:nowrap}
+.update-banner button[hidden]{display:none}
+.check-update{margin:10px 0 0;padding:10px 14px;min-height:44px;border:1px solid #D7E0DD;border-radius:12px;background:#fff;color:#0B6B64;font-weight:600;font-size:13px}
