@@ -20,6 +20,7 @@ function ensurePdfDocument(){
 async function questionPhotoData(q){
  const pdf=await ensurePdfDocument();
  if(!pdfPageCanvasCache.has(q.page)){
+  if(pdfPageCanvasCache.size>=6) pdfPageCanvasCache.delete(pdfPageCanvasCache.keys().next().value);
   pdfPageCanvasCache.set(q.page,(async()=>{
    const page=await pdf.getPage(q.page);
    const scale=1.5, viewport=page.getViewport({scale});
