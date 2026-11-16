@@ -496,3 +496,61 @@ button:active{transform:translateY(1px)}
  .tab.active{background:#5b35d6;color:#fff;box-shadow:0 6px 16px rgba(91,53,214,.2)}
 }
 @media(min-width:761px){.chaptergrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* v39 — restrained, professional transport-training design system */
+:root{
+ --navy:#17324d;--navy-2:#244b6b;--blue:#28618a;--sky:#a9c7dc;
+ --ink:#243447;--muted:#69798a;--line:#dce3e9;--bg:#f3f5f7;
+ --white:#fff;--green:#287b59;--shadow:0 4px 16px rgba(23,50,77,.055);--radius:14px;
+}
+body{background:#f3f5f7;color:#243447}
+.site-header{background:#17324d;box-shadow:0 2px 10px rgba(23,50,77,.12)}
+.brand b,.footer-brand b{color:#a9c7dc}
+.free-pill{border-color:#72879a;background:transparent;color:#e3edf4}
+.hero{background:#1b3b59}
+.eyebrow,.mini-label{color:#a9c7dc}
+.hero h1 span{color:#c5d9e7}
+.primary-cta{background:#fff;color:#17324d;box-shadow:none}
+.primary-cta:hover{background:#eaf0f4}
+.secondary-cta{border-color:#8298aa;background:transparent}
+.dashboard-continue{background:#244b6b;box-shadow:none}
+.dashboard-continue-icon{background:#ffffff14;border-color:#ffffff30}
+.dashboard-continue .continue-btn{background:#fff;color:#17324d}
+.dashboard-stat,.dashboard-action,.dashboard-progress,.chapter,.qitem,.quizbox,.vocab-card,.progresscard,.progress-tip{
+ border-color:#dce3e9;box-shadow:0 3px 12px rgba(23,50,77,.045);border-radius:14px
+}
+.dashboard-stat-icon.blue,.action-learn .action-icon,.vocab-mark{background:#eaf0f4;color:#315c7b}
+.dashboard-stat-icon.purple,.action-vocab .action-icon{background:#edf1f4;color:#536b7d}
+.dashboard-stat-icon.green,.action-practice .action-icon{background:#eaf2ee;color:#287b59}
+.action-exam .action-icon{background:#f3efe8;color:#80653e}
+.dashboard-action>b,.text-link,.chapter strong,.chapter-action,.quiz-tag,.progresscard strong{color:#28618a}
+.dashboard-progress-bar i,.quiz-progress i,.progresscard .bar i,.bar i{background:#46799e}
+.dashboard-tip,.progress-tip{background:#edf1f4;color:#586a7b}
+.main-nav .tab.active,.tab.active{background:#17324d;color:#fff;box-shadow:0 3px 10px rgba(23,50,77,.15)}
+.tab{border-radius:12px}
+.chapter{background:#fff;border:1px solid #dce3e9;border-radius:14px;box-shadow:0 2px 8px rgba(23,50,77,.035)}
+.chapter:hover{border-color:#9bb2c4;box-shadow:0 4px 12px rgba(23,50,77,.07)}
+.chapter.selected{border-color:#527b9a;background:#f7fafc;box-shadow:inset 3px 0 0 #527b9a}
+.chapter .chapter-meta strong{color:#315f82}
+.chapter .ch-bn{color:#243447}
+.chapter-progress-track{background:#e8edf1}
+.chapter-progress-fill{background:#527b9a}
+.chapter-action{color:#315f82}
+.search-wrap input{border-color:#d3dce4;box-shadow:none;border-radius:12px}
+.search-wrap>span{color:#71869a}
+.search-clear{background:#edf1f4;color:#52687b}
+.question-card-next,.question-reveal,.reveal-btn{background:#28618a;color:#fff;border-color:#28618a;box-shadow:none;border-radius:12px}
+.question-card-prev{background:#edf1f4;color:#31516b;border-color:#dce3e9}
+.exam-launch-card{background:#244b6b;border:1px solid #315a79;border-radius:16px;box-shadow:none}
+.exam-launch-card .exam-launch-kicker{color:#c5d9e7}
+.exam-launch-card button{background:#fff;color:#17324d}
+.exam-option.selected{border-color:#527b9a;background:#f1f5f8}
+.exam-option-letter{background:#eaf0f4;color:#315f82}
+.exam-option.correct{border-color:#438466;background:#edf5f0}
+.exam-result-actions button:first-child{background:#28618a}
+@media(max-width:760px){
+ body{background:#f3f5f7}
+ .main-nav{background:rgba(255,255,255,.97);border-top:1px solid #dce3e9}
+ .tab.active{background:#17324d;color:#fff;box-shadow:none}
+ .chapter{border-radius:13px}
+}
