@@ -692,3 +692,12 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
  .main-nav .tab{background:transparent;color:#60716e;border-radius:10px}
  .main-nav .tab.active{background:#E4F1EE;color:#176F68;box-shadow:none}
 }
+
+
+/* v42 — prevent iOS double-tap zoom on interactive controls without disabling pinch zoom */
+html,body{touch-action:pan-x pan-y}
+button,a,[role="button"],[role="tab"],input,select,textarea,label{
+ touch-action:manipulation;
+ -webkit-tap-highlight-color:transparent;
+}
+.main-nav,.main-nav *{touch-action:manipulation}
