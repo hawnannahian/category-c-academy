@@ -396,3 +396,42 @@ body.exam-open .main-nav{display:none}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* ───────── 9. Premium iOS brand refresh — navy / blue / red ───────── */
+:root{
+  --tint:#246EB5; --tint-strong:#174F88; --tint-soft:rgba(36,110,181,.10); --tint-line:rgba(36,110,181,.28);
+  --bg:#F3F5F8; --surface:#FFFFFF; --surface-2:#F7F9FC; --fill:rgba(16,43,76,.08);
+  --label:#14263A; --label-2:#586B7D; --label-3:#8795A3; --sep:rgba(16,43,76,.12);
+  --ok:#23845B; --ok-soft:rgba(35,132,91,.12); --bad:#D9473F; --bad-soft:rgba(217,71,63,.10);
+  --warn:#A86400; --warn-soft:rgba(232,163,61,.16); --amber:#D99A36;
+  --bar-bg:rgba(248,250,253,.86);
+}
+@media(prefers-color-scheme:dark){
+ :root{
+  --tint:#68A9E8; --tint-strong:#91C4F2; --tint-soft:rgba(104,169,232,.16); --tint-line:rgba(104,169,232,.32);
+  --bg:#080F18; --surface:#121E2B; --surface-2:#182738; --fill:rgba(177,203,229,.12);
+  --label:#F3F7FB; --label-2:#B0C0CF; --label-3:#8497A8; --sep:rgba(184,205,225,.14);
+  --ok:#62C99B; --ok-soft:rgba(98,201,155,.15); --bad:#FF766D; --bad-soft:rgba(255,118,109,.15);
+  --warn:#F1BD70; --warn-soft:rgba(241,189,112,.16); --bar-bg:rgba(13,23,35,.86);
+ }
+}
+.dashboard-continue{
+ background:linear-gradient(145deg,#183F68 0%,#102B4C 58%,#0B2038 100%);
+ box-shadow:0 12px 28px rgba(16,43,76,.20);
+}
+.dashboard-continue::after{
+ background:linear-gradient(180deg,rgba(7,23,40,.12) 0%,rgba(7,23,40,.76) 100%);
+}
+.continue-btn{color:#102B4C}
+.action-learn .action-icon{background:#246EB5}
+.action-practice .action-icon{background:#D9473F}
+.action-vocab .action-icon{background:#456A9A}
+.action-exam .action-icon{background:#102B4C}
+.tab.active{color:var(--tint)}
+.dashboard-progress-ring{background:conic-gradient(var(--tint) var(--progress),var(--fill) 0)}
+.dashboard-action:active{background:var(--fill)}
+.dashboard-guide{background:var(--tint-soft)}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
