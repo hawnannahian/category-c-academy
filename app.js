@@ -73,9 +73,98 @@ function filtered(){const q=$('#search').value.trim().toLowerCase();return quest
 function renderList(){const box=$('#questionlist');box.innerHTML='';const query=$('#search').value.trim();if(!query&&selectedChapter<0){const prompt=document.createElement('div');prompt.className='chapter-prompt';const title=document.createElement('strong');title.textContent='শুরু করতে একটি অধ্যায় বেছে নিন';const note=document.createElement('p');note.textContent='অধ্যায়ের প্রশ্নগুলো এখানে দেখুন। যেকোনো শব্দ লিখে সব ৩০৭টি প্রশ্নেও খুঁজতে পারবেন।';prompt.append(title,note);box.appendChild(prompt);return}const list=filtered();const count=document.createElement('p');count.className='count';count.setAttribute('aria-live','polite');const visible=list.slice(0,shown);count.textContent=list.length?bn(list.length)+' টি প্রশ্নের মধ্যে '+bn(visible.length)+' টি দেখানো হচ্ছে':'কোনো প্রশ্ন পাওয়া যায়নি।';box.appendChild(count);visible.forEach(x=>box.appendChild(questionCard(x)));if(list.length>visible.length){const more=document.createElement('button');more.className='loadmore';more.textContent='আরও '+bn(Math.min(PAGE_SIZE,list.length-visible.length))+' টি প্রশ্ন দেখুন';more.onclick=()=>{shown+=PAGE_SIZE;renderList()};box.appendChild(more)}}
 
 // Context-aware visual cards: every question gets a relevant learning illustration.
-function questionCard(x){const el=document.createElement('article');el.className='qitem';const h=document.createElement('h3');h.textContent='প্রশ্ন '+bn(x.id)+(seen.has(x.id)?' ✓':'');const photo=document.createElement('img');photo.className='question-photo';photo.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(x.id);photo.loading='lazy';attachQuestionPhoto(x,photo);const content=document.createElement('div');content.className='qcontent';const sourceLines=String(x.raw||'').split('\\n');const answerStart=sourceLines.findIndex(line=>/^সঠিক উত্তর\\s*:/.test(line.trim()));const questionLines=(answerStart<0?sourceLines:sourceLines.slice(0,answerStart)).filter(line=>!/^প্রশ্ন\\s*[০-৯0-9]+$/.test(line.trim()));questionLines.forEach(line=>{if(!line.trim()){const gap=document.createElement('div');gap.className='qline-spacer';content.appendChild(gap);return}const row=document.createElement('div');row.className='qline '+(/[\\u0980-\\u09FF]/.test(line)?'qbn':'qpt');row.textContent=line;content.appendChild(row)});const actions=document.createElement('div');actions.className='qactions';const ans=document.createElement('button');ans.className='showanswer';ans.textContent='উত্তর দেখুন';ans.setAttribute('aria-expanded','false');const book=document.createElement('button');book.className='ghost';book.textContent=x.page?'📖 বইয়ের পাতা দেখুন (পৃষ্ঠা '+bn(x.page)+')':'বইয়ের পাতা পাওয়া যায়নি';book.disabled=!x.page;book.onclick=()=>openBookPage(x,book);actions.append(ans,book);const answer=document.createElement('div');answer.className='answer';answer.hidden=true;ans.onclick=()=>{answer.hidden=!answer.hidden;ans.setAttribute('aria-expanded',String(!answer.hidden));answer.textContent=x.answer||'এই প্রশ্নের উত্তর পাওয়া যায়নি।';if(!answer.hidden){seen.add(x.id);save();h.textContent='প্রশ্ন '+bn(x.id)+' ✓'}};el.append(h,photo,content,actions,answer);return el}
+function parseQuestion(x){
+ const lines=String(x.raw||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+ const body=lines.filter((line,i)=>i!==0&&!/^প্রশ্ন\s*[০-৯0-9]+(?:\s+IMT.*)?$/.test(line));
+ const stop=body.findIndex(line=>/^(সঠিক উত্তর|কেন|মনে রাখুন)\s*:/.test(line));
+ const core=(stop<0?body:body.slice(0,stop));
+ const firstOption=core.findIndex(line=>/^[ABC](?:\s+.*)?$/.test(line));
+ const stem=firstOption<0?core:core.slice(0,firstOption);
+ const bengaliLine=line=>/[\u0980-\u09FF]/.test(line);
+ const splitAt=stem.findIndex(bengaliLine);
+ const pt=(splitAt<0?stem:stem.slice(0,splitAt)).join(' ').replace(/\s+/g,' ').trim();
+ const bnText=(splitAt<0?[]:stem.slice(splitAt)).join(' ').replace(/\s+/g,' ').trim();
+ const options=[];
+ if(firstOption>=0){
+  let current=null;
+  core.slice(firstOption).forEach(line=>{
+   const m=line.match(/^([ABC])(?:\s+(.*))?$/);
+   if(m){if(current)options.push(current);current={letter:m[1],lines:m[2]?[m[2]]:[]};}
+   else if(current)current.lines.push(line);
+  });
+  if(current)options.push(current);
+ }
+ const parsedOptions=options.map(o=>{
+  const split=o.lines.findIndex(bengaliLine);
+  return {letter:o.letter,pt:(split<0?o.lines:o.lines.slice(0,split)).join(' ').replace(/\s+/g,' ').trim(),bn:(split<0?[]:o.lines.slice(split)).join(' ').replace(/\s+/g,' ').trim()};
+ });
+ const explanation=lines.filter(line=>/^(কেন|মনে রাখুন)\s*:/.test(line)).map(line=>line.replace(/^(কেন|মনে রাখুন)\s*:\s*/,'').trim()).filter(Boolean);
+ const correct=(String(x.answer||'').match(/^\s*([ABC])\s*[—–-]/)||[])[1]||((lines.join('\n').match(/সঠিক উত্তর\s*:\s*([ABC])/ )||[])[1]);
+ return {pt,bn:bnText,options:parsedOptions,explanation,correct};
+}
+function makeQuestionBody(x,{onReveal}={}){
+ const parsed=parseQuestion(x),body=document.createElement('div');body.className='question-body';
+ const pt=document.createElement('div');pt.className='question-prompt';pt.textContent=parsed.pt||'প্রশ্নের লেখা পাওয়া যায়নি।';body.appendChild(pt);
+ if(parsed.bn){const tr=document.createElement('div');tr.className='question-translation';const mark=document.createElement('span');mark.className='translation-mark';mark.textContent='文';const text=document.createElement('span');text.textContent=parsed.bn;tr.append(mark,text);body.appendChild(tr);}
+ if(PDF_IMAGE_Y[x.id]!==undefined){
+  const photo=document.createElement('img');photo.className='question-photo';photo.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(x.id);photo.loading='lazy';attachQuestionPhoto(x,photo);
+  const wrap=document.createElement('div');wrap.className='question-image-wrap';wrap.appendChild(photo);
+  const caption=document.createElement('p');caption.className='question-image-caption';caption.textContent='▧ PDF-এর আসল ছবি · ট্যাপ করে বড় করে দেখুন';wrap.appendChild(caption);body.appendChild(wrap);
+ }
+ const list=document.createElement('div');list.className='question-options';let selected='';
+ parsed.options.forEach(option=>{
+  const b=document.createElement('button');b.type='button';b.className='question-option';b.setAttribute('aria-pressed','false');
+  const radio=document.createElement('span');radio.className='option-radio';
+  const letter=document.createElement('span');letter.className='option-letter';letter.textContent=option.letter;
+  const copy=document.createElement('span');copy.className='option-copy';
+  const main=document.createElement('span');main.className='option-portuguese';main.textContent=option.pt;
+  copy.appendChild(main);
+  if(option.bn){const sub=document.createElement('span');sub.className='option-bengali';sub.textContent=option.bn;copy.appendChild(sub);}
+  b.append(radio,letter,copy);
+  b.addEventListener('click',()=>{
+   selected=option.letter;
+   list.querySelectorAll('.question-option').forEach(el=>{el.classList.remove('selected','correct','incorrect');el.setAttribute('aria-pressed','false')});
+   b.classList.add('selected');b.setAttribute('aria-pressed','true');
+  });
+  list.appendChild(b);
+ });
+ body.appendChild(list);
+ const reveal=document.createElement('button');reveal.type='button';reveal.className='question-reveal';reveal.textContent='◉  উত্তর দেখুন  ⌄';
+ const result=document.createElement('div');result.className='question-result';result.hidden=true;
+ reveal.addEventListener('click',()=>{
+  result.hidden=!result.hidden;reveal.setAttribute('aria-expanded',String(!result.hidden));
+  if(!result.hidden){
+   result.replaceChildren();
+   const answer=document.createElement('p');answer.className='question-answer-text';answer.textContent=x.answer||'এই প্রশ্নের উত্তর পাওয়া যায়নি।';result.appendChild(answer);
+   parsed.explanation.forEach(line=>{const p=document.createElement('p');p.className='question-explanation';p.textContent=line;result.appendChild(p)});
+   if(parsed.correct){list.querySelectorAll('.question-option').forEach(el=>{const letter=el.querySelector('.option-letter')?.textContent;if(letter===parsed.correct)el.classList.add('correct');else if(letter===selected)el.classList.add('incorrect')});}
+   if(onReveal)onReveal();
+  }
+ });
+ body.append(reveal,result);
+ return body;
+}
+function questionCard(x){
+ const el=document.createElement('article');el.className='qitem qitem-modern';
+ const top=document.createElement('div');top.className='question-card-top';
+ const h=document.createElement('h3');h.textContent='প্রশ্ন '+bn(x.id)+(seen.has(x.id)?' ✓':'');
+ const meta=document.createElement('span');meta.className='question-page-meta';meta.textContent=x.page?'PDF · পৃষ্ঠা '+bn(x.page):'Category C';
+ top.append(h,meta);
+ const body=makeQuestionBody(x,{onReveal:()=>{seen.add(x.id);save();h.textContent='প্রশ্ন '+bn(x.id)+' ✓'}});
+ const book=document.createElement('button');book.type='button';book.className='question-book-link';book.textContent=x.page?'📖 বইয়ের পৃষ্ঠা '+bn(x.page)+' দেখুন':'বইয়ের পৃষ্ঠা নেই';book.disabled=!x.page;book.onclick=()=>openBookPage(x,book);
+ el.append(top,body,book);return el;
+}
 $('#search').oninput=()=>{shown=PAGE_SIZE;renderList()};
-function showQuiz(){const q=questions[quizIndex];if(!q)return;$('#quizcount').textContent='প্রশ্ন '+bn(q.id)+' / '+bn(TOTAL);let quizPhoto=$('#quizphoto');if(!quizPhoto){quizPhoto=document.createElement('img');quizPhoto.id='quizphoto';quizPhoto.className='question-photo quiz-photo';quizPhoto.alt='PDF-এর আসল ছবি';$('#quiztext').before(quizPhoto)}quizPhoto.hidden=false;quizPhoto.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(q.id);quizPhoto.removeAttribute('src');attachQuestionPhoto(q,quizPhoto);$('#quiztext').textContent=q.raw;$('#quizanswer').hidden=true;$('#quizanswer').textContent=q.answer||'উত্তর পাওয়া যায়নি';$('#reveal').onclick=()=>{$('#quizanswer').hidden=false;seen.add(q.id);try{localStorage.setItem(LAST_KEY,String(q.id))}catch(e){}save();updateContinue()}}
+function showQuiz(){
+ const q=questions[quizIndex];if(!q)return;
+ $('#quizcount').textContent='প্রশ্ন '+bn(q.id)+' / '+bn(TOTAL);
+ const host=$('#quiztext');host.replaceChildren();
+ const card=makeQuestionBody(q,{onReveal:()=>{seen.add(q.id);try{localStorage.setItem(LAST_KEY,String(q.id))}catch(e){}save();updateContinue()}});
+ card.classList.add('quiz-question-body');host.appendChild(card);
+ $('#quizanswer').hidden=true;$('#quizanswer').textContent='';
+ $('#reveal').hidden=true;
+ $('#quizanswer').hidden=true;
+}
 $('#next').onclick=()=>{quizIndex=(quizIndex+1)%questions.length;showQuiz();rememberQuizPosition()};$('#prev').onclick=()=>{quizIndex=(quizIndex-1+questions.length)%questions.length;showQuiz();rememberQuizPosition()};
 function save(){try{localStorage.setItem('cca-seen',JSON.stringify([...seen]))}catch(e){}renderProgress()}
 function renderProgress(){$('#donecount').textContent=bn(seen.size);$('#bar').style.width=Math.min(100,seen.size/TOTAL*100)+'%';$('#bar').parentElement.setAttribute('aria-valuenow',seen.size)}
