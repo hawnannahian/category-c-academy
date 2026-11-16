@@ -96,3 +96,53 @@
 #quiztext{white-space:normal;margin:0 0 18px;font-size:16px;line-height:1.6}
 #quiztext .question-body{gap:15px}
 #quiztext .question-image-wrap{margin:2px 0 5px}
+
+/* Refined page surfaces, calm borders and consistent spacing */
+:root{--line:#d9e3ee;--card-border:#dce5ef;--surface-shadow:0 8px 24px rgba(16,45,80,.055)}
+body{background:linear-gradient(180deg,#f7f9fc 0%,#f1f5fa 100%)}
+.panel{padding-top:30px;padding-bottom:58px}
+.sectionhead{margin-bottom:24px}
+.sectionhead h2{letter-spacing:-.35px}
+.chapter,.quizbox,.progresscard,.vpage,.vocab-card,.qitem,.progress-tip{
+ border:1px solid var(--card-border);
+ box-shadow:var(--surface-shadow);
+}
+.qitem-modern{
+ padding:clamp(16px,3vw,24px);
+ border:1px solid #d5e1ed;
+ border-radius:22px;
+ background:linear-gradient(180deg,#fff 0%,#fcfdff 100%);
+ box-shadow:0 8px 28px rgba(16,45,80,.065);
+ margin:0 0 18px;
+}
+.question-card-top{border-bottom:1px solid #e7edf4;padding-bottom:14px;margin-bottom:17px}
+.question-card-top h3{box-shadow:0 3px 9px rgba(23,105,170,.15)}
+.question-prompt{color:#142e49;letter-spacing:.02px}
+.question-translation{border:1px solid #d8eafa;background:linear-gradient(135deg,#f0f8ff,#e8f3fd)}
+.question-options{gap:11px}
+.question-option{border:1.5px solid #d8e1eb;border-radius:15px;box-shadow:0 2px 7px rgba(16,45,80,.025)}
+.question-option:active{transform:scale(.995)}
+.question-option.selected{border-color:#2878bd;background:#f1f7ff;box-shadow:0 0 0 3px rgba(40,120,189,.09)}
+.question-option.correct{border-color:#46a978;background:#f0faf4;box-shadow:0 0 0 2px rgba(49,155,103,.08)}
+.question-option.incorrect{border-color:#df7777;background:#fff6f6}
+.question-image-wrap{padding:8px 0 2px}
+.question-image-wrap .question-photo,.question-image-wrap img.question-photo{
+ width:min(100%,520px);max-width:520px;max-height:290px;
+ margin:0 auto;padding:5px;object-fit:contain;object-position:center;
+ border:1px solid #dce5ef;border-radius:16px;background:#fff;
+ box-shadow:0 5px 18px rgba(16,45,80,.09)
+}
+.question-reveal{border-radius:14px;box-shadow:0 5px 14px rgba(23,105,170,.16)}
+.question-result{border:1px solid #cfe8d8;border-left:4px solid #32965c;border-radius:14px}
+.quizbox{border-radius:22px;padding:clamp(16px,3vw,28px)}
+#questionlist{display:grid;gap:2px}
+@media(max-width:600px){
+ .panel{padding:22px 14px 42px}
+ .sectionhead{margin-bottom:18px}
+ .sectionhead h2{font-size:23px}
+ .qitem-modern{padding:15px;border-radius:18px;margin-bottom:14px}
+ .question-card-top{padding-bottom:11px;margin-bottom:14px}
+ .question-card-top h3{padding:7px 14px}
+ .question-image-wrap .question-photo,.question-image-wrap img.question-photo{width:100%;max-width:100%;max-height:240px}
+ .question-option{border-radius:13px;min-height:64px}
+}
