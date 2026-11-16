@@ -5,3 +5,5 @@
 .qitem .question-visual{margin:18px 0 20px}
 .quizbox .question-visual{margin:20px 0 22px}
 @media(max-width:700px){.question-visual{border-radius:14px;margin:14px 0 18px}.question-visual-img{aspect-ratio:720/230}.qitem .question-visual{margin:14px 0 18px}}
+
+.app-version{display:block;margin-top:5px;font-size:11px;letter-spacing:.04em;color:#8796a7;font-weight:600}
