@@ -35,7 +35,14 @@ async function questionPhotoData(q){
  let item=data.items.find(x=>String(x.str||'').replace(/\s+/g,'').includes(wanted));
  if(!item){
   const ascii=String(q.id);
-  item=data.items.find(x=>String(x.str||'').replace(/\s+/g,'').includes('প্রশ্ন'+ascii));
+  item=data.items.find(x=>String(x.str||'').replace(/\\s+/g,'').includes('প্রশ্ন'+ascii));
+ }
+ if(!item){
+  for(let i=0;i<data.items.length;i++){
+   const current=String(data.items[i].str||'').replace(/\\s+/g,'');
+   const next=String(data.items[i+1]?.str||'').replace(/\\s+/g,'');
+   if(current==='প্রশ্ন'&&(next===bn(q.id)||next===String(q.id))){item=data.items[i];break}
+  }
  }
  if(!item) throw new Error('Question heading not found on PDF page '+q.page);
  const scale=data.scale;
