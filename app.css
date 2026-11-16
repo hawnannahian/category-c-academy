@@ -99,7 +99,7 @@ body.exam-open .main-nav{display:none}
 .sectionhead .search-wrap{margin-top:12px}
 
 /* Shared surfaces */
-.card,.week-card,.dashboard-progress,.dashboard-actions,.exam-launch-card,.vocab-progress,.progresscard,
+.card,.dashboard-progress,.dashboard-actions,.exam-launch-card,.vocab-progress,.progresscard,
 .quizbox,.qitem,.vocab-card,.progress-chapter-card,.learn-vocab-shortcut,.chapter-prompt,.chapter{
   background:var(--surface);border-radius:var(--r-card);box-shadow:var(--shadow-1);
 }
@@ -159,20 +159,6 @@ body.exam-open .main-nav{display:none}
 .dashboard-action strong{font-size:17px;font-weight:600;line-height:1.35}
 .dashboard-action small{font-size:13px;color:var(--label-2)}
 .chev{color:var(--label-3);display:grid;place-items:center;font-size:15px}
-
-/* week */
-.week-card{margin-top:16px;padding:16px}
-.week-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.week-head strong{font-size:17px;font-weight:700}
-#week-streak{font-size:13px;font-weight:600;color:var(--warn);background:var(--warn-soft);padding:4px 10px;border-radius:var(--r-pill)}
-.week-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.week-day{aspect-ratio:1;max-width:44px;width:100%;margin:0 auto;border-radius:50%;display:grid;place-items:center;background:var(--fill);color:var(--label-2);font-size:14px;font-weight:600}
-.week-day.on{background:var(--tint);color:#fff}
-.week-day.today{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--tint)}
-.week-goal{margin-top:14px}
-.week-track,.dashboard-progress-bar,.bar,.quiz-progress,.chapter-progress-track,.progress-chapter-track,.exam-progress-track{height:6px;border-radius:3px;background:var(--fill);overflow:hidden}
-.week-track i,.dashboard-progress-bar i,.bar i,.quiz-progress i,.chapter-progress-fill,.progress-chapter-track i,.exam-progress-track i{display:block;height:100%;border-radius:inherit;background:var(--tint);transition:width .5s var(--ease)}
-.week-goal p{font-size:13px;color:var(--label-2);margin-top:8px}
 
 /* overall progress */
 .dashboard-progress{margin-top:16px;padding:18px;display:flex;gap:18px;align-items:center}
