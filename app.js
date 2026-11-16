@@ -258,7 +258,7 @@ $('#exam-retry').addEventListener('click',examStart);$('#exam-close-result').add
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!examEl.hidden){if(!$('#exam-result-screen').hidden)examClose();else if(!$('#exam-pause-screen').hidden){examPaused=false;$('#exam-pause-screen').hidden=true}else if(confirm('পরীক্ষা বন্ধ করবেন?'))examClose()}});
 
 $('#next').onclick=()=>{quizIndex=(quizIndex+1)%questions.length;showQuiz();rememberQuizPosition()};$('#prev').onclick=()=>{quizIndex=(quizIndex-1+questions.length)%questions.length;showQuiz();rememberQuizPosition()};
-function save(){try{localStorage.setItem('cca-seen',JSON.stringify([...seen]))}catch(e){}trackActivity();renderProgress();renderDashboard();renderWeek()}
+function save(){try{localStorage.setItem('cca-seen',JSON.stringify([...seen]))}catch(e){}renderProgress();renderDashboard()}
 function renderProgress(){
  $('#donecount').textContent=bn(seen.size);
  $('#bar').style.width=Math.min(100,seen.size/TOTAL*100)+'%';
