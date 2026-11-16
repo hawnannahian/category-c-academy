@@ -449,3 +449,50 @@ button:active{transform:translateY(1px)}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
+
+/* v38 — compact, progress-aware chapter cards; refined mobile study page */
+.chaptergrid{gap:12px;margin:18px 0 24px}
+.chapter{min-height:0;padding:17px 17px 14px;gap:8px;border:1px solid #e3e5f1;border-radius:20px;box-shadow:0 5px 20px rgba(37,34,85,.045);background:#fff}
+.chapter:hover{border-color:#b9a9f5;box-shadow:0 9px 24px rgba(87,51,207,.09)}
+.chapter.selected{border-color:#6541db;background:linear-gradient(180deg,#fff 0%,#faf8ff 100%);box-shadow:0 0 0 2px rgba(101,65,219,.12),0 8px 22px rgba(87,51,207,.08)}
+.chapter-meta{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.chapter .chapter-meta strong{font-size:11px;color:#603bd4;letter-spacing:.2px}
+.chapter-range{font-size:10px;color:#77849a;font-weight:700;white-space:nowrap}
+.chapter .ch-bn{font-size:16px;font-weight:800;line-height:1.5;color:#20243d}
+.chapter small{font-size:11px;line-height:1.5;color:#7a8298}
+.chapter-progress-label{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:2px;color:#7b8499;font-size:10px;font-weight:700}
+.chapter-progress-track{display:block;width:100%;height:6px;border-radius:99px;background:#eeedf6;overflow:hidden}
+.chapter-progress-fill{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#6541db,#9879f5);transition:width .25s ease}
+.chapter-action{align-self:flex-end;color:#5d39d2;font-size:11px;font-weight:800;margin-top:1px}
+.search-wrap{width:100%;max-width:100%;position:relative}
+.search-wrap input{min-height:54px;border-radius:16px;padding:12px 44px 12px 44px;border-color:#d9dfed;box-shadow:0 3px 12px rgba(37,34,85,.035)}
+.search-wrap>span{left:14px;top:8px;font-size:25px;color:#8794a8}
+.search-clear{position:absolute;right:10px;top:8px;width:36px;height:36px;border-radius:50%;background:#edf0f6;color:#52627a;font-size:23px;line-height:1}
+.search-clear[hidden]{display:none}
+.sectionhead{align-items:flex-start}
+.sectionhead>div{min-width:0}
+.sectionhead h2{letter-spacing:-.45px}
+.site-header{min-height:72px}
+.brand{min-width:0}
+@media(max-width:760px){
+ .site-header{height:72px;min-height:72px;padding:0 16px}
+ .brand{font-size:18px;gap:8px}
+ .brand-mark{font-size:25px}
+ .brand small{font-size:8px;letter-spacing:1.15px}
+ .free-pill{font-size:10px;padding:5px 9px}
+ .panel{padding:23px 16px 34px}
+ .sectionhead{display:flex;flex-direction:column;align-items:stretch;gap:15px;margin-bottom:15px}
+ .sectionhead h2{font-size:25px}
+ .section-subtitle{font-size:13px}
+ .search-wrap{max-width:none}
+ .chaptergrid{grid-template-columns:1fr;gap:10px;margin:13px 0 20px}
+ .chapter{padding:14px 15px 12px;border-radius:18px;gap:6px}
+ .chapter .ch-bn{font-size:15px;line-height:1.48}
+ .chapter small{font-size:10px}
+ .chapter-action{font-size:10px}
+ .main-nav{position:sticky;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:22px 0 0;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid #e8e6f1}
+ .tab{min-width:0;min-height:56px;padding:8px 4px;display:flex;flex-direction:column;gap:2px;border-radius:14px;font-size:10px;white-space:normal}
+ .tab span{font-size:19px;line-height:1.1}
+ .tab.active{background:#5b35d6;color:#fff;box-shadow:0 6px 16px rgba(91,53,214,.2)}
+}
+@media(min-width:761px){.chaptergrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
