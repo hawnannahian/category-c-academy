@@ -84,3 +84,27 @@
 @media(prefers-reduced-motion:reduce){
   #quiz .question-option{transition:none!important}
 }
+
+/* v55 — In practice mode, keep the tab bar in document flow instead of overlaying answers.
+   It remains available above the quiz and scrolls away naturally with the page. */
+@media(max-width:760px){
+  body:has(#quiz:not([hidden])) .main-nav{
+    position:relative!important;
+    inset:auto!important;
+    top:auto!important;
+    bottom:auto!important;
+    left:auto!important;
+    right:auto!important;
+    width:auto!important;
+    max-width:none!important;
+    margin:10px 12px 0!important;
+    padding:7px 8px!important;
+    border:1px solid #DCE5E2!important;
+    border-radius:16px!important;
+    box-shadow:0 2px 8px rgba(32,43,50,.045)!important;
+  }
+  body:has(#quiz:not([hidden])) #quiz.panel{
+    padding-top:18px!important;
+    padding-bottom:36px!important;
+  }
+}
