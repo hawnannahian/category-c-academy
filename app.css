@@ -99,7 +99,7 @@ body.exam-open .main-nav{display:none}
 .sectionhead .search-wrap{margin-top:12px}
 
 /* Shared surfaces */
-.card,.week-card,.dashboard-progress,.dashboard-actions,.exam-launch-card,.vocab-progress,.progresscard,
+.card,.dashboard-progress,.dashboard-actions,.exam-launch-card,.vocab-progress,.progresscard,
 .quizbox,.qitem,.vocab-card,.progress-chapter-card,.learn-vocab-shortcut,.chapter-prompt,.chapter{
   background:var(--surface);border-radius:var(--r-card);box-shadow:var(--shadow-1);
 }
