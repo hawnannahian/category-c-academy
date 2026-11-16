@@ -123,7 +123,7 @@ function questionCard(x) {
   img.className = 'ghost';
   img.textContent = x.page ? `📖 বইয়ের পাতা দেখুন (পৃষ্ঠা ${bn(x.page)})` : 'বইয়ের পাতা পাওয়া যায়নি';
   img.disabled = !x.page;
-  img.onclick = () => openBookPage(x);
+  img.onclick = () => openBookPage(x, img);
   actions.append(ans, img);
 
   const a = document.createElement('div');
@@ -196,16 +196,33 @@ $('#vsearch').oninput = () => {
 
 /* ---- book page viewer (modal) ---- */
 const dlg = $('#bookdlg');
-function openBookPage(x) {
+let lastBookTrigger = null;
+function bookViewerUrl(page) {
+  const file = new URL(BOOK, location.href).href;
+  return `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(file)}#page=${page}`;
+}
+function openBookPage(x, trigger) {
   $('#bookTitle').textContent = `প্রশ্ন ${bn(x.id)} · বইয়ের পৃষ্ঠা ${bn(x.page)}`;
-  const url = `${BOOK}#page=${x.page}&view=FitH`;
+  const url = bookViewerUrl(x.page);
   $('#bookframe').src = url;
   $('#bookopen').href = url;
-  dlg.showModal ? dlg.showModal() : window.open(url, '_blank');
+  lastBookTrigger = trigger || document.activeElement;
+  dlg.hidden = false;
+  document.body.classList.add('book-open');
   $('#bookclose').focus();
 }
-$('#bookclose').onclick = () => dlg.close();
-dlg.addEventListener('close', () => { $('#bookframe').src = 'about:blank'; });
+function closeBookPage() {
+  if (dlg.hidden) return;
+  dlg.hidden = true;
+  $('#bookframe').src = 'about:blank';
+  document.body.classList.remove('book-open');
+  if (lastBookTrigger && typeof lastBookTrigger.focus === 'function') lastBookTrigger.focus();
+}
+$('#bookclose').onclick = closeBookPage;
+dlg.addEventListener('click', e => { if (e.target === dlg) closeBookPage(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !dlg.hidden) { e.preventDefault(); closeBookPage(); }
+});
 
 /* ---- tabs ---- */
 document.querySelectorAll('.tab').forEach(b => b.onclick = () => {
