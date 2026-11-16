@@ -720,3 +720,29 @@ body.exam-open .main-nav,body.exam-open nav{display:none!important}
 .exam-mode .exam-option.selected .exam-option-letter{color:#168C83}
 .exam-mode{background:#F2F5F4}
 .exam-mode .exam-counter,.exam-mode #exam-counter,.exam-mode #exam-answered{color:#4D605C!important}
+
+/* exam result: light theme, clear review states */
+#exam-result-screen{background:#202B32cc}
+#exam-result-screen>*{background:#fff;color:#202B32}
+#exam-result-screen *{color:inherit}
+#exam-result-screen h2,#exam-result-screen #exam-score{color:#168C83}
+#exam-result-screen .exam-review-row{background:#F2F5F4;border:1px solid #D5DEDB;border-left:4px solid #98A8A4;display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:12px;margin-bottom:8px}
+#exam-result-screen .exam-review-row.is-correct{border-left-color:#168C83}
+#exam-result-screen .exam-review-row.is-wrong{border-left-color:#B3402F;background:#FBEFEC}
+#exam-result-screen .exam-review-row.is-skipped{border-left-color:#B8860B;background:#FBF5E3}
+#exam-result-screen .exam-review-row[hidden]{display:none}
+#exam-result-screen .review-filter{width:100%;min-height:44px;margin:0 0 10px;border:1.5px solid #168C83;background:#fff;color:#168C83;border-radius:12px;font-weight:700}
+#exam-result-screen .review-filter[aria-pressed=true]{background:#168C83;color:#fff}
+#exam-result-screen .exam-result-card,#exam-result-screen .exam-result-card *{color:#202B32!important}
+#exam-result-screen .exam-result-card h2,#exam-result-screen .exam-result-card #exam-score{color:#168C83!important}
+#exam-result-screen .exam-launch-kicker{color:#5B6F6A!important}
+#exam-result-screen .exam-result-card .review-filter{color:#168C83!important}
+#exam-result-screen .exam-result-card .review-filter[aria-pressed=true]{color:#fff!important;background:#168C83!important}
+#exam-result-screen .exam-result-card #exam-retry,#exam-result-screen .exam-result-card #exam-retry *{color:#fff!important}
+#exam-result-screen .exam-result-card #exam-close-result{background:#E9EFED!important}
+#exam-result-screen .exam-result-card #exam-close-result,#exam-result-screen .exam-result-card #exam-close-result *{color:#202B32!important}
+#exam-result-screen .exam-result-card .exam-result-stats>*,#exam-result-screen .exam-result-card [class*=stat]{background:#F2F5F4!important;border:1px solid #D5DEDB}
+#exam-result-screen .exam-review-row{background:#F2F5F4!important}
+#exam-result-screen .exam-review-row.is-wrong{background:#FBEFEC!important}
+#exam-result-screen .exam-review-row.is-skipped{background:#FBF5E3!important}
+#exam-result-screen .exam-result-card .exam-result-stats{background:transparent!important;border:0!important}
