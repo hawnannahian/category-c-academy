@@ -61,3 +61,21 @@ input[type=search]{-webkit-appearance:none}
 .vocab-card[hidden]{display:none}
 #vocab select:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
 @media(max-width:600px){.vocab-tools{grid-template-columns:minmax(0,1fr)}.vocab-progress{grid-template-columns:minmax(0,1fr)}.vocab-grid{grid-template-columns:minmax(0,1fr)}.vocab-meta{font-size:12px}}
+
+/* Chapter study layout refinements */
+#study .sectionhead{position:sticky;top:62px;z-index:3;padding:10px 0;background:#f5f7fa}
+#chapters{scroll-margin-top:132px}
+.chaptergrid{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px}
+.chapter{min-height:128px;display:flex;flex-direction:column;justify-content:flex-start;gap:7px;padding:16px;transition:border-color .15s,box-shadow .15s,transform .15s}
+.chapter:hover{border-color:#9abbd7;box-shadow:0 5px 16px #102d5014;transform:translateY(-1px)}
+.chapter strong{font-size:12px;letter-spacing:.02em}
+.chapter .ch-bn{font-size:16px;font-weight:700;line-height:1.5;color:var(--ink)}
+.chapter small{font-size:12px;line-height:1.5}
+.chapter.selected{outline:0;border-color:var(--blue);box-shadow:0 0 0 2px #1767a833;background:#f7fbff}
+.qitem{padding:18px;margin:12px 0;scroll-margin-top:136px}
+.qitem h3{font-size:15px;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid #e6edf3}
+.qcontent{display:grid;gap:12px}
+.qpt{font-size:16px;font-weight:600;line-height:1.75;color:#18334e}
+.qbn{font-size:15px;line-height:1.85;color:#36485a;background:#f5f8fb;border-left:3px solid #91bddc;border-radius:0 9px 9px 0;padding:10px 12px}
+.qactions{margin-top:14px}
+@media(max-width:600px){#study .sectionhead{top:62px;padding:8px 0}.chaptergrid{grid-template-columns:minmax(0,1fr)}.chapter{min-height:0;padding:14px}.qitem{padding:14px}.qpt{font-size:15px}.qbn{font-size:14px}}
