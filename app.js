@@ -89,7 +89,27 @@ async function loadJSON(url){const r=await fetch(url,{cache:'no-cache'});if(!r.o
 Promise.all(['./questions.json','./chapters.json','./vocab.json'].map(loadJSON)).then(([q,c,v])=>{questions=q;chapters=c;vocab=v;renderChapters();renderList();renderProgress();renderVocab();showQuiz();updateContinue();renderDashboard()}).catch(err=>{console.error(err);showError('ডেটা লোড হয়নি। ইন্টারনেট সংযোগ দেখে পেজটি আবার রিফ্রেশ করুন। ('+err.message+')')});
 function chapterRange(c){const[a,b]=c.range.split('–').map(x=>+fromBn(x));return[a,b]}
 function chapterFor(id){const i=chapters.findIndex(c=>{const[a,b]=chapterRange(c);return id>=a&&id<=b});return i<0?0:i}
-function renderChapters(){const box=$('#chapters');box.innerHTML='';chapters.forEach((c,i)=>{const b=document.createElement('button');b.className='chapter'+(selectedChapter===i?' selected':'');b.setAttribute('aria-pressed',selectedChapter===i);const s=document.createElement('strong');s.textContent='অধ্যায় '+c.number+' · প্রশ্ন '+c.range;const t=document.createElement('span');t.className='ch-bn';t.textContent=c.bn;const sm=document.createElement('small');sm.textContent=c.pt;b.append(s,t,sm);b.onclick=()=>{selectedChapter=i;shown=PAGE_SIZE;renderChapters();renderList();$('#questionlist').scrollIntoView({behavior:'smooth',block:'start'})};box.appendChild(b)})}
+function renderChapters(){
+ const box=$('#chapters');box.innerHTML='';
+ chapters.forEach((c,i)=>{
+  const b=document.createElement('button');b.type='button';b.className='chapter'+(selectedChapter===i?' selected':'');b.setAttribute('aria-pressed',selectedChapter===i);
+  const [start,end]=chapterRange(c),total=questions.filter(q=>q.id>=start&&q.id<=end).length,done=questions.filter(q=>q.id>=start&&q.id<=end&&seen.has(q.id)).length,pct=total?Math.round(done/total*100):0;
+  const meta=document.createElement('span');meta.className='chapter-meta';
+  const label=document.createElement('strong');label.textContent='অধ্যায় '+c.number;
+  const range=document.createElement('span');range.className='chapter-range';range.textContent='প্রশ্ন '+c.range;meta.append(label,range);
+  const title=document.createElement('span');title.className='ch-bn';title.textContent=c.bn;
+  const pt=document.createElement('small');pt.textContent=c.pt;
+  const progress=document.createElement('span');progress.className='chapter-progress-label';
+  const progressText=document.createElement('span');progressText.textContent=done?bn(done)+' / '+bn(total)+' সম্পন্ন':'শুরু করা হয়নি';
+  const progressPct=document.createElement('span');progressPct.textContent=bn(pct)+'%';progress.append(progressText,progressPct);
+  const track=document.createElement('span');track.className='chapter-progress-track';
+  const fill=document.createElement('span');fill.className='chapter-progress-fill';fill.style.width=pct+'%';track.appendChild(fill);
+  const action=document.createElement('span');action.className='chapter-action';action.textContent=done?'চালিয়ে যান →':'শুরু করুন →';
+  b.append(meta,title,pt,progress,track,action);
+  b.onclick=()=>{selectedChapter=i;shown=PAGE_SIZE;renderChapters();renderList();$('#questionlist').scrollIntoView({behavior:'smooth',block:'start'})};
+  box.appendChild(b);
+ });
+}
 function filtered(){const q=$('#search').value.trim().toLowerCase();return questions.filter(x=>q?(x.raw.toLowerCase().includes(q)||String(x.id).includes(fromBn(q))):chapterFor(x.id)===selectedChapter)}
 function renderList(){const box=$('#questionlist');box.innerHTML='';const query=$('#search').value.trim();if(!query&&selectedChapter<0){const prompt=document.createElement('div');prompt.className='chapter-prompt';const title=document.createElement('strong');title.textContent='শুরু করতে একটি অধ্যায় বেছে নিন';const note=document.createElement('p');note.textContent='অধ্যায়ের প্রশ্নগুলো এখানে দেখুন। যেকোনো শব্দ লিখে সব ৩০৭টি প্রশ্নেও খুঁজতে পারবেন।';prompt.append(title,note);box.appendChild(prompt);return}const list=filtered();const count=document.createElement('p');count.className='count';count.setAttribute('aria-live','polite');const visible=list.slice(0,shown);count.textContent=list.length?bn(list.length)+' টি প্রশ্নের মধ্যে '+bn(visible.length)+' টি দেখানো হচ্ছে':'কোনো প্রশ্ন পাওয়া যায়নি।';box.appendChild(count);visible.forEach(x=>box.appendChild(questionCard(x)));if(list.length>visible.length){const more=document.createElement('button');more.className='loadmore';more.textContent='আরও '+bn(Math.min(PAGE_SIZE,list.length-visible.length))+' টি প্রশ্ন দেখুন';more.onclick=()=>{shown+=PAGE_SIZE;renderList()};box.appendChild(more)}}
 
@@ -193,7 +213,8 @@ function questionCard(x){
  nav.append(prev,position,next);
  el.append(top,body,nav);return el;
 }
-$('#search').oninput=()=>{shown=PAGE_SIZE;renderList()};
+$('#search').oninput=()=>{shown=PAGE_SIZE;renderList();const clear=$('#search-clear');if(clear)clear.hidden=!$('#search').value};
+$('#search-clear')?.addEventListener('click',()=>{$('#search').value='';$('#search').dispatchEvent(new Event('input',{bubbles:true}));$('#search').focus()});
 function showQuiz(){
  const q=questions[quizIndex];if(!q)return;
  $('#quizcount').textContent='প্রশ্ন '+bn(q.id)+' / '+bn(TOTAL);
