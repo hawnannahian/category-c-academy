@@ -702,3 +702,43 @@ body.exam-open .main-nav{display:none}
 @media(prefers-reduced-motion:reduce){
   .question-option,.dashboard-action,.quiz-progress i{transition:none}
 }
+
+
+/* Practice tab: keep question navigation reachable without scrolling. */
+body[data-tab="quiz"] #quiz{
+  padding-bottom:calc(92px + var(--tabbar-h) + var(--safe-b));
+}
+body[data-tab="quiz"] #quiz .actions{
+  position:fixed;
+  z-index:30;
+  left:50%;
+  bottom:calc(var(--tabbar-h) + var(--safe-b) + 8px);
+  transform:translateX(-50%);
+  width:min(688px,calc(100% - 28px));
+  margin:0;
+  padding:10px;
+  border:1px solid var(--sep);
+  border-radius:18px;
+  background:var(--bar-bg);
+  -webkit-backdrop-filter:var(--bar-blur);
+  backdrop-filter:var(--bar-blur);
+  box-shadow:var(--shadow-2);
+}
+body[data-tab="quiz"] #quiz .actions button{
+  min-height:48px;
+}
+body[data-tab="quiz"] #quiz .question-photo{
+  max-height:clamp(112px,22svh,190px);
+  object-fit:contain;
+}
+body[data-tab="quiz"] #quiz .question-photo.photo-loading{
+  min-height:112px;
+}
+body[data-tab="quiz"] #quiz .question-image-caption{
+  padding:5px 10px;
+}
+@media (max-width:380px){
+  body[data-tab="quiz"] #quiz .quizbox{padding:12px}
+  body[data-tab="quiz"] #quiz .question-options{gap:7px}
+  body[data-tab="quiz"] #quiz .question-option{padding:10px 11px}
+}
