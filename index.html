@@ -11,7 +11,7 @@
 <meta name="description" content="Portugal Category C — Portuguese and Bengali study academy">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" type="image/jpeg" href="./category-c-logo.jpg">
-<link rel="stylesheet" href="./app.css?v=65">
+<link rel="stylesheet" href="./app.css?v=66">
 <title>Category C Academy — Portugal</title>
 </head>
 <body data-tab="home">
@@ -57,8 +57,13 @@
   </div>
 </section>
 <section id="study" class="panel" hidden>
-  <div class="sectionhead"><div><h2>অধ্যায়</h2></div><label class="search-wrap"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="search" type="search" placeholder="প্রশ্ন বা Portuguese শব্দ খুঁজুন…" aria-label="প্রশ্ন বা Portuguese শব্দ খুঁজুন"><button id="search-clear" class="search-clear" type="button" aria-label="সার্চ মুছুন" hidden><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg></button></label></div>
-  <div id="chapters" class="chaptergrid"></div><div class="learn-vocab-shortcut"><div><strong>শব্দ</strong></div><button type="button" data-open-tab="vocab">খুলুন</button></div><div class="learn-vocab-shortcut" id="wrong-shortcut" hidden><div><strong>ভুল উত্তর (<span id="wrong-count">০</span>)</strong></div><button type="button" id="wrong-btn">প্র্যাকটিস</button></div>
+  <div class="sectionhead"><div><h2>অধ্যায়</h2><p class="study-summary" id="study-summary"></p></div><label class="search-wrap"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="search" type="search" placeholder="প্রশ্ন বা Portuguese শব্দ খুঁজুন…" aria-label="প্রশ্ন বা Portuguese শব্দ খুঁজুন"><button id="search-clear" class="search-clear" type="button" aria-label="সার্চ মুছুন" hidden><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"/></svg></button></label></div>
+  <p class="group-label">চালিয়ে যান</p>
+  <button type="button" class="study-continue" id="study-continue"><span class="k" id="study-continue-tag">অধ্যায় ১</span><span class="t" id="study-continue-title">প্রথম অধ্যায় থেকে শুরু করুন</span><span class="study-continue-bar" aria-hidden="true"><i id="study-continue-fill"></i></span><span class="go" id="study-continue-go">শুরু</span></button>
+  <p class="group-label">শর্টকাট</p>
+  <div class="ios-group learn-vocab-shortcut"><button type="button" class="ios-row" data-open-tab="vocab"><span class="row-icon vocab" aria-hidden="true">শ</span><span class="row-title">শব্দ</span><span class="row-meta" id="study-vocab-count">১৩৩টি</span></button><div id="wrong-shortcut" hidden><button type="button" class="ios-row" id="wrong-btn"><span class="row-icon wrong" aria-hidden="true">!</span><span class="row-title">ভুল উত্তর</span><span class="row-badge" id="wrong-count">০</span></button></div></div>
+  <p class="group-label">সব অধ্যায়</p>
+  <div id="chapters" class="chaptergrid ios-group"></div>
   <div id="questionlist" class="qlist"><p class="notice">প্রশ্ন লোড হচ্ছে…</p></div>
 </section>
 <section id="quiz" class="panel" hidden>
@@ -87,5 +92,5 @@
 <div id="exam-result-screen" class="exam-state-screen" hidden><div class="exam-result-card"><span class="exam-result-icon"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg></span><h2>আপনার পরীক্ষার ফলাফল</h2><strong id="exam-score" class="exam-score" tabindex="-1">0 / 20</strong><div class="exam-result-stats"><div><b id="exam-correct">0</b><span>সঠিক</span></div><div><b id="exam-wrong">0</b><span>ভুল</span></div><div><b id="exam-skipped">0</b><span>উত্তর দেননি</span></div></div><div id="exam-review" class="exam-review"></div><div class="exam-result-actions"><button id="exam-retry" type="button">আবার পরীক্ষা দিন</button><button id="exam-close-result" type="button">বন্ধ করুন</button></div></div></div></dialog>
 <div id="bookdlg" class="book-overlay" role="dialog" aria-modal="true" aria-labelledby="bookTitle" hidden><section class="book-dialog"><div class="dlg-head"><h3 id="bookTitle"></h3><div class="dlg-actions"><a id="bookopen" target="_blank" rel="noopener">নতুন ট্যাবে খুলুন</a><button id="bookclose" type="button" aria-label="বন্ধ করুন">বন্ধ করুন</button></div></div><iframe id="bookframe" title="বইয়ের পৃষ্ঠা" loading="eager"></iframe><p class="dlg-note">পাতা না দেখা গেলে “নতুন ট্যাবে খুলুন” চাপুন।</p></section></div>
 </main>
-<script src="./app.js?v=71"></script>
+<script src="./app.js?v=72"></script>
 </body></html>
