@@ -14,14 +14,14 @@ Static Bengali/Portuguese PWA for Category C study in Portugal. No paid plan, ba
 - Timed mock exam: 20 random questions, 25 minutes, scored review.
 - Wrong-answer review: questions answered wrongly (practice, study or exam) are collected on the Learn tab until answered correctly.
 - 133 vocabulary cards (book pages 26–35) with search, topic filter and learned/unlearned tracking.
-- 184 question photos, pre-cropped from the PDF into `photos/`.
+- A photo for every one of the 307 questions, copied unchanged from the PDF into `photos/`.
 - Local-device progress using browser storage.
 - Installable PWA; app shell works offline after the first visit, and each photo is available offline once viewed.
 - Text follows the iOS Text Size setting; VoiceOver-friendly controls.
 
 ## Maintenance
 - `node tools/check-questions.js` — checks all questions parse with a valid answer and every photo exists.
-- `python3 tools/extract-photos.py` — regenerates `photos/` from the PDF (needs poppler's `pdftoppm`).
+- `python3 tools/extract-photos.py` — regenerates `photos/` from the PDF (needs poppler's `pdfimages`).
 - After changing any asset, bump the `?v=` query in `index.html` and `CACHE` in `sw.js`.
 
 ## Running tests
