@@ -210,6 +210,10 @@ function showQuiz(){
  const host=$('#quiztext');host.replaceChildren();
  const card=makeQuestionBody(q,{onReveal:(picked,correct)=>{seen.add(q.id);recordAnswer(q.id,picked,correct);saveWrong();try{localStorage.setItem(LAST_KEY,String(q.id))}catch(e){}save();updateContinue()}});
  card.classList.add('quiz-question-body');host.appendChild(card);
+ // Keep the answer reveal control beside Previous / Next in the fixed Practice bar.
+ const reveal=card.querySelector('.question-reveal');
+ const actions=$('#quiz .actions');
+ if(reveal&&actions)actions.insertBefore(reveal,$('#next'));
  const bar=$('#quiz-progress-bar');if(bar)bar.style.width=(q.id/TOTAL*100)+'%';
 }
 
