@@ -70,7 +70,7 @@ main{max-width:720px;margin:0 auto}
   max-width:720px;margin:0 auto;padding:calc(var(--safe-t) + 10px) 20px 6px;background:transparent;
 }
 body:not([data-tab="home"]) .site-header{display:none}
-.brand{display:flex;align-items:center;gap:10px;color:var(--label);font-size:17px;font-weight:600}
+.brand{display:flex;align-items:center;min-height:44px;gap:10px;color:var(--label);font-size:17px;font-weight:600}
 .brand b{color:var(--tint);font-weight:700}
 .brand-mark{width:30px;height:30px;border-radius:8px;box-shadow:0 0 0 .5px var(--sep)}
 .install-btn{height:34px;padding:0 14px;border-radius:var(--r-pill);background:var(--tint-soft);color:var(--tint);font-size:14px;font-weight:600}
@@ -115,7 +115,7 @@ body.exam-open .main-nav{display:none}
   min-height:48px;padding:0 18px;border-radius:14px;background:var(--fill);color:var(--label);font-weight:600;font-size:17px;
 }
 .ghost:disabled,.question-card-nav button:disabled,.exam-bottom-bar button:disabled{opacity:.35;pointer-events:none}
-.dashboard-guide,.text-link,.check-update{color:var(--tint);font-weight:600;font-size:15px}
+.dashboard-guide,.text-link,.check-update{display:inline-flex;align-items:center;min-height:44px;color:var(--tint);font-weight:600;font-size:15px}
 .dashboard-guide{white-space:nowrap;flex:none;padding:8px 14px;border-radius:var(--r-pill);background:var(--tint-soft)}
 .text-link{padding:6px 0;text-align:left}
 
@@ -315,7 +315,7 @@ body.exam-open .main-nav{display:none}
 @keyframes toast-in{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
 
 /* ───────── 10. Mock exam (full screen) ───────── */
-.exam-mode{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;background:var(--bg);animation:sheet-in .4s var(--ease) both}
+.exam-mode{position:fixed;inset:0;z-index:100;width:auto;height:auto;max-width:none;max-height:none;margin:0;padding:0;border:0;color:inherit;display:flex;flex-direction:column;background:var(--bg);animation:sheet-in .4s var(--ease) both}
 @keyframes sheet-in{from{transform:translateY(100%)}to{transform:none}}
 .exam-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(var(--safe-t) + 8px) 12px 8px;background:var(--bar-bg);-webkit-backdrop-filter:var(--bar-blur);backdrop-filter:var(--bar-blur)}
 .exam-brand{font-size:16px;font-weight:700;white-space:nowrap}
@@ -435,3 +435,5 @@ body.exam-open .main-nav{display:none}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+.exam-mode:not([open]){display:none}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
