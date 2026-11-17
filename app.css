@@ -471,3 +471,234 @@ body.exam-open .main-nav{display:none}
 .study-continue-bar{display:block;height:5px;border-radius:9px;background:rgba(255,255,255,.3);overflow:hidden}
 .study-continue-bar i{display:block;height:100%;width:0;background:#fff}
 .study-continue .go{justify-self:start;min-height:2.25rem;display:inline-flex;align-items:center;padding:0 16px;border-radius:999px;background:#fff;color:var(--tint);font-weight:700;font-size:.8824rem}
+
+/* ───────── 13. Premium learning UI polish (v76) ───────── */
+/* Dashboard: compact, tappable learning tiles while preserving all existing actions. */
+.dashboard-actions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-top:14px;
+  overflow:visible;
+  background:transparent;
+  box-shadow:none;
+}
+.dashboard-action{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:12px;
+  min-width:0;
+  min-height:116px;
+  padding:15px;
+  border:.5px solid var(--sep);
+  border-radius:18px;
+  background:var(--surface);
+  box-shadow:var(--shadow-1);
+}
+.dashboard-action + .dashboard-action::before{display:none}
+.dashboard-action:active{transform:scale(.98);background:var(--surface-2)}
+.dashboard-action .action-icon{width:38px;height:38px;border-radius:12px}
+.dashboard-action > span:nth-child(2){width:100%;min-width:0;gap:2px}
+.dashboard-action strong{font-size:.94rem;line-height:1.3}
+.dashboard-action small{font-size:.76rem;line-height:1.35}
+.dashboard-action .chev{position:absolute;top:17px;right:14px;opacity:.7}
+.dashboard-action .chev .ico{width:16px;height:16px}
+.dashboard-continue{
+  min-height:212px;
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 14px 30px rgba(16,43,76,.18);
+}
+.dashboard-continue-copy h3{max-width:26ch}
+.dashboard-progress{
+  border:1px solid var(--sep);
+  box-shadow:var(--shadow-1);
+}
+.dashboard-progress-ring{width:88px}
+.dashboard-ring-inner{width:70px}
+
+/* Question cards: clearer hierarchy, translation support and answer feedback. */
+.qitem{
+  padding:17px;
+  border:1px solid var(--sep);
+  border-radius:22px;
+  box-shadow:var(--shadow-1);
+}
+.question-card-top{align-items:center;margin-bottom:14px}
+.question-card-top h3{
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:var(--tint-soft);
+  font-size:.8rem;
+}
+.question-page-meta{
+  font-size:.72rem;
+  font-variant-numeric:tabular-nums;
+}
+.question-body{gap:13px}
+.question-prompt{
+  font-size:1.08rem;
+  line-height:1.55;
+  font-weight:700;
+  letter-spacing:-.012em;
+}
+.question-translation{
+  align-items:flex-start;
+  padding:13px 14px;
+  border:1px solid var(--tint-line);
+  border-radius:16px;
+  background:var(--tint-soft);
+  line-height:1.65;
+}
+.translation-mark{
+  width:30px;
+  height:30px;
+  border-radius:9px;
+  flex:none;
+}
+.question-image-wrap{
+  border:1px solid var(--sep);
+  border-radius:16px;
+  box-shadow:none;
+}
+.question-photo,.exam-image{max-height:280px}
+.question-image-caption{padding:9px 12px;font-size:.7rem}
+.question-options{gap:9px}
+.question-option,.exam-option{
+  align-items:center;
+  min-height:58px;
+  padding:12px 13px;
+  border:1px solid var(--sep);
+  border-radius:15px;
+  background:var(--surface);
+  box-shadow:none;
+}
+.option-radio{
+  display:block;
+  position:relative;
+  width:21px;
+  height:21px;
+  flex:none;
+  border:1.8px solid var(--label-3);
+  border-radius:50%;
+  background:transparent;
+}
+.question-option.selected .option-radio{
+  border:6px solid var(--tint);
+  background:var(--surface);
+}
+.question-option.correct .option-radio{
+  border:6px solid var(--ok);
+}
+.question-option.incorrect .option-radio{
+  border:6px solid var(--bad);
+}
+.option-letter{
+  width:27px;
+  height:27px;
+  border-radius:9px;
+  font-size:.78rem;
+}
+.option-copy{gap:4px}
+.option-portuguese{font-size:.91rem;line-height:1.45}
+.option-bengali{font-size:.82rem;line-height:1.5}
+.question-option.selected{
+  background:var(--tint-soft);
+  box-shadow:inset 0 0 0 1.5px var(--tint);
+}
+.question-option.correct{
+  background:var(--ok-soft);
+  box-shadow:inset 0 0 0 1.5px var(--ok);
+}
+.question-option.incorrect{
+  background:var(--bad-soft);
+  box-shadow:inset 0 0 0 1.5px var(--bad);
+}
+.question-reveal{
+  min-height:50px;
+  border-radius:15px;
+  font-size:.96rem;
+}
+.question-result{
+  padding:15px;
+  border:1px solid rgba(35,132,91,.2);
+  border-left:4px solid var(--ok);
+  border-radius:16px;
+  background:var(--ok-soft);
+  gap:9px;
+}
+.question-result::before{
+  content:"ব্যাখ্যা";
+  color:var(--ok);
+  font-size:.83rem;
+  font-weight:800;
+}
+.question-answer-text{font-size:.94rem;line-height:1.55}
+.question-explanation{font-size:.87rem;line-height:1.65}
+.question-card-nav{padding-top:2px}
+.question-card-nav button{
+  min-width:88px;
+  min-height:46px;
+  border-radius:14px;
+  font-weight:650;
+}
+.question-card-position{
+  padding:5px 10px;
+  border-radius:999px;
+  background:var(--fill);
+  font-size:.75rem;
+}
+.question-card-next{background:var(--tint);color:#fff}
+.question-card-prev{background:var(--fill);color:var(--label)}
+.question-card-nav button:disabled{opacity:.35}
+
+/* Practice page: stronger progress and less visual noise. */
+.quizbox{
+  padding:17px;
+  border:1px solid var(--sep);
+  border-radius:22px;
+  box-shadow:var(--shadow-1);
+}
+.quiz-top{align-items:center;margin-bottom:12px}
+#quizcount{
+  padding:5px 10px;
+  border-radius:999px;
+  background:var(--tint-soft);
+  color:var(--tint);
+  font-size:.75rem;
+}
+.quiz-progress{
+  height:6px;
+  margin-bottom:17px;
+  border-radius:999px;
+  overflow:hidden;
+  background:var(--fill);
+}
+.quiz-progress i{
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:var(--tint);
+  transition:width .25s var(--ease);
+}
+.exam-launch-card{
+  border-radius:20px;
+  background:linear-gradient(145deg,#183F68 0%,#102B4C 100%);
+  box-shadow:0 10px 24px rgba(16,43,76,.16);
+}
+.exam-launch-card button{color:#102B4C;border-radius:13px}
+.actions button{min-height:48px;border-radius:14px;font-weight:650}
+@media(max-width:360px){
+  .dashboard-actions{gap:8px}
+  .dashboard-action{min-height:108px;padding:12px}
+  .dashboard-action .action-icon{width:34px;height:34px}
+  .qitem{padding:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  .question-option,.dashboard-action,.quiz-progress i{transition:none}
+}
