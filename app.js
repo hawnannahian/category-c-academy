@@ -46,7 +46,7 @@ function loadWrong(){try{return JSON.parse(localStorage.getItem('cca-wrong')||'[
 // A wrong pick adds the question to the review list; a later correct pick removes it. No pick = no change.
 function recordAnswer(id,picked,correct){if(!picked||!correct)return;picked===correct?wrongIds.delete(id):wrongIds.add(id)}
 function saveWrong(){try{localStorage.setItem('cca-wrong',JSON.stringify([...wrongIds]))}catch(e){}renderWrong()}
-function renderWrong(){const card=$('#wrong-shortcut');if(!card)return;$('#wrong-count').textContent=bn(wrongIds.size);card.hidden=!wrongIds.size}
+function renderWrong(){const card=$('#wrong-shortcut');if(!card)return;$('#wrong-count').textContent=bn(wrongIds.size);card.hidden=!wrongIds.size;$('#home-wrong-count').textContent=bn(wrongIds.size);$('#home-wrong').hidden=!wrongIds.size}
 function showError(msg){const box=$('#questionlist');box.innerHTML='';const p=document.createElement('p');p.className='notice';p.textContent=msg;box.appendChild(p)}
 async function loadJSON(url){const r=await fetch(url,{cache:'no-cache'});if(!r.ok)throw new Error(url+' '+r.status);return r.json()}
 Promise.all(['./questions.json','./chapters.json','./vocab.json'].map(loadJSON)).then(([q,c,v])=>{questions=q;chapters=c;vocab=v;renderChapters();renderList();renderProgress();renderVocab();renderWrong();showQuiz();updateContinue();renderDashboard()}).catch(err=>{console.error(err);showError('ডেটা লোড হয়নি। ইন্টারনেট সংযোগ দেখে পেজটি আবার রিফ্রেশ করুন। ('+err.message+')')});
@@ -179,6 +179,7 @@ function questionCard(x){
  el.append(top,body,nav);return el;
 }
 $('#search').oninput=()=>{shown=PAGE_SIZE;renderList();const clear=$('#search-clear');if(clear)clear.hidden=!$('#search').value};
+$('#home-wrong').addEventListener('click',()=>{openTab('study');$('#wrong-btn').click()});
 $('#wrong-btn').addEventListener('click',()=>{selectedChapter=-2;shown=PAGE_SIZE;renderChapters();renderList();$('#questionlist').scrollIntoView({behavior:SMOOTH,block:'start'})});
 $('#search-clear')?.addEventListener('click',()=>{$('#search').value='';$('#search').dispatchEvent(new Event('input',{bubbles:true}));$('#search').focus()});
 function showQuiz(){

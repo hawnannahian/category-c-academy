@@ -7,7 +7,7 @@ const ids=async()=>p.evaluate(()=>JSON.parse(localStorage.getItem('cca-wrong')||
 const card=async id=>p.locator('#question-card-'+id);
 const answer=async(id,right)=>{const c=await card(id);const L=await p.evaluate(id=>{const q=questions.find(x=>x.id===id);const P=parseQuestion(q);return {c:P.correct,o:P.options.map(o=>o.letter)}},id);
  const pick=right?L.c:L.o.find(x=>x!==L.c);await c.locator('.question-option',{has:p.locator('.option-letter',{hasText:new RegExp('^'+pick+'$')})}).click();await c.locator('.question-reveal').click()};
-ok(await p.isHidden('#wrong-shortcut'),d+' card hidden with no mistakes');
+ok(await p.isHidden('#wrong-shortcut'),d+' card hidden with no mistakes');ok(await p.isHidden('#home-wrong'),d+' home line hidden with no mistakes');
 await p.evaluate(()=>openTab('study'));await p.locator('.chapter').first().click();
 await answer(1,false);await answer(2,false);await answer(3,true);
 ok(JSON.stringify(await ids())==='[1,2]',d+' wrong picks recorded, right pick not: '+JSON.stringify(await ids()));
@@ -18,6 +18,10 @@ await (await card(1)).locator('.question-reveal').click();await answer(1,true);o
 await p.click('#wrong-btn');await p.waitForTimeout(400);
 const listed=await p.$$eval('#questionlist .qitem',a=>a.map(e=>e.id));ok(JSON.stringify(listed)==='["question-card-2"]',d+' review list = '+listed);
 ok(!(await p.$$eval('.chapter.selected',a=>a.length)),d+' no chapter highlighted in review mode');
+await p.evaluate(()=>openTab('home'));ok(await p.isVisible('#home-wrong')&&(await p.textContent('#home-wrong-count'))==='১',d+' home line shows ১');
+const hh=await p.$eval('#home-wrong',e=>Math.round(e.getBoundingClientRect().height));ok(hh>=44,d+' home line '+hh+'px');
+await p.evaluate(()=>{selectedChapter=0;renderList()});await p.click('#home-wrong');await p.waitForTimeout(400);
+ok(await p.isVisible('#study')&&JSON.stringify(await p.$$eval('#questionlist .qitem',a=>a.map(e=>e.id)))==='["question-card-2"]',d+' home line opens review list');
 // reload persists
 await p.reload({waitUntil:'networkidle'});ok(JSON.stringify(await ids())==='[2]'&&(await p.textContent('#wrong-count'))==='১',d+' persists across reload');
 // practice tab records too
