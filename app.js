@@ -74,7 +74,31 @@ function renderChapters(){
  });
 }
 function filtered(){const q=$('#search').value.trim().toLowerCase();return questions.filter(x=>q?(x.raw.toLowerCase().includes(q)||String(x.id).includes(fromBn(q))):selectedChapter===-2?wrongIds.has(x.id):chapterFor(x.id)===selectedChapter)}
-function renderList(){const box=$('#questionlist');box.innerHTML='';const query=$('#search').value.trim();if(!query&&selectedChapter===-1){const prompt=document.createElement('div');prompt.className='chapter-prompt';const title=document.createElement('strong');title.textContent='শুরু করতে একটি অধ্যায় বেছে নিন';const note=document.createElement('p');note.textContent='অধ্যায়ের প্রশ্নগুলো এখানে দেখুন। যেকোনো শব্দ লিখে সব ৩০৭টি প্রশ্নেও খুঁজতে পারবেন।';prompt.append(title,note);box.appendChild(prompt);return}const list=filtered();const count=document.createElement('p');count.className='count';count.setAttribute('aria-live','polite');const visible=list.slice(0,shown);count.textContent=list.length?bn(list.length)+' টি প্রশ্নের মধ্যে '+bn(visible.length)+' টি দেখানো হচ্ছে':'কোনো প্রশ্ন পাওয়া যায়নি।';box.appendChild(count);visible.forEach(x=>box.appendChild(questionCard(x)));if(list.length>visible.length){const more=document.createElement('button');more.className='loadmore';more.textContent='আরও '+bn(Math.min(PAGE_SIZE,list.length-visible.length))+' টি প্রশ্ন দেখুন';more.onclick=()=>{shown+=PAGE_SIZE;renderList()};box.appendChild(more)}}
+function renderList(){const box=$('#questionlist');
+  box.innerHTML='';
+  const query=$('#search').value.trim();
+  if(!query&&selectedChapter===-1){const prompt=document.createElement('div');
+   prompt.className='chapter-prompt';
+   const title=document.createElement('strong');
+   title.textContent='শুরু করতে একটি অধ্যায় বেছে নিন';
+   const note=document.createElement('p');
+   note.textContent='অধ্যায়ের প্রশ্নগুলো এখানে দেখুন। যেকোনো শব্দ লিখে সব ৩০৭টি প্রশ্নেও খুঁজতে পারবেন।';
+   prompt.append(title,note);
+   box.appendChild(prompt);
+   return}const list=filtered();
+  const count=document.createElement('p');
+  count.className='count';
+  count.setAttribute('aria-live','polite');
+  const visible=list.slice(0,shown);
+  count.textContent=list.length?bn(list.length)+' টি প্রশ্নের মধ্যে '+bn(visible.length)+' টি দেখানো হচ্ছে':'কোনো প্রশ্ন পাওয়া যায়নি।';
+  box.appendChild(count);
+  visible.forEach(x=>box.appendChild(questionCard(x)));
+  if(list.length>visible.length){const more=document.createElement('button');
+   more.className='loadmore';
+   more.textContent='আরও '+bn(Math.min(PAGE_SIZE,list.length-visible.length))+' টি প্রশ্ন দেখুন';
+   more.onclick=()=>{shown+=PAGE_SIZE;
+    renderList()};
+   box.appendChild(more)}}
 
 // Context-aware visual cards: every question gets a relevant learning illustration.
 // The PDF breaks words like "designa-\nse": rejoin them without a space.
@@ -201,13 +225,70 @@ function examClockText(){return String(Math.floor(examSeconds/60)).padStart(2,'0
 function examUpdateClock(){$('#exam-timer').textContent=examClockText();$('#exam-timer').classList.toggle('urgent',examSeconds<=300);$('#exam-progress-fill').style.width=((examIndex+1)/EXAM_SIZE*100)+'%'}
 function examStartClock(){examStopClock();examTicker=setInterval(()=>{if(examPaused||!examRunning)return;examSeconds=Math.max(0,examSeconds-1);examUpdateClock();if(examSeconds===300||examSeconds===60)$('#exam-announce').textContent=bn(examSeconds/60)+' মিনিট বাকি';if(examSeconds===0)examFinish(true)},1000)}
 function examStart(){if(!questions.length)return;examQuestions=examShuffle(questions).slice(0,EXAM_SIZE);examIndex=0;examAnswers=new Map();examFavourites=new Set();examSeconds=EXAM_SECONDS;examPaused=false;examShowBangla=false;examRunning=true;$('#exam-pause-screen').hidden=true;$('#exam-result-screen').hidden=true;if(!examEl.open)examEl.showModal();$('#exam-announce').textContent='';document.body.classList.add('exam-open');examRender();examStartClock();$('#exam-exit').focus()}
-function examMakeOption(o){const b=document.createElement('button');b.type='button';b.className='exam-option';b.setAttribute('role','radio');b.setAttribute('aria-checked','false');const letter=document.createElement('span');letter.className='exam-option-letter';letter.textContent=o.letter;const copy=document.createElement('span');copy.className='exam-option-text';const pt=document.createElement('span');pt.className='exam-option-pt';pt.textContent=o.pt;copy.append(pt);if(examShowBangla&&o.bn){const bnText=document.createElement('span');bnText.className='exam-option-bn';bnText.textContent=o.bn;copy.append(bnText)}b.append(letter,copy);if(examAnswers.get(examIndex)===o.letter){b.classList.add('selected');b.setAttribute('aria-checked','true')}b.addEventListener('click',()=>{examAnswers.set(examIndex,o.letter);examRender()});return b}
-function examRender(){const q=examQuestions[examIndex];if(!q)return;const p=parseQuestion(q),host=$('#exam-question');host.replaceChildren();$('#exam-counter').textContent='প্রশ্ন '+bn(examIndex+1)+' / '+bn(EXAM_SIZE);$('#exam-answered').textContent=bn(examAnswers.size)+'টি উত্তর দেওয়া';$('#exam-fav').firstChild.textContent=examFavourites.has(examIndex)?'★':'☆';$('#exam-fav').classList.toggle('is-favourite',examFavourites.has(examIndex));$('#exam-fav').setAttribute('aria-pressed',String(examFavourites.has(examIndex)));$('#exam-fav-state').textContent=examFavourites.has(examIndex)?'★ চিহ্নিত':'';
+function examMakeOption(o){const b=document.createElement('button');
+  b.type='button';
+  b.className='exam-option';
+  b.setAttribute('role','radio');
+  b.setAttribute('aria-checked','false');
+  const letter=document.createElement('span');
+  letter.className='exam-option-letter';
+  letter.textContent=o.letter;
+  const copy=document.createElement('span');
+  copy.className='exam-option-text';
+  const pt=document.createElement('span');
+  pt.className='exam-option-pt';
+  pt.textContent=o.pt;
+  copy.append(pt);
+  if(examShowBangla&&o.bn){const bnText=document.createElement('span');
+   bnText.className='exam-option-bn';
+   bnText.textContent=o.bn;
+   copy.append(bnText)}b.append(letter,copy);
+  if(examAnswers.get(examIndex)===o.letter){b.classList.add('selected');
+   b.setAttribute('aria-checked','true')}b.addEventListener('click',()=>{examAnswers.set(examIndex,o.letter);examRender()});
+  return b}
+function examRender(){const q=examQuestions[examIndex];
+  if(!q)return;
+  const p=parseQuestion(q),host=$('#exam-question');
+  host.replaceChildren();
+  $('#exam-counter').textContent='প্রশ্ন '+bn(examIndex+1)+' / '+bn(EXAM_SIZE);
+  $('#exam-answered').textContent=bn(examAnswers.size)+'টি উত্তর দেওয়া';
+  $('#exam-fav').firstChild.textContent=examFavourites.has(examIndex)?'★':'☆';
+  $('#exam-fav').classList.toggle('is-favourite',examFavourites.has(examIndex));
+  $('#exam-fav').setAttribute('aria-pressed',String(examFavourites.has(examIndex)));
+  $('#exam-fav-state').textContent=examFavourites.has(examIndex)?'★ চিহ্নিত':'';
 if(PDF_IMAGE_Y[q.id]!==undefined){const wrap=document.createElement('div');wrap.className='exam-image-wrap';const img=document.createElement('img');img.className='exam-image';img.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(q.id);img.loading='eager';attachQuestionPhoto(q,img);wrap.append(img);host.append(wrap)}
 const prompt=document.createElement('div');prompt.className='exam-prompt';prompt.textContent=p.pt||'প্রশ্নের লেখা পাওয়া যায়নি।';host.append(prompt);if(examShowBangla&&p.bn){const tr=document.createElement('div');tr.className='exam-bangla';tr.textContent=p.bn;host.append(tr)}
 const opts=document.createElement('div');opts.className='exam-options';opts.setAttribute('role','radiogroup');opts.setAttribute('aria-label','উত্তর বেছে নিন');p.options.forEach(o=>opts.append(examMakeOption(o)));host.append(opts);
 $('#exam-bn-toggle').textContent=examShowBangla?'বাংলা সহায়তা লুকান':'বাংলা সহায়তা দেখুন';$('#exam-bn-toggle').setAttribute('aria-expanded',String(examShowBangla));$('#exam-prev').disabled=examIndex===0;$('#exam-next').disabled=examIndex===EXAM_SIZE-1;examUpdateClock()}
-function examFinish(timeUp=false){if(!examRunning)return;examRunning=false;examPaused=false;examStopClock();let correct=0,wrong=0,skipped=0;examQuestions.forEach((q,i)=>{const key=parseQuestion(q).correct,ans=examAnswers.get(i);recordAnswer(q.id,ans,key);if(!ans)skipped++;else if(key&&ans===key)correct++;else wrong++});saveWrong();$('#exam-score').textContent=bn(correct)+' / '+bn(EXAM_SIZE);$('#exam-correct').textContent=bn(correct);$('#exam-wrong').textContent=bn(wrong);$('#exam-skipped').textContent=bn(skipped);const review=$('#exam-review');review.replaceChildren();const heading=document.createElement('h3');heading.textContent=timeUp?'সময় শেষ — ফলাফল':'উত্তর পর্যালোচনা';review.append(heading);if(wrong+skipped>0){const f=document.createElement('button');f.type='button';f.className='review-filter';f.setAttribute('aria-pressed','false');f.textContent='শুধু ভুল ও বাদ পড়া প্রশ্ন দেখুন';f.onclick=()=>{const on=f.getAttribute('aria-pressed')!=='true';f.setAttribute('aria-pressed',String(on));f.textContent=on?'সব প্রশ্ন দেখুন':'শুধু ভুল ও বাদ পড়া প্রশ্ন দেখুন';review.querySelectorAll('.exam-review-row.is-correct').forEach(r=>r.hidden=on)};review.append(f)}examQuestions.forEach((q,i)=>{const p=parseQuestion(q),row=document.createElement('div');row.className='exam-review-row '+(!examAnswers.get(i)?'is-skipped':(examAnswers.get(i)===p.correct?'is-correct':'is-wrong'));row.dataset.state=!examAnswers.get(i)?'skipped':(examAnswers.get(i)===p.correct?'correct':'wrong');const title=document.createElement('b');title.textContent='প্রশ্ন '+bn(i+1)+' · '+(examAnswers.get(i)||'—');const detail=document.createElement('span');detail.textContent='সঠিক উত্তর: '+(p.correct||'উত্তর অনুপলব্ধ');row.append(title,detail);review.append(row)});$('#exam-result-screen').hidden=false;$('#exam-pause-screen').hidden=true;$('#exam-score').focus()}
+function examFinish(timeUp=false){if(!examRunning)return;
+  examRunning=false;
+  examPaused=false;
+  examStopClock();
+  let correct=0,wrong=0,skipped=0;
+  examQuestions.forEach((q,i)=>{const key=parseQuestion(q).correct,ans=examAnswers.get(i);recordAnswer(q.id,ans,key);if(!ans)skipped++;else if(key&&ans===key)correct++;else wrong++});
+  saveWrong();
+  $('#exam-score').textContent=bn(correct)+' / '+bn(EXAM_SIZE);
+  $('#exam-correct').textContent=bn(correct);
+  $('#exam-wrong').textContent=bn(wrong);
+  $('#exam-skipped').textContent=bn(skipped);
+  const review=$('#exam-review');
+  review.replaceChildren();
+  const heading=document.createElement('h3');
+  heading.textContent=timeUp?'সময় শেষ — ফলাফল':'উত্তর পর্যালোচনা';
+  review.append(heading);
+  if(wrong+skipped>0){const f=document.createElement('button');
+   f.type='button';
+   f.className='review-filter';
+   f.setAttribute('aria-pressed','false');
+   f.textContent='শুধু ভুল ও বাদ পড়া প্রশ্ন দেখুন';
+   f.onclick=()=>{const on=f.getAttribute('aria-pressed')!=='true';
+    f.setAttribute('aria-pressed',String(on));
+    f.textContent=on?'সব প্রশ্ন দেখুন':'শুধু ভুল ও বাদ পড়া প্রশ্ন দেখুন';
+    review.querySelectorAll('.exam-review-row.is-correct').forEach(r=>r.hidden=on)};
+   review.append(f)}examQuestions.forEach((q,i)=>{const p=parseQuestion(q),row=document.createElement('div');row.className='exam-review-row '+(!examAnswers.get(i)?'is-skipped':(examAnswers.get(i)===p.correct?'is-correct':'is-wrong'));row.dataset.state=!examAnswers.get(i)?'skipped':(examAnswers.get(i)===p.correct?'correct':'wrong');const title=document.createElement('b');title.textContent='প্রশ্ন '+bn(i+1)+' · '+(examAnswers.get(i)||'—');const detail=document.createElement('span');detail.textContent='সঠিক উত্তর: '+(p.correct||'উত্তর অনুপলব্ধ');row.append(title,detail);review.append(row)});
+  $('#exam-result-screen').hidden=false;
+  $('#exam-pause-screen').hidden=true;
+  $('#exam-score').focus()}
 function examClose(){examRunning=false;examPaused=false;examStopClock();if(examEl.open)examEl.close();document.body.classList.remove('exam-open')}
 $('#start-exam').addEventListener('click',examStart);
 $('#exam-exit').addEventListener('click',()=>{if(confirm('পরীক্ষা বন্ধ করলে বর্তমান ফলাফল সংরক্ষিত হবে না। বন্ধ করবেন?'))examClose()});
@@ -254,9 +335,34 @@ function renderProgress(){
  });
 }
 $('#reset').onclick=()=>{if(confirm('আপনার দেখা প্রশ্নের অগ্রগতি মুছে ফেলবেন?')){seen.clear();wrongIds.clear();saveWrong();save();renderList();renderDashboard()}};
-const dlg=$('#bookdlg');let lastBookTrigger=null;function bookPageUrl(page){const file=new URL(BOOK,location.href);return file.href+'#page='+page}function openBookPage(x,trigger){$('#bookTitle').textContent='প্রশ্ন '+bn(x.id)+' · বইয়ের পৃষ্ঠা '+bn(x.page);const url=bookPageUrl(x.page);$('#bookframe').src=url;$('#bookopen').href=url;lastBookTrigger=trigger||document.activeElement;dlg.hidden=false;document.body.classList.add('book-open');$('#bookclose').focus()}function closeBookPage(){if(dlg.hidden)return;dlg.hidden=true;$('#bookframe').src='about:blank';document.body.classList.remove('book-open');if(lastBookTrigger&&lastBookTrigger.isConnected)lastBookTrigger.focus()}$('#bookclose').onclick=closeBookPage;dlg.hidden=true;document.body.classList.remove('book-open');$('#bookframe').src='about:blank';dlg.addEventListener('click',e=>{if(e.target===dlg)closeBookPage()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!dlg.hidden){e.preventDefault();closeBookPage()}});
+const dlg=$('#bookdlg');
+ let lastBookTrigger=null;
+ function bookPageUrl(page){const file=new URL(BOOK,location.href);
+  return file.href+'#page='+page}function openBookPage(x,trigger){$('#bookTitle').textContent='প্রশ্ন '+bn(x.id)+' · বইয়ের পৃষ্ঠা '+bn(x.page);
+  const url=bookPageUrl(x.page);
+  $('#bookframe').src=url;
+  $('#bookopen').href=url;
+  lastBookTrigger=trigger||document.activeElement;
+  dlg.hidden=false;
+  document.body.classList.add('book-open');
+  $('#bookclose').focus()}function closeBookPage(){if(dlg.hidden)return;
+  dlg.hidden=true;
+  $('#bookframe').src='about:blank';
+  document.body.classList.remove('book-open');
+  if(lastBookTrigger&&lastBookTrigger.isConnected)lastBookTrigger.focus()}$('#bookclose').onclick=closeBookPage;
+ dlg.hidden=true;
+ document.body.classList.remove('book-open');
+ $('#bookframe').src='about:blank';
+ dlg.addEventListener('click',e=>{if(e.target===dlg)closeBookPage()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!dlg.hidden){e.preventDefault();closeBookPage()}});
 let tabScrollPositions={};let activeTab=document.body.dataset.tab||'home';document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{const nextTab=b.dataset.tab;if(nextTab===activeTab)return;tabScrollPositions[activeTab]=window.scrollY;const navTab=nextTab==='vocab'?'study':nextTab; // vocab lives under Learn
-document.querySelectorAll('.tab').forEach(x=>{const on=x.dataset.tab===navTab;x.classList.toggle('active',on);on?x.setAttribute('aria-current','page'):x.removeAttribute('aria-current')});document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==nextTab);document.body.dataset.tab=nextTab;activeTab=nextTab;history.replaceState(null,'',nextTab==='home'?location.pathname+location.search:'#'+nextTab);const y=tabScrollPositions[nextTab]||0;if(Math.abs(window.scrollY-y)>1)window.scrollTo({top:y,behavior:'instant'})});
+document.querySelectorAll('.tab').forEach(x=>{const on=x.dataset.tab===navTab;x.classList.toggle('active',on);on?x.setAttribute('aria-current','page'):x.removeAttribute('aria-current')});
+ document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==nextTab);
+ document.body.dataset.tab=nextTab;
+ activeTab=nextTab;
+ history.replaceState(null,'',nextTab==='home'?location.pathname+location.search:'#'+nextTab);
+ const y=tabScrollPositions[nextTab]||0;
+ if(Math.abs(window.scrollY-y)>1)window.scrollTo({top:y,behavior:'instant'})});
 let promptInstall;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();promptInstall=e;$('#install').hidden=false});$('#install').onclick=async()=>{if(promptInstall){promptInstall.prompt();promptInstall=null}};/* ---- app updates: tell the user when a new version is ready ---- */
 let swReg=null,hadController=!!(navigator.serviceWorker&&navigator.serviceWorker.controller),reloading=false;
 function showUpdate(msg,withButton){const b=$('#update-banner');if(!b)return;$('#update-text').textContent=msg;$('#update-btn').hidden=!withButton;b.hidden=false;if(!withButton)setTimeout(()=>{b.hidden=true},3500)}
@@ -275,7 +381,16 @@ if('serviceWorker'in navigator){
  const ub=$('#update-btn');if(ub)ub.onclick=()=>{reloading=true;ub.disabled=true;ub.textContent='আপডেট হচ্ছে…';const done=()=>location.reload();if(swReg&&swReg.waiting){navigator.serviceWorker.addEventListener('controllerchange',done,{once:true});swReg.waiting.postMessage('SKIP_WAITING');setTimeout(done,2500)}else done()};
  const cu=$('#check-update');if(cu)cu.onclick=()=>checkUpdate(true);
  if(navigator.serviceWorker.controller){const ch=new MessageChannel();ch.port1.onmessage=e=>{const m=/v(\d+)$/.exec(e.data);if(m)$('#app-version').textContent='সংস্করণ '+bn(m[1])};navigator.serviceWorker.controller.postMessage('VERSION',[ch.port2])}
-}function renderVocab(){const box=$('#vocabtext');if(!box)return;const s=$('#vsearch').value.trim().toLowerCase(),cat=$('#vcat').value,state=$('#vstate').value,select=$('#vcat');if(select.options.length===1){[...new Map(vocab.map(x=>[x.category,x.categoryName])).entries()].forEach(([id,name])=>{const o=document.createElement('option');o.value=id;o.textContent=name;select.appendChild(o)})}const result=vocab.filter(x=>(!s||(x.portuguese+' '+x.bengali+' '+x.explanation).toLowerCase().includes(s))&&(!cat||cat==='0'||String(x.category)===cat)&&(state==='all'||(state==='learned')===vocabSeen.has(x.id)));box.innerHTML='';result.forEach(x=>{const a=document.createElement('article');a.className='vocab-card';const meta=document.createElement('div');meta.className='vocab-meta';const c=document.createElement('span');c.textContent=x.categoryName;const p=document.createElement('span');p.textContent='বই · পৃষ্ঠা '+bn(x.page);meta.append(c,p);const h=document.createElement('h3');h.textContent=x.portuguese;const m=document.createElement('p');m.className='vocab-meaning';m.textContent=x.bengali;const d=document.createElement('p');d.className='vocab-explanation';d.textContent=x.explanation;const b=document.createElement('button');b.className='vocab-mark';b.setAttribute('aria-pressed',String(vocabSeen.has(x.id)));b.textContent=vocabSeen.has(x.id)?'✓ শিখেছি':'শিখেছি';b.onclick=()=>{vocabSeen.has(x.id)?vocabSeen.delete(x.id):vocabSeen.add(x.id);try{localStorage.setItem('cca-vocab-seen',JSON.stringify([...vocabSeen]))}catch(e){}renderVocab();renderDashboard()};a.append(meta,h,m,d,b);box.appendChild(a)});$('#vocabcount').textContent=result.length?bn(result.length)+'টি শব্দ · '+bn(vocab.length)+'টির মধ্যে':'কোনো শব্দ পাওয়া যায়নি।';$('#vocabdone').textContent=bn(vocabSeen.size)+' / '+bn(vocab.length);$('#vocabbar').style.width=(vocabSeen.size/vocab.length*100)+'%';$('#vocabbar').parentElement.setAttribute('aria-valuenow',vocabSeen.size)}
+}function renderVocab(){const box=$('#vocabtext');
+ if(!box)return;
+ const s=$('#vsearch').value.trim().toLowerCase(),cat=$('#vcat').value,state=$('#vstate').value,select=$('#vcat');
+ if(select.options.length===1){[...new Map(vocab.map(x=>[x.category,x.categoryName])).entries()].forEach(([id,name])=>{const o=document.createElement('option');o.value=id;o.textContent=name;select.appendChild(o)})}const result=vocab.filter(x=>(!s||(x.portuguese+' '+x.bengali+' '+x.explanation).toLowerCase().includes(s))&&(!cat||cat==='0'||String(x.category)===cat)&&(state==='all'||(state==='learned')===vocabSeen.has(x.id)));
+ box.innerHTML='';
+ result.forEach(x=>{const a=document.createElement('article');a.className='vocab-card';const meta=document.createElement('div');meta.className='vocab-meta';const c=document.createElement('span');c.textContent=x.categoryName;const p=document.createElement('span');p.textContent='বই · পৃষ্ঠা '+bn(x.page);meta.append(c,p);const h=document.createElement('h3');h.textContent=x.portuguese;const m=document.createElement('p');m.className='vocab-meaning';m.textContent=x.bengali;const d=document.createElement('p');d.className='vocab-explanation';d.textContent=x.explanation;const b=document.createElement('button');b.className='vocab-mark';b.setAttribute('aria-pressed',String(vocabSeen.has(x.id)));b.textContent=vocabSeen.has(x.id)?'✓ শিখেছি':'শিখেছি';b.onclick=()=>{vocabSeen.has(x.id)?vocabSeen.delete(x.id):vocabSeen.add(x.id);try{localStorage.setItem('cca-vocab-seen',JSON.stringify([...vocabSeen]))}catch(e){}renderVocab();renderDashboard()};a.append(meta,h,m,d,b);box.appendChild(a)});
+ $('#vocabcount').textContent=result.length?bn(result.length)+'টি শব্দ · '+bn(vocab.length)+'টির মধ্যে':'কোনো শব্দ পাওয়া যায়নি।';
+ $('#vocabdone').textContent=bn(vocabSeen.size)+' / '+bn(vocab.length);
+ $('#vocabbar').style.width=(vocabSeen.size/vocab.length*100)+'%';
+ $('#vocabbar').parentElement.setAttribute('aria-valuenow',vocabSeen.size)}
 $('#vsearch').oninput=renderVocab;$('#vcat').onchange=renderVocab;$('#vstate').onchange=renderVocab;
 
 
