@@ -14,6 +14,11 @@ await p.click('.tab[data-tab=quiz]');await p.click('#next');ok(await p.$eval('#q
 ok(!(await p.$eval('#exam-mode',e=>e.open))&&!(await p.isVisible('#exam-mode')),d+' exam dialog closed+hidden initially');
 await p.click('#start-exam');await p.waitForTimeout(400);
 ok(await p.$eval('#exam-mode',e=>e.open&&e.matches(':modal')),d+' exam opens as modal');
+// long questions must not squeeze the photo (it used to collapse to 0px)
+for(const id of [217,1]){await p.evaluate(id=>{examQuestions[0]=questions.find(q=>q.id===id);examIndex=0;examRender()},id);
+ await p.waitForFunction(()=>{const i=document.querySelector('.exam-image');return i&&i.complete&&i.naturalWidth});
+ const ratio=await p.$eval('.exam-image-wrap',e=>{const r=e.getBoundingClientRect();return r.height/Math.min(r.width*300/451,280)});
+ ok(ratio>0.95,d+' exam photo keeps its size on q'+id+' ('+Math.round(ratio*100)+'%)')}
 ok(await p.evaluate(()=>{const m=document.querySelector('#exam-mode');return m.contains(document.querySelector('#exam-result-screen'))&&!m.contains(document.querySelector('#bookdlg'))}),d+' dialog markup nesting correct');
 // tab trap: 40 tabs stay inside
 let inside=true;for(let i=0;i<40;i++){await p.keyboard.press('Tab');if(!(await p.evaluate(()=>document.querySelector('#exam-mode').contains(document.activeElement)||document.activeElement===document.body)))inside=false}
