@@ -1,15 +1,15 @@
-const CACHE='category-c-academy-v62';
-const CORE=['./','./index.html','./app.css?v=61','./app.js?v=62','./manifest.webmanifest','./category-c-logo.jpg','./questions.json','./chapters.json','./book-text.json','./vocab.json'];
+const CACHE='category-c-academy-v66';
+const CORE=['./','./index.html','./app.css?v=64','./app.js?v=65','./manifest.webmanifest','./category-c-logo.jpg','./questions.json','./chapters.json','./vocab.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
  if(e.request.method!=='GET') return;
  const url=new URL(e.request.url);
- // PDF.js needs native Range requests; never cache/intercept the source PDF or its CDN worker.
- if(url.pathname.toLowerCase().endsWith('.pdf')||url.hostname==='cdnjs.cloudflare.com') return;
+ // The 14 MB source PDF is opened on demand only; never cache/intercept it.
+ if(url.pathname.toLowerCase().endsWith('.pdf')) return;
  e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{
   if(res.ok&&res.type==='basic'){const copy=res.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));}
   return res;
- }).catch(()=>caches.match('./index.html'))));
+ }).catch(()=>e.request.mode==='navigate'?caches.match('./index.html'):Response.error())));
 });
-self.addEventListener('message',e=>{if(e.data==='SKIP_WAITING')self.skipWaiting()});
+self.addEventListener('message',e=>{if(e.data==='SKIP_WAITING')self.skipWaiting();if(e.data==='VERSION'&&e.ports[0])e.ports[0].postMessage(CACHE)});
