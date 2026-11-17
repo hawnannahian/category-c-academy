@@ -27,7 +27,7 @@ await p.reload({waitUntil:'networkidle'});ok(JSON.stringify(await ids())==='[2]'
 // practice tab records too
 await p.evaluate(()=>openTab('quiz'));const qid=await p.evaluate(()=>questions[quizIndex].id);
 const P=await p.evaluate(id=>{const P=parseQuestion(questions.find(x=>x.id===id));return {c:P.correct,o:P.options.map(o=>o.letter)}},qid);
-const wrongL=P.o.find(x=>x!==P.c);await p.locator('#quiztext .question-option',{has:p.locator('.option-letter',{hasText:new RegExp('^'+wrongL+'$')})}).click();await p.click('#quiztext .question-reveal');
+const wrongL=P.o.find(x=>x!==P.c);await p.locator('#quiztext .question-option',{has:p.locator('.option-letter',{hasText:new RegExp('^'+wrongL+'$')})}).click();/* picking an option reveals the answer in Practice */await p.waitForTimeout(100);
 ok((await ids()).includes(qid),d+' practice wrong answer recorded (q'+qid+')');
 // exam: answer all with wrong option where possible, finish
 await p.click('#start-exam');await p.waitForTimeout(300);
