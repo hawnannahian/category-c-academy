@@ -5,7 +5,7 @@ p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>m.type()==='error'&&
 await p.goto(BASE,{waitUntil:'networkidle'});
 const sizes=await p.evaluate(()=>['.brand','.dashboard-guide','.text-link[data-open-tab]','.check-update'].map(s=>{const r=document.querySelector(s).getBoundingClientRect();return s+':'+Math.round(r.height)}));
 ok(sizes.every(x=>+x.split(':')[1]>=44),d+' tap targets '+sizes.join(' '));
-ok(await p.$eval('#home-question-ring',e=>e.getAttribute('aria-valuetext')==='০% সম্পন্ন'),d+' ring aria-valuetext');
+ok(await p.$eval('#home-question-ring',e=>e.getAttribute('aria-valuetext')==='০% শেষ'),d+' ring aria-valuetext');
 // Step 1 regressions: vocab render, openTab from dashboard, quiz progress bar
 await p.click('.action-vocab');ok(await p.$$eval('#vocabtext .vocab-card',a=>a.length)===133,d+' vocab renders 133 via dashboard openTab');
 await p.fill('#vsearch','carta');ok(await p.$$eval('#vocabtext .vocab-card',a=>a.length)<133,d+' vocab search filters');

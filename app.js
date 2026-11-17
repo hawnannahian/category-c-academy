@@ -63,11 +63,11 @@ function renderChapters(){
   const title=document.createElement('span');title.className='ch-bn';title.textContent=c.bn;
   const pt=document.createElement('small');pt.textContent=c.pt;
   const progress=document.createElement('span');progress.className='chapter-progress-label';
-  const progressText=document.createElement('span');progressText.textContent=done?bn(done)+' / '+bn(total)+' সম্পন্ন':'শুরু করা হয়নি';
+  const progressText=document.createElement('span');progressText.textContent=done?bn(done)+' / '+bn(total)+' শেষ':'শুরু করা হয়নি';
   const progressPct=document.createElement('span');progressPct.textContent=bn(pct)+'%';progress.append(progressText,progressPct);
   const track=document.createElement('span');track.className='chapter-progress-track';
   const fill=document.createElement('span');fill.className='chapter-progress-fill';fill.style.width=pct+'%';track.appendChild(fill);
-  const action=document.createElement('span');action.className='chapter-action';action.textContent=done?'চালিয়ে যান →':'শুরু করুন →';
+  const action=document.createElement('span');action.className='chapter-action';action.textContent=done?'চালিয়ে যান →':'শুরু →';
   b.append(meta,title,pt,progress,track,action);
   b.onclick=()=>{selectedChapter=i;shown=PAGE_SIZE;renderChapters();renderList();$('#questionlist').scrollIntoView({behavior:SMOOTH,block:'start'})};
   box.appendChild(b);
@@ -160,7 +160,7 @@ function makeQuestionBody(x,{onReveal}={}){
   list.appendChild(b);
  });
  body.appendChild(list);
- const reveal=document.createElement('button');reveal.type='button';reveal.className='question-reveal';reveal.textContent='উত্তর দেখুন';
+ const reveal=document.createElement('button');reveal.type='button';reveal.className='question-reveal';reveal.textContent='উত্তর';
  const result=document.createElement('div');result.className='question-result';result.hidden=true;
  reveal.addEventListener('click',()=>{
   result.hidden=!result.hidden;reveal.setAttribute('aria-expanded',String(!result.hidden));
@@ -330,7 +330,7 @@ function renderProgress(){
   const percent=document.createElement('b');percent.textContent=bn(pct)+'%';foot.append(status,percent);
   card.append(top,track,foot);
   card.addEventListener('click',()=>{const index=chapters.indexOf(c);selectedChapter=index;shown=PAGE_SIZE;renderChapters();renderList();openTab('study');window.scrollTo({top:0,behavior:SMOOTH})});
-  card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','অধ্যায় '+c.number+' এর প্রশ্ন অনুশীলন করুন');
+  card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label','অধ্যায় '+c.number+' এর প্রশ্ন প্র্যাকটিস করুন');
   host.appendChild(card);
  });
 }
@@ -411,7 +411,7 @@ function updateContinue(){
   $('#continue-title').textContent=ch.bn;$('#continue-tag').textContent='অধ্যায় '+ch.number+(q?' · প্রশ্ন '+bn(q.id):'');
   $('#continue-meter-count').textContent=bn(done)+' / '+bn(total);$('#continue-bar-fill').style.width=(done/total*100)+'%'}
  el.textContent=q?'শেষ প্রশ্ন '+bn(q.id):'প্রথম অধ্যায় থেকে শুরু করুন';
- btn.textContent=q?'চালিয়ে যান':'শুরু করুন';
+ btn.textContent=q?'চালিয়ে যান':'শুরু';
  const g=$('#home-greeting');if(g){const h=new Date().getHours();g.textContent=h<5?'শুভ রাত্রি':h<12?'শুভ সকাল':h<17?'শুভ দুপুর':h<20?'শুভ সন্ধ্যা':'শুভ রাত্রি'}
  if(q)heroPhoto(q);else{const p=$('#continue-photo');if(p){p.style.backgroundImage='';p.classList.remove('has-photo')}}
  renderDashboard()}
@@ -426,7 +426,7 @@ function renderDashboard(){
  $('#home-seen').textContent=bn(seen.size);
  $('#home-vocab-seen').textContent=bn(vocabSeen.size)+' / '+bn(totalVocab);
  const ring=$('#home-question-ring');
- if(ring){ring.style.setProperty('--progress',questionPct+'%');ring.setAttribute('aria-valuenow',questionPct);ring.setAttribute('aria-valuetext',bn(questionPct)+'% সম্পন্ন')}
+ if(ring){ring.style.setProperty('--progress',questionPct+'%');ring.setAttribute('aria-valuenow',questionPct);ring.setAttribute('aria-valuetext',bn(questionPct)+'% শেষ')}
  const percent=$('#home-question-percent');if(percent)percent.textContent=bn(questionPct)+'%';
  const bar=$('#home-progress-bar');if(bar){bar.style.width=questionPct+'%';bar.parentElement.setAttribute('aria-valuenow',seen.size)}
  const vocabBar=$('#home-vocab-bar');if(vocabBar){vocabBar.style.width=vocabPct+'%';vocabBar.parentElement.setAttribute('aria-valuenow',vocabSeen.size)}
