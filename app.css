@@ -199,7 +199,7 @@ body.exam-open .main-nav{display:none}
 
 .learn-vocab-shortcut{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;margin-top:12px}
 .learn-vocab-shortcut strong{font-size:1rem;font-weight:600}
-.learn-vocab-shortcut button{padding:8px 16px;border-radius:var(--r-pill);background:var(--tint-soft);color:var(--tint);font-weight:600;font-size:.8824rem}
+.learn-vocab-shortcut button{min-height:44px;padding:8px 16px;border-radius:var(--r-pill);background:var(--tint-soft);color:var(--tint);font-weight:600;font-size:.8824rem}
 
 .qlist{display:grid;gap:14px;margin-top:16px}
 .chapter-prompt{padding:20px;text-align:center}
@@ -320,7 +320,7 @@ body.exam-open .main-nav{display:none}
 .exam-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(var(--safe-t) + 8px) 12px 8px;background:var(--bar-bg);-webkit-backdrop-filter:var(--bar-blur);backdrop-filter:var(--bar-blur)}
 .exam-brand{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;font-size:.9412rem;font-weight:700;white-space:nowrap}
 .exam-brand em{font-style:normal;color:var(--tint)}
-.exam-icon-btn,.exam-pause-btn{width:40px;height:40px;border-radius:50%;background:var(--fill);display:grid;place-items:center}
+.exam-icon-btn,.exam-pause-btn{width:44px;height:44px;border-radius:50%;background:var(--fill);display:grid;place-items:center}
 .exam-header-actions{display:flex;flex:none;align-items:center;gap:8px}
 .exam-clock{min-height:40px;padding:0 14px;border-radius:var(--r-pill);background:var(--fill);display:flex;align-items:center;font-variant-numeric:tabular-nums}
 .exam-clock strong{font-size:1rem;font-weight:700}
@@ -335,7 +335,7 @@ body.exam-open .main-nav{display:none}
 .exam-options{display:grid;gap:10px}
 .exam-option{background:var(--surface)}
 .exam-help-row{display:flex;justify-content:space-between;align-items:center;padding:6px 20px}
-.exam-help-row button{color:var(--tint);font-weight:600;font-size:.8824rem;padding:6px 0}
+.exam-help-row button{min-height:44px;color:var(--tint);font-weight:600;font-size:.8824rem;padding:6px 0}
 #exam-fav-state{font-size:.7647rem;color:var(--warn);font-weight:600}
 .exam-bottom-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1.3fr;gap:8px;padding:10px 12px calc(var(--safe-b) + 10px);background:var(--bar-bg);-webkit-backdrop-filter:var(--bar-blur);backdrop-filter:var(--bar-blur);border-top:.5px solid var(--sep)}
 .exam-bottom-bar button{min-height:52px;border-radius:14px;background:var(--fill);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1.2;transition:transform .2s var(--ease),opacity .2s}
