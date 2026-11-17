@@ -743,18 +743,3 @@ body[data-tab="quiz"] #quiz .question-image-caption{
   body[data-tab="quiz"] #quiz .question-option{padding:10px 11px}
 }
 
-
-/* Keep answer reveal in the same fixed Practice navigation bar. */
-body[data-tab="quiz"] #quiz .actions{grid-template-columns:1fr 1fr 1fr;gap:8px}
-body[data-tab="quiz"] #quiz .actions .question-reveal{
-  min-height:48px;
-  border-radius:14px;
-  background:var(--tint-soft);
-  color:var(--tint);
-  font-weight:750;
-  box-shadow:inset 0 0 0 1px var(--tint-line);
-}
-@media(max-width:380px){
-  body[data-tab="quiz"] #quiz .actions{gap:6px;padding:8px}
-  body[data-tab="quiz"] #quiz .actions button{min-height:46px;padding-inline:6px;font-size:.88rem}
-}
