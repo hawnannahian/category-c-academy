@@ -19,7 +19,7 @@ for(const [name,dev] of devs)for(const root of [17,20,23,28,40]){
  await p.evaluate(()=>openTab('quiz'));await p.click('#start-exam');await p.evaluate(()=>examStopClock());await check('exam');
  await p.keyboard.press('Escape').catch(()=>{});await ctx.close()}
 // Intended: the exam title truncates with an ellipsis (its <b>/<em> children are clipped inside it).
-const ALLOWED=/^(CLIPPED-X \.exam-brand|OFFSCREEN (B|EM) )\b/;
+const ALLOWED=/^(CLIPPED-X \.exam-brand|OFFSCREEN (B|EM)) /;
 const bad=Object.entries(issues).filter(([k])=>!ALLOWED.test(k)).sort();
 for(const [k,v] of bad)console.log('  ',k,'::',[...v].join(' '));
 ok(bad.length===0,'text scaling 17–40px on 3 layouts: '+bad.length+' layout issues');};
