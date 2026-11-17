@@ -23,6 +23,14 @@ Installable PWA in plain HTML/CSS/JS: `index.html`, `app.js`, `app.css`, `sw.js`
 - **Graphify**: use only if installed and available; never assume it exists or make workflows depend on it.
 - Never claim a skill is active unless it was actually invoked; report which tools were used in each implementation.
 
+## Lessons learned (see docs/app-building-lessons.md)
+- New elements are accessed null-safely: an older cached `index.html` can meet a newer `app.js` (GitHub Pages ignores `?v=`).
+- Keep original photos byte-for-byte; every question must have its photo (checked by `tools/check-questions.js`).
+- A photo frame with `overflow:hidden` inside a fixed-height flex/grid can collapse to 0px; give rows/items an explicit minimum.
+- Match Bengali text by structure, not literal strings: files mix precomposed and decomposed য়.
+- Every bug fix gets a test that fails before and passes after; prefer small, unstacked PRs.
+- When the user asks for a prompt for a new app, start from the prompt in `docs/app-building-lessons.md`.
+
 ## Before finishing
 - Run available tests and a headless browser check (Playwright/Chromium is preinstalled).
 - Review `git diff` before completing work.
