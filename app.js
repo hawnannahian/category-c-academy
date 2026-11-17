@@ -369,7 +369,9 @@ function checkUpdate(manual){
  swReg.update().then(()=>{if(manual&&!swReg.waiting&&!swReg.installing&&$('#update-banner').hidden)showUpdate('আপনি সর্বশেষ সংস্করণে আছেন ✓',false)}).catch(()=>{if(manual)showUpdate('ইন্টারনেট নেই, পরে আবার দেখুন।',false)});
 }
 if('serviceWorker'in navigator){
- navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloading)return;if(hadController){showUpdate('নতুন সংস্করণ প্রস্তুত। আপডেট করতে রিলোড করুন।',true)}hadController=true});
+ navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloading)return;if(hadController){
+  // A new version took over: reload once so the page and its files match. Never mid-exam (answers would be lost).
+  if(examRunning)showUpdate('নতুন সংস্করণ প্রস্তুত। আপডেট করতে রিলোড করুন।',true);else{reloading=true;location.reload()}}hadController=true});
  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').then(reg=>{
   swReg=reg;if(reg.waiting&&navigator.serviceWorker.controller)showUpdate('নতুন সংস্করণ এসেছে।',true);
   reg.addEventListener('updatefound',()=>{const w=reg.installing;if(!w)return;w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)showUpdate('নতুন সংস্করণ এসেছে।',true)})});
