@@ -8,9 +8,10 @@ let questions = [], chapters = [], vocab = [];
 let selectedChapter = -1, quizIndex = 0, shown = PAGE_SIZE;
 let seen = new Set(loadSeen()), vocabSeen = new Set(loadVocabSeen()), wrongIds = new Set(loadWrong());
 const bn = n => String(n).replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[+d]);
-const PDF_IMAGE_Y={"1":140.998,"2":351.74,"3":549.732,"4":61.501,"5":285.742,"6":509.983,"7":61.501,"8":270.743,"9":468.735,"10":61.501,"11":272.243,"12":442.486,"13":61.501,"14":272.243,"15":496.484,"16":61.501,"17":298.492,"18":521.233,"19":61.501,"20":272.243,"21":496.484,"22":61.501,"23":259.493,"24":496.484,"25":61.501,"26":284.992,"27":482.984,"28":61.501,"29":284.242,"30":442.486,"31":61.501,"32":140.998,"33":365.239,"34":589.48,"35":61.501,"36":272.243,"37":545.232,"38":140.998,"39":375.739,"40":61.501,"41":272.243,"42":482.234,"43":61.501,"44":308.241,"45":518.983,"46":61.501,"47":310.491,"48":521.233,"150":61.501,"172":140.998,"173":363.739,"174":586.48,"175":61.501,"176":259.493,"177":496.484,"178":61.501,"179":284.242,"180":494.984,"181":61.501,"182":272.243,"183":482.984,"184":61.501,"185":284.242,"186":467.985,"187":61.501,"188":259.493,"189":458.235,"191":259.493,"192":470.235,"193":61.501,"194":272.243,"195":470.235,"196":140.998,"197":351.74,"198":61.501,"199":334.49,"200":545.232,"201":61.501,"202":323.991,"203":61.501,"204":308.241,"205":518.983,"206":61.501,"207":296.242,"208":506.983,"209":61.501,"210":308.241,"211":569.231,"212":61.501,"213":259.493,"214":482.234,"215":61.501,"216":296.242,"217":61.501,"218":372.739,"219":61.501,"220":272.243,"221":545.232,"222":61.501,"223":297.742,"224":508.483,"225":61.501,"226":123.749,"227":347.99,"228":557.981,"229":61.501,"230":259.493,"231":481.484,"232":61.501,"233":245.244,"234":455.985,"235":61.501,"236":308.241,"237":518.983,"238":61.501,"239":296.242,"240":518.983,"241":61.501,"242":272.243,"243":481.484,"244":61.501,"245":284.242,"246":507.733,"247":61.501,"248":320.991,"249":505.483,"250":61.501,"251":272.243,"252":468.735,"253":61.501,"254":259.493,"255":506.983,"256":61.501,"257":296.242,"258":506.983,"259":61.501,"260":296.242,"261":544.482,"262":61.501,"263":296.242,"264":530.982,"265":61.501,"266":297.742,"267":521.233,"268":61.501,"269":321.741,"270":532.482,"271":61.501,"272":271.493,"273":467.985,"274":61.501,"275":270.743,"276":479.984,"277":61.501,"278":334.49,"279":61.501,"280":320.991,"281":530.233,"282":61.501,"283":270.743,"284":479.984,"285":61.501,"286":270.743,"287":479.984,"288":61.501,"289":272.243,"290":518.983,"291":61.501,"292":272.243,"293":496.484,"294":61.501,"295":272.243,"296":518.233,"297":61.501,"298":284.242,"299":492.734,"300":61.501,"301":332.99,"302":61.501,"303":321.741,"304":532.482,"305":61.501,"306":272.243,"307":496.484};
 // Photos are pre-cropped from the PDF by tools/extract-photos.py; sw.js caches each one on first successful load.
-async function questionPhotoData(q){return PDF_IMAGE_Y[q.id]===undefined?null:'./photos/q'+q.id+'.jpg'}
+// Every question has one photo on its book page (copied by tools/extract-photos.py).
+const hasPhoto=q=>!!(q&&q.page);
+async function questionPhotoData(q){return hasPhoto(q)?'./photos/q'+q.id+'.jpg':null}
 let questionPhotoViewer=null;
 function openQuestionPhoto(src,alt){
  if(!questionPhotoViewer){
@@ -134,7 +135,7 @@ function makeQuestionBody(x,{onReveal}={}){
  const parsed=parseQuestion(x),body=document.createElement('div');body.className='question-body';
  const pt=document.createElement('div');pt.className='question-prompt';pt.textContent=parsed.pt||'প্রশ্নের লেখা পাওয়া যায়নি।';body.appendChild(pt);
  if(parsed.bn){const tr=document.createElement('div');tr.className='question-translation';const mark=document.createElement('span');mark.className='translation-mark';mark.textContent='文';const text=document.createElement('span');text.textContent=parsed.bn;tr.append(mark,text);body.appendChild(tr);}
- if(PDF_IMAGE_Y[x.id]!==undefined){
+ if(hasPhoto(x)){
   const photo=document.createElement('img');photo.className='question-photo';photo.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(x.id);photo.loading='lazy';attachQuestionPhoto(x,photo);
   const wrap=document.createElement('div');wrap.className='question-image-wrap';wrap.appendChild(photo);
   const caption=document.createElement('p');caption.className='question-image-caption';caption.textContent='▧ PDF-এর আসল ছবি · ট্যাপ করে বড় করে দেখুন';wrap.appendChild(caption);body.appendChild(wrap);
@@ -278,7 +279,7 @@ function examRender(){const q=examQuestions[examIndex];
   $('#exam-fav').classList.toggle('is-favourite',examFavourites.has(examIndex));
   $('#exam-fav').setAttribute('aria-pressed',String(examFavourites.has(examIndex)));
   $('#exam-fav-state').textContent=examFavourites.has(examIndex)?'★ চিহ্নিত':'';
-if(PDF_IMAGE_Y[q.id]!==undefined){const wrap=document.createElement('div');wrap.className='exam-image-wrap';const img=document.createElement('img');img.className='exam-image';img.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(q.id);img.loading='eager';attachQuestionPhoto(q,img);wrap.append(img);host.append(wrap)}
+if(hasPhoto(q)){const wrap=document.createElement('div');wrap.className='exam-image-wrap';const img=document.createElement('img');img.className='exam-image';img.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(q.id);img.loading='eager';attachQuestionPhoto(q,img);wrap.append(img);host.append(wrap)}
 const prompt=document.createElement('div');prompt.className='exam-prompt';prompt.textContent=p.pt||'প্রশ্নের লেখা পাওয়া যায়নি।';host.append(prompt);if(examShowBangla&&p.bn){const tr=document.createElement('div');tr.className='exam-bangla';tr.textContent=p.bn;host.append(tr)}
 const opts=document.createElement('div');opts.className='exam-options';opts.setAttribute('role','radiogroup');opts.setAttribute('aria-label','উত্তর বেছে নিন');p.options.forEach(o=>opts.append(examMakeOption(o)));host.append(opts);
 $('#exam-bn-toggle').textContent=examShowBangla?'বাংলা সহায়তা লুকান':'বাংলা সহায়তা দেখুন';$('#exam-bn-toggle').setAttribute('aria-expanded',String(examShowBangla));$('#exam-prev').disabled=examIndex===0;$('#exam-next').disabled=examIndex===EXAM_SIZE-1;examUpdateClock()}

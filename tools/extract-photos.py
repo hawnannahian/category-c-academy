@@ -1,18 +1,27 @@
 #!/usr/bin/env python3
 """Regenerate photos/q{id}.jpg from the study-guide PDF. Run from the repo root.
-Crop box matches the coordinates in app.js PDF_IMAGE_Y (PDF points, top-left origin)."""
-import json, re, subprocess
+Each question page holds one 451x300 photo per question; the embedded JPEGs are copied byte-for-byte
+(no re-encoding) and matched to the page's questions in order. Needs poppler's pdfimages."""
+import collections, glob, json, shutil, subprocess, tempfile
 from pathlib import Path
+from PIL import Image
 
 PDF = 'Category_C_Study_Guide_PT-BN_2026_FINAL_v4.pdf'
-X, W, H, SCALE = 438.903, 96.746, 64.5, 336 / 72  # the PDF's own photo resolution (336 ppi -> ~451x301 px)
-ys = json.loads(re.search(r'PDF_IMAGE_Y=(\{.*?\})', Path('app.js').read_text()).group(1))
-pages = {str(q['id']): q['page'] for q in json.load(open('questions.json'))}
+by_page = collections.defaultdict(list)
+for q in json.load(open('questions.json')):
+    by_page[q['page']].append(q['id'])
 out = Path('photos'); out.mkdir(exist_ok=True)
-for qid, y in ys.items():
-    p = str(pages[qid])
-    subprocess.run(['pdftoppm', '-f', p, '-l', p, '-r', str(72 * SCALE), '-x', str(round(X * SCALE)), '-y', str(round(y * SCALE)),
-                    '-W', str(round(W * SCALE)), '-H', str(round(H * SCALE)), '-jpeg', '-jpegopt', 'quality=92', '-singlefile',
-                    PDF, str(out / f'q{qid}')], check=True)
-assert len(list(out.glob('q*.jpg'))) == len(ys) == 184, 'expected 184 photos'
-print(len(ys), 'photos written')
+for old in out.glob('q*.jpg'):
+    old.unlink()
+with tempfile.TemporaryDirectory() as tmp:
+    for page, ids in sorted(by_page.items()):
+        prefix = f'{tmp}/p{page}'
+        subprocess.run(['pdfimages', '-j', '-f', str(page), '-l', str(page), PDF, prefix], check=True)
+        files = [f for f in sorted(glob.glob(prefix + '-*')) if Image.open(f).size == (451, 300)]
+        assert len(files) == len(ids), f'page {page}: {len(files)} photos for questions {ids}'
+        for f, qid in zip(files, sorted(ids)):
+            assert f.endswith('.jpg'), f
+            shutil.copyfile(f, out / f'q{qid}.jpg')
+n = len(list(out.glob('q*.jpg')))
+assert n == 307, f'expected 307 photos, got {n}'
+print(n, 'photos written')
