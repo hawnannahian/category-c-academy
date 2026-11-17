@@ -439,3 +439,35 @@ body.exam-open .main-nav{display:none}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* iOS: root follows the Text Size setting (17px at default "Large"); everything else is in rem */
 @supports (font:-apple-system-body){html{font:-apple-system-body}}
+
+/* ───────── Learn tab: iOS inset-grouped lists ───────── */
+.study-summary{margin-top:2px;font-size:.8824rem;color:var(--label-2)}
+.group-label{margin:22px 16px 6px;font-size:.7647rem;font-weight:600;letter-spacing:.04em;color:var(--label-3)}
+.ios-group{display:block;background:var(--surface);border-radius:14px;overflow:hidden}
+.chaptergrid.ios-group{display:block;margin-top:0}
+.ios-row,.learn-vocab-shortcut .ios-row{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:10px 14px;
+  text-align:left;background:none;color:var(--label);border-radius:0;box-shadow:none;border-top:.5px solid var(--sep);font-size:1rem;font-weight:400}
+.ios-group > .ios-row:first-child{border-top:0}
+.ios-row::after{content:"";flex:none;width:8px;height:8px;border:solid var(--label-3);border-width:2px 2px 0 0;transform:rotate(45deg);margin-left:2px}
+.ios-row:active,.chapter.ios-row:active,.learn-vocab-shortcut .ios-row:active{transform:none;background:var(--fill)}
+.chapter.selected{box-shadow:none;background:var(--tint-soft)}
+.learn-vocab-shortcut.ios-group{display:block;padding:0;margin-top:0}
+.ring{flex:none;width:2.25rem;height:2.25rem;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(var(--tint) calc(var(--p)*1%),var(--fill) 0)}
+.ring b{width:calc(100% - 6px);height:calc(100% - 6px);border-radius:50%;background:var(--surface);display:grid;place-items:center;font-size:.8235rem;font-weight:700}
+.ring.done{background:var(--ok)}
+.row-text{flex:1;min-width:0;display:grid;gap:1px}
+.chapter .ch-bn{font-size:.9412rem;font-weight:600;line-height:1.35}
+.chapter small{font-size:.7647rem;color:var(--label-3);line-height:1.35}
+.row-title{flex:1;min-width:0;font-weight:600}
+.row-meta{flex:none;font-size:.8235rem;color:var(--label-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.row-icon{flex:none;width:1.9rem;height:1.9rem;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.8824rem}
+.row-icon.vocab{background:#5856D6}
+.row-icon.wrong{background:var(--bad)}
+.row-badge{flex:none;min-width:1.4rem;padding:1px 7px;border-radius:999px;background:var(--bad);color:#fff;font-size:.7647rem;font-weight:700;text-align:center}
+.study-continue{display:grid;gap:8px;width:100%;text-align:left;padding:16px;border-radius:16px;background:var(--tint);color:#fff}
+.study-continue .k{font-size:.7647rem;opacity:.85}
+.study-continue .t{font-size:1.0588rem;font-weight:700;line-height:1.35}
+.study-continue-bar{display:block;height:5px;border-radius:9px;background:rgba(255,255,255,.3);overflow:hidden}
+.study-continue-bar i{display:block;height:100%;width:0;background:#fff}
+.study-continue .go{justify-self:start;min-height:2.25rem;display:inline-flex;align-items:center;padding:0 16px;border-radius:999px;background:#fff;color:var(--tint);font-weight:700;font-size:.8824rem}
