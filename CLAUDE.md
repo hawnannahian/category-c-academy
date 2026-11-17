@@ -17,6 +17,12 @@ Installable PWA in plain HTML/CSS/JS: `index.html`, `app.js`, `app.css`, `sw.js`
 - Semantic HTML, real `<button>`/`<a>` controls, labels/ARIA where needed; must work with VoiceOver.
 - Text scales with user settings (rem units); honour `prefers-reduced-motion`.
 
+## Tooling
+- **Ponytail**: development workflow, code review and safe implementation practices.
+- **UI UX Pro Max**: only when UI/UX work is requested. Follow Apple HIG and accessibility principles, use only guidance compatible with this architecture; no React, Tailwind, shadcn/ui or new dependencies unless explicitly approved.
+- **Graphify**: use only if installed and available; never assume it exists or make workflows depend on it.
+- Never claim a skill is active unless it was actually invoked; report which tools were used in each implementation.
+
 ## Before finishing
 - Run available tests and a headless browser check (Playwright/Chromium is preinstalled).
 - Review `git diff` before completing work.
