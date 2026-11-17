@@ -16,7 +16,7 @@ await p.click('.learn-vocab-shortcut button').catch(()=>{});await p.evaluate(()=
 ok(await cur()==='study'&&await p.isVisible('#vocab'),d+' vocab panel highlights Learn');
 await p.click('.tab[data-tab=study]');ok(await p.isVisible('#study')&&await cur()==='study',d+' Learn tab returns from vocab');
 ok(!(await p.$('#reveal'))&&!(await p.$('#quizanswer')),d+' dead quiz markup removed');
-await p.click('.tab[data-tab=quiz]');await p.click('#next');ok((await p.textContent('#quizcount'))==='প্রশ্ন ২ / ৩০৭',d+' practice still navigates');
+await p.click('.tab[data-tab=quiz]');await p.click('#next');ok((await p.getAttribute('#quizcount','aria-label'))==='প্রশ্ন ২ / ৩০৭',d+' practice still navigates');
 const sizes=await p.evaluate(()=>['#exam-exit','#exam-pause','#exam-bn-toggle'].map(s=>s));
 await p.click('#start-exam');await p.waitForTimeout(500);
 const hs=await p.evaluate(()=>['#exam-exit','#exam-pause','#exam-bn-toggle'].map(s=>Math.round(document.querySelector(s).getBoundingClientRect().height)));
