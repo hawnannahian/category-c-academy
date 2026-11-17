@@ -24,6 +24,10 @@ Static Bengali/Portuguese PWA for Category C study in Portugal. No paid plan, ba
 - `python3 tools/extract-photos.py` — regenerates `photos/` from the PDF (needs poppler's `pdftoppm`).
 - After changing any asset, bump the `?v=` query in `index.html` and `CACHE` in `sw.js`.
 
+## Running tests
+- `node tools/check-questions.js` runs on every pull request (GitHub Actions, `.github/workflows/check.yml`).
+- Browser tests need Playwright with Chromium installed locally (there is no `package.json`): `node tests/run.js` runs all suites, or name some, e.g. `node tests/run.js photos wrong-answers`. They start their own local server on port 8765 (`PORT` to change).
+
 ## QA / important limitations
 - The 307 extracted question blocks should be visually proofread against the original PDF before public launch. PDF text extraction can split accents, ligatures and line breaks.
 - The quiz is a self-study reveal-answer mode, not a validated auto-scored multiple-choice test; source answer keys are the author's proposed answers, not official IMT keys.
