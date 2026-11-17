@@ -1,6 +1,6 @@
 # Category C Academy — GitHub Pages
 
-Static Bengali/Portuguese PWA for Category C study in Portugal. No paid plan, backend, login or JavaScript library is required (fonts load from Google Fonts when online).
+Static Bengali/Portuguese PWA for Category C study in Portugal. No paid plan, backend, login, external library or web font is required.
 
 ## Publish
 1. Create a **new public repository** named `category-c-academy` in GitHub. Do not use/overwrite your existing `driving-log-pro` repository.
@@ -12,6 +12,7 @@ Static Bengali/Portuguese PWA for Category C study in Portugal. No paid plan, ba
 - All 307 question blocks extracted from the 2026 study guide, with proposed answer text where present.
 - Chapter filtering, search, reveal-answer study and sequential practice.
 - Timed mock exam: 20 random questions, 25 minutes, scored review.
+- Wrong-answer review: questions answered wrongly (practice, study or exam) are collected on the Learn tab until answered correctly.
 - 133 vocabulary cards (book pages 26–35) with search, topic filter and learned/unlearned tracking.
 - 184 question photos, pre-cropped from the PDF into `photos/`.
 - Local-device progress using browser storage.
