@@ -206,12 +206,14 @@ $('#wrong-btn')?.addEventListener('click',()=>{selectedChapter=-2;shown=PAGE_SIZ
 $('#search-clear')?.addEventListener('click',()=>{$('#search').value='';$('#search').dispatchEvent(new Event('input',{bubbles:true}));$('#search').focus()});
 function showQuiz(){
  const q=questions[quizIndex];if(!q)return;
- const qc=$('#quizcount');qc.textContent=bn(q.id)+' / '+bn(TOTAL);qc.setAttribute('aria-label','প্রশ্ন '+bn(q.id)+' / '+bn(TOTAL));
+ const qc=$('#quizcount');qc.textContent=bn(q.id);qc.setAttribute('aria-label','প্রশ্ন '+bn(q.id)+' / '+bn(TOTAL));
  const host=$('#quiztext');host.replaceChildren();
  const card=makeQuestionBody(q,{onReveal:(picked,correct)=>{seen.add(q.id);recordAnswer(q.id,picked,correct);saveWrong();try{localStorage.setItem(LAST_KEY,String(q.id))}catch(e){}save();updateContinue()}});
  card.classList.add('quiz-question-body');host.appendChild(card);
- // One-screen layout: the reveal button lives in the top row; it keeps its own click handler.
- const slot=$('#quiz-reveal-slot');if(slot)slot.replaceChildren(card.querySelector('.question-reveal'));
+ // One-screen layout: the timer sits on the photo (or above the question), and picking an option reveals the answer.
+ const tm=quizTimerEl();if(tm)(card.querySelector('.question-image-wrap')||card).prepend(tm);
+ const rv=card.querySelector('.question-reveal'),res=card.querySelector('.question-result');
+ card.querySelector('.question-options')?.addEventListener('click',e=>{if(!e.target.closest('.question-option')||!res.hidden)return;rv.click();requestAnimationFrame(()=>res.scrollIntoView({block:'nearest',behavior:SMOOTH}))});
  fitQuiz();
  const bar=$('#quiz-progress-bar');if(bar)bar.style.width=(q.id/TOTAL*100)+'%';
  quizSeconds=QUIZ_SECONDS;quizClock();setQuizPaused(false);renderQuizFav();
@@ -221,7 +223,8 @@ function showQuiz(){
 const QUIZ_SECONDS=75; // same pace as the mock exam: 25 minutes / 20 questions
 let quizSeconds=QUIZ_SECONDS,quizPaused=false;
 let favIds=new Set((()=>{try{return JSON.parse(localStorage.getItem('cca-fav')||'[]')}catch(e){return []}})());
-function quizClock(){const t=$('#quiz-timer');if(!t)return;t.textContent=String(Math.floor(quizSeconds/60)).padStart(2,'0')+':'+String(quizSeconds%60).padStart(2,'0');t.classList.toggle('urgent',quizSeconds<=15)}
+let quizTimer=null;const quizTimerEl=()=>quizTimer||(quizTimer=$('#quiz-timer'));
+function quizClock(){const t=quizTimerEl();if(!t)return;t.textContent=String(Math.floor(quizSeconds/60)).padStart(2,'0')+':'+String(quizSeconds%60).padStart(2,'0');t.classList.toggle('urgent',quizSeconds<=15)}
 setInterval(()=>{if(quizPaused||quizSeconds<=0||document.hidden||document.body.dataset.tab!=='quiz')return;quizSeconds--;quizClock()},1000);
 function setQuizPaused(on){const b=$('#quiz-pause');if(!b)return;quizPaused=on;$('#quiz-paused').hidden=!on;$('#quiztext').hidden=on;
  b.setAttribute('aria-pressed',String(on));b.setAttribute('aria-label',on?'আবার শুরু':'বিরতি');b.querySelector('span').textContent=on?'▶':'❚❚';b.querySelector('small').textContent=on?'শুরু':'বিরতি'}

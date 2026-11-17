@@ -1,7 +1,7 @@
 // Practice tab fits one screen: no page scroll, every control visible above the tab bar, and question text fits
 // without inner scrolling on normal phones. Also covers the practice timer, pause and favourites.
 const {devices}=require('playwright');const {BASE,ok}=require('./helpers');
-const CONTROLS=['#quiz-timer','#quiz-reveal-slot .question-reveal','#prev','#quiz-pause','#quizcount','#quiz-fav','#next'];
+const CONTROLS=['#quiz-timer','#prev','#quiz-pause','#quizcount','#quiz-fav','#next'];
 module.exports=async b=>{
  for(const [name,minFit] of [['iPhone 13',300],['iPhone 14 Pro Max',307],['Pixel 5',300],['iPhone SE',0]]){
   const ctx=await b.newContext({...devices[name]});const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
@@ -29,6 +29,9 @@ module.exports=async b=>{
  await p.click('#next');ok(await p.getAttribute('#quiz-fav','aria-pressed')==='false'&&await p.textContent('#quiz-timer')==='01:15','next question: timer resets, not a favourite');
  await p.click('#prev');await p.reload({waitUntil:'networkidle'});
  ok(await p.evaluate(()=>JSON.parse(localStorage.getItem('cca-fav')).includes(questions[0].id))&&await p.getAttribute('#quiz-fav','aria-pressed')==='true','favourite persists after reload');
+ const first=await p.evaluate(()=>{const P=parseQuestion(questions[quizIndex]);return {c:P.correct}});
+ await p.locator('#quiztext .question-option',{has:p.locator('.option-letter',{hasText:new RegExp('^'+first.c+'$')})}).click();
+ ok(await p.isVisible('#quiztext .question-result')&&await p.$eval('#quiztext .question-option.correct',e=>!!e),'picking an option reveals the answer');
  await p.click('#quiztext .question-photo');await p.waitForTimeout(300);ok(await p.evaluate(()=>document.querySelector('.photo-viewer')?.open===true),'tapping the photo opens the large viewer');
  const nat=await p.evaluate(()=>{const i=document.querySelector('.photo-viewer-image');return i.naturalWidth});ok(nat>=450,'photo is full resolution ('+nat+'px wide)');
  await ctx.close()};
