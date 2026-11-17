@@ -7,53 +7,9 @@ let questions = [], chapters = [], vocab = [];
 let selectedChapter = -1, quizIndex = 0, shown = PAGE_SIZE;
 let seen = new Set(loadSeen()), vocabSeen = new Set(loadVocabSeen());
 const bn = n => String(n).replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[+d]);
-let pdfDocumentPromise=null;
-const pdfPageCanvasCache=new Map();
-function ensurePdfDocument(){
- if(!window.pdfjsLib) return Promise.reject(new Error('PDF renderer unavailable'));
- if(!pdfDocumentPromise){
-  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  pdfDocumentPromise=pdfjsLib.getDocument({url:BOOK,disableWorker:true,disableRange:true,disableStream:true,disableAutoFetch:true}).promise;
- }
- return pdfDocumentPromise;
-}
 const PDF_IMAGE_Y={"1":140.998,"2":351.74,"3":549.732,"4":61.501,"5":285.742,"6":509.983,"7":61.501,"8":270.743,"9":468.735,"10":61.501,"11":272.243,"12":442.486,"13":61.501,"14":272.243,"15":496.484,"16":61.501,"17":298.492,"18":521.233,"19":61.501,"20":272.243,"21":496.484,"22":61.501,"23":259.493,"24":496.484,"25":61.501,"26":284.992,"27":482.984,"28":61.501,"29":284.242,"30":442.486,"31":61.501,"32":140.998,"33":365.239,"34":589.48,"35":61.501,"36":272.243,"37":545.232,"38":140.998,"39":375.739,"40":61.501,"41":272.243,"42":482.234,"43":61.501,"44":308.241,"45":518.983,"46":61.501,"47":310.491,"48":521.233,"150":61.501,"172":140.998,"173":363.739,"174":586.48,"175":61.501,"176":259.493,"177":496.484,"178":61.501,"179":284.242,"180":494.984,"181":61.501,"182":272.243,"183":482.984,"184":61.501,"185":284.242,"186":467.985,"187":61.501,"188":259.493,"189":458.235,"191":259.493,"192":470.235,"193":61.501,"194":272.243,"195":470.235,"196":140.998,"197":351.74,"198":61.501,"199":334.49,"200":545.232,"201":61.501,"202":323.991,"203":61.501,"204":308.241,"205":518.983,"206":61.501,"207":296.242,"208":506.983,"209":61.501,"210":308.241,"211":569.231,"212":61.501,"213":259.493,"214":482.234,"215":61.501,"216":296.242,"217":61.501,"218":372.739,"219":61.501,"220":272.243,"221":545.232,"222":61.501,"223":297.742,"224":508.483,"225":61.501,"226":123.749,"227":347.99,"228":557.981,"229":61.501,"230":259.493,"231":481.484,"232":61.501,"233":245.244,"234":455.985,"235":61.501,"236":308.241,"237":518.983,"238":61.501,"239":296.242,"240":518.983,"241":61.501,"242":272.243,"243":481.484,"244":61.501,"245":284.242,"246":507.733,"247":61.501,"248":320.991,"249":505.483,"250":61.501,"251":272.243,"252":468.735,"253":61.501,"254":259.493,"255":506.983,"256":61.501,"257":296.242,"258":506.983,"259":61.501,"260":296.242,"261":544.482,"262":61.501,"263":296.242,"264":530.982,"265":61.501,"266":297.742,"267":521.233,"268":61.501,"269":321.741,"270":532.482,"271":61.501,"272":271.493,"273":467.985,"274":61.501,"275":270.743,"276":479.984,"277":61.501,"278":334.49,"279":61.501,"280":320.991,"281":530.233,"282":61.501,"283":270.743,"284":479.984,"285":61.501,"286":270.743,"287":479.984,"288":61.501,"289":272.243,"290":518.983,"291":61.501,"292":272.243,"293":496.484,"294":61.501,"295":272.243,"296":518.233,"297":61.501,"298":284.242,"299":492.734,"300":61.501,"301":332.99,"302":61.501,"303":321.741,"304":532.482,"305":61.501,"306":272.243,"307":496.484};
-const pdfImageYByPage=new Map();
-function detectPdfImageY(canvas,xPt,wPt,hPt,scale){
- const x=Math.round(xPt*scale),w=Math.round(wPt*scale),h=Math.round(hPt*scale);
- const maxY=canvas.height-h,ctx=canvas.getContext('2d',{willReadFrequently:true});
- let bestY=-1,bestScore=0;
- for(let y=0;y<=maxY;y+=4){
-  const data=ctx.getImageData(x,y,w,h).data,buckets=new Set();let nonWhite=0,colour=0,dark=0,samples=0;
-  for(let py=2;py<h;py+=7)for(let px=2;px<w;px+=7){
-   const i=(py*w+px)*4,r=data[i],g=data[i+1],b=data[i+2];samples++;
-   if(Math.min(r,g,b)<238)nonWhite++;
-   if(Math.max(r,g,b)-Math.min(r,g,b)>18)colour++;
-   if((r+g+b)/3<190)dark++;
-   buckets.add((r>>5)+','+(g>>5)+','+(b>>5));
-  }
-  const density=nonWhite/samples,chromatic=colour/samples,tones=buckets.size;
-  const score=tones*Math.min(density/.42,1.15)+chromatic*18+(dark/samples)*4;
-  if(density>.13&&tones>22&&score>bestScore){bestScore=score;bestY=y}
- }
- return bestScore>24?bestY/scale:null;
-}
-async function questionPhotoData(q){
- const pdf=await ensurePdfDocument(),page=await pdf.getPage(q.page);
- const scale=3.5,viewport=page.getViewport({scale}),canvas=document.createElement('canvas');
- canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);
- await page.render({canvasContext:canvas.getContext('2d',{alpha:false}),viewport}).promise;
- const x=438.903,w=96.746,h=64.5;
- let cropY=PDF_IMAGE_Y[q.id];
- if(cropY===undefined){
-  if(pdfImageYByPage.has(q.page))cropY=pdfImageYByPage.get(q.page);
-  else{cropY=detectPdfImageY(canvas,x,w,h,scale);pdfImageYByPage.set(q.page,cropY)}
- }
- if(cropY===null||cropY===undefined)return null;
- const crop=document.createElement('canvas');crop.width=Math.round(w*scale);crop.height=Math.round(h*scale);
- crop.getContext('2d',{alpha:false}).drawImage(canvas,Math.round(x*scale),Math.round(cropY*scale),crop.width,crop.height,0,0,crop.width,crop.height);
- return crop.toDataURL('image/jpeg',0.96);
-}
+// Photos are pre-cropped from the PDF by tools/extract-photos.py; sw.js caches each one on first successful load.
+async function questionPhotoData(q){return PDF_IMAGE_Y[q.id]===undefined?null:'./photos/q'+q.id+'.jpg'}
 let questionPhotoViewer=null;
 function openQuestionPhoto(src,alt){
  if(!questionPhotoViewer){
@@ -74,12 +30,13 @@ function attachQuestionPhoto(q,img){
  img.alt='PDF-এর আসল ছবি লোড হচ্ছে — প্রশ্ন '+bn(q.id);
  questionPhotoData(q).then(src=>{
   if(!src){img.remove();return}
-  img.src=src;img.classList.remove('photo-loading');img.classList.add('loaded');img.setAttribute('role','button');img.setAttribute('tabindex','0');img.setAttribute('aria-label','ছবি বড় করে দেখুন');img.addEventListener('click',()=>openQuestionPhoto(img.src,img.alt));img.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openQuestionPhoto(img.src,img.alt)}});
- }).catch(err=>{
-  console.error('PDF image crop failed',q.id,err);
-  img.classList.remove('photo-loading');img.classList.add('photo-error');
+  img.onerror=()=>showPhotoError(q,img);img.onload=()=>{img.classList.remove('photo-loading');img.classList.add('loaded');img.setAttribute('role','button');img.setAttribute('tabindex','0');img.setAttribute('aria-label','ছবি বড় করে দেখুন');img.addEventListener('click',()=>openQuestionPhoto(img.src,img.alt));img.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openQuestionPhoto(img.src,img.alt)}});};
+  img.src=src;
+ }).catch(()=>showPhotoError(q,img));
+}
+function showPhotoError(q,img){
+ img.onerror=null;img.classList.remove('photo-loading');img.classList.add('photo-error');
   img.alt='PDF ছবি লোড হয়নি — পৃষ্ঠা '+bn(q.page); img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="320" height="90"><rect width="100%" height="100%" rx="12" fill="#eef3f8"/><text x="50%" y="42%" text-anchor="middle" font-size="16" fill="#40566d">PDF image unavailable</text><text x="50%" y="68%" text-anchor="middle" font-size="13" fill="#40566d">Page '+q.page+'</text></svg>');
- });
 }
 const fromBn = s => String(s).replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d));
 function loadSeen(){try{return JSON.parse(localStorage.getItem('cca-seen')||'[]')}catch(e){return []}}
@@ -238,7 +195,7 @@ function examStartClock(){examStopClock();examTicker=setInterval(()=>{if(examPau
 function examStart(){if(!questions.length)return;examQuestions=examShuffle(questions).slice(0,EXAM_SIZE);examIndex=0;examAnswers=new Map();examFavourites=new Set();examSeconds=EXAM_SECONDS;examPaused=false;examShowBangla=false;examRunning=true;$('#exam-pause-screen').hidden=true;$('#exam-result-screen').hidden=true;examEl.hidden=false;document.body.classList.add('exam-open');examRender();examStartClock();$('#exam-exit').focus()}
 function examMakeOption(o){const b=document.createElement('button');b.type='button';b.className='exam-option';b.setAttribute('aria-pressed','false');const letter=document.createElement('span');letter.className='exam-option-letter';letter.textContent=o.letter;const copy=document.createElement('span');copy.className='exam-option-text';const pt=document.createElement('span');pt.className='exam-option-pt';pt.textContent=o.pt;copy.append(pt);if(examShowBangla&&o.bn){const bnText=document.createElement('span');bnText.className='exam-option-bn';bnText.textContent=o.bn;copy.append(bnText)}b.append(letter,copy);if(examAnswers.get(examIndex)===o.letter){b.classList.add('selected');b.setAttribute('aria-pressed','true')}b.addEventListener('click',()=>{examAnswers.set(examIndex,o.letter);examRender()});return b}
 function examRender(){const q=examQuestions[examIndex];if(!q)return;const p=parseQuestion(q),host=$('#exam-question');host.replaceChildren();$('#exam-counter').textContent='প্রশ্ন '+bn(examIndex+1)+' / '+bn(EXAM_SIZE);$('#exam-answered').textContent=bn(examAnswers.size)+'টি উত্তর দেওয়া';$('#exam-fav').firstChild.textContent=examFavourites.has(examIndex)?'★':'☆';$('#exam-fav').classList.toggle('is-favourite',examFavourites.has(examIndex));$('#exam-fav-state').textContent=examFavourites.has(examIndex)?'★ চিহ্নিত':'';
-if(q.page){const wrap=document.createElement('div');wrap.className='exam-image-wrap';const img=document.createElement('img');img.className='exam-image';img.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(q.id);img.loading='eager';attachQuestionPhoto(q,img);wrap.append(img);host.append(wrap)}
+if(PDF_IMAGE_Y[q.id]!==undefined){const wrap=document.createElement('div');wrap.className='exam-image-wrap';const img=document.createElement('img');img.className='exam-image';img.alt='PDF-এর আসল ছবি — প্রশ্ন '+bn(q.id);img.loading='eager';attachQuestionPhoto(q,img);wrap.append(img);host.append(wrap)}
 const prompt=document.createElement('div');prompt.className='exam-prompt';prompt.textContent=p.pt||'Question text unavailable';host.append(prompt);if(examShowBangla&&p.bn){const tr=document.createElement('div');tr.className='exam-bangla';tr.textContent=p.bn;host.append(tr)}
 const opts=document.createElement('div');opts.className='exam-options';p.options.forEach(o=>opts.append(examMakeOption(o)));host.append(opts);
 $('#exam-bn-toggle').textContent=examShowBangla?'বাংলা সহায়তা লুকান':'বাংলা সহায়তা দেখুন';$('#exam-bn-toggle').setAttribute('aria-expanded',String(examShowBangla));$('#exam-prev').disabled=examIndex===0;$('#exam-next').disabled=examIndex===EXAM_SIZE-1;examUpdateClock()}
