@@ -25,7 +25,7 @@ Static Bengali/Portuguese PWA for Category C study in Portugal. No paid plan, ba
 - After changing any asset, bump the `?v=` query in `index.html` and `CACHE` in `sw.js`.
 
 ## Running tests
-- `node tools/check-questions.js` runs on every pull request (GitHub Actions, `.github/workflows/check.yml`).
+- Every pull request runs `node tools/check-questions.js` and the browser tests (`node tests/run.js`, Playwright 1.63.0) in GitHub Actions (`.github/workflows/check.yml`).
 - Browser tests need Playwright with Chromium installed locally (there is no `package.json`): `node tests/run.js` runs all suites, or name some, e.g. `node tests/run.js photos wrong-answers`. They start their own local server on port 8765 (`PORT` to change).
 
 ## QA / important limitations
