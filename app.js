@@ -77,6 +77,8 @@ function filtered(){const q=$('#search').value.trim().toLowerCase();return quest
 function renderList(){const box=$('#questionlist');box.innerHTML='';const query=$('#search').value.trim();if(!query&&selectedChapter===-1){const prompt=document.createElement('div');prompt.className='chapter-prompt';const title=document.createElement('strong');title.textContent='শুরু করতে একটি অধ্যায় বেছে নিন';const note=document.createElement('p');note.textContent='অধ্যায়ের প্রশ্নগুলো এখানে দেখুন। যেকোনো শব্দ লিখে সব ৩০৭টি প্রশ্নেও খুঁজতে পারবেন।';prompt.append(title,note);box.appendChild(prompt);return}const list=filtered();const count=document.createElement('p');count.className='count';count.setAttribute('aria-live','polite');const visible=list.slice(0,shown);count.textContent=list.length?bn(list.length)+' টি প্রশ্নের মধ্যে '+bn(visible.length)+' টি দেখানো হচ্ছে':'কোনো প্রশ্ন পাওয়া যায়নি।';box.appendChild(count);visible.forEach(x=>box.appendChild(questionCard(x)));if(list.length>visible.length){const more=document.createElement('button');more.className='loadmore';more.textContent='আরও '+bn(Math.min(PAGE_SIZE,list.length-visible.length))+' টি প্রশ্ন দেখুন';more.onclick=()=>{shown+=PAGE_SIZE;renderList()};box.appendChild(more)}}
 
 // Context-aware visual cards: every question gets a relevant learning illustration.
+// The PDF breaks words like "designa-\nse": rejoin them without a space.
+const HYPHEN_BREAK=/(\p{L})-\n(?=\p{L})/gu;
 function parseQuestion(x){
  const lines=String(x.raw||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
  const body=lines.filter((line,i)=>i!==0&&!/^প্রশ্ন\s*[০-৯0-9]+(?:\s+IMT.*)?$/.test(line)&&!/^IMT\s+/i.test(line));
@@ -87,8 +89,8 @@ function parseQuestion(x){
  const firstOption=core.findIndex((line,index)=>index>(firstBengali<0?-1:firstBengali)&&/^[ABC](?:\s+.*)?$/.test(line));
  const stem=firstOption<0?core:core.slice(0,firstOption);
  const splitAt=stem.findIndex(bengaliLine);
- const pt=(splitAt<0?stem:stem.slice(0,splitAt)).join(' ').replace(/\s+/g,' ').trim();
- const bnText=(splitAt<0?[]:stem.slice(splitAt)).join(' ').replace(/\s+/g,' ').trim();
+ const pt=(splitAt<0?stem:stem.slice(0,splitAt)).join('\n').replace(HYPHEN_BREAK,'$1-').replace(/\s+/g,' ').trim();
+ const bnText=(splitAt<0?[]:stem.slice(splitAt)).join('\n').replace(HYPHEN_BREAK,'$1-').replace(/\s+/g,' ').trim();
  const options=[];
  if(firstOption>=0){
   let current=null;
@@ -101,7 +103,7 @@ function parseQuestion(x){
  }
  const parsedOptions=options.map(o=>{
   const split=o.lines.findIndex(bengaliLine);
-  return {letter:o.letter,pt:(split<0?o.lines:o.lines.slice(0,split)).join(' ').replace(/\s+/g,' ').trim(),bn:(split<0?[]:o.lines.slice(split)).join(' ').replace(/\s+/g,' ').trim()};
+  return {letter:o.letter,pt:(split<0?o.lines:o.lines.slice(0,split)).join('\n').replace(HYPHEN_BREAK,'$1-').replace(/\s+/g,' ').trim(),bn:(split<0?[]:o.lines.slice(split)).join('\n').replace(HYPHEN_BREAK,'$1-').replace(/\s+/g,' ').trim()};
  }).filter(o=>o.pt||o.bn);
  const explanation=lines.filter(line=>/^(কেন|মনে রাখুন)\s*:/.test(line)).map(line=>line.replace(/^(কেন|মনে রাখুন)\s*:\s*/,'').trim()).filter(Boolean);
  const correct=(String(x.answer||'').match(/^\s*([ABC])\s*[—–-]/)||[])[1]||((lines.join('\n').match(/সঠিক উত্তর\s*:\s*([ABC])/ )||[])[1]);
