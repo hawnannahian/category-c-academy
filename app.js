@@ -463,3 +463,80 @@ document.querySelectorAll('[data-open-tab]').forEach(b=>b.addEventListener('clic
 $('#continue-btn').addEventListener('click',()=>{let id=0;try{id=Number(localStorage.getItem(LAST_KEY)||0)}catch(e){}const i=questions.findIndex(x=>x.id===id);if(i>=0){quizIndex=i;showQuiz();rememberQuizPosition()}openTab('quiz');window.scrollTo({top:0,behavior:SMOOTH})});
 // Deep link: open the tab named in the URL hash (e.g. #quiz); unknown hashes stay on Home.
 {const h=location.hash.slice(1);if(h&&h!=='home'&&document.querySelector('.tab[data-tab="'+CSS.escape(h)+'"]'))openTab(h)}
+
+/* ---- In-app PDF book reader: page images (book-pages/), search over book-text.json, back button ---- */
+{
+ const R=$('#reader');
+ if(R){
+  const TOTAL=156,img=$('#reader-img'),stage=$('#reader-stage'),input=$('#reader-page'),q=$('#reader-q'),res=$('#reader-results'),
+   prevB=$('#reader-prev'),nextB=$('#reader-next'),zoomB=$('#reader-zoom'),backB=$('#reader-back');
+  let page=1,isOpen=false,trigger=null,pages=null,loading=null,timer=0;
+  const src=n=>'./book-pages/p-'+String(n).padStart(3,'0')+'.jpg';
+  const toNum=v=>parseInt(String(v).replace(/[০-৯]/g,d=>'০১২৩৪৫৬৭৮৯'.indexOf(d)),10);
+  const collapse=s=>s.normalize('NFC').replace(/\s+/g,' ').trim();
+  // Length-preserving fold (lower-case, no accents) so match positions map back onto the displayed text.
+  const fold=s=>{let o='';for(const ch of s){const b=ch.normalize('NFD')[0].toLowerCase();o+=b.length===ch.length?b:ch}return o};
+  function show(n){
+   n=Math.min(TOTAL,Math.max(1,n|0||1));page=n;
+   img.src=src(n);img.alt='বইয়ের পৃষ্ঠা '+bn(n);input.value=bn(n);
+   prevB.disabled=n<=1;nextB.disabled=n>=TOTAL;stage.scrollTo(0,0);
+   try{localStorage.setItem('bookPage',String(n))}catch(e){}
+   if(n<TOTAL)(new Image()).src=src(n+1)}
+  function loadText(){
+   if(pages)return Promise.resolve(pages);
+   return loading||(loading=fetch('./book-text.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{
+    pages=d.map(x=>{const disp=collapse(String(x.text||'').replace(/§[^§\n]*§/g,' '));return{page:x.page,disp,fold:fold(disp)}});return pages}).catch(e=>{loading=null;throw e}))}
+  function note(t){res.textContent='';const p=document.createElement('p');p.className='reader-note';p.textContent=t;res.appendChild(p)}
+  function runSearch(){
+   const raw=collapse(q.value);
+   if(!raw){res.hidden=true;R.classList.remove('searching');return}
+   res.hidden=false;R.classList.add('searching');note('খোঁজা হচ্ছে…');
+   loadText().then(list=>{
+    if(collapse(q.value)!==raw)return;
+    const words=fold(raw).split(' ').filter(Boolean),hits=[];
+    for(const p of list){let score=0,ok=true;for(const w of words){let i=p.fold.indexOf(w),c=0;if(i<0){ok=false;break}while(i>=0&&c<50){c++;i=p.fold.indexOf(w,i+w.length)}score+=c}if(ok)hits.push({p,score})}
+    hits.sort((a,b)=>b.score-a.score||a.p.page-b.p.page);
+    res.textContent='';
+    if(!hits.length){note('কিছু পাওয়া যায়নি। অন্য শব্দ লিখে দেখুন।');return}
+    const w0=words[0];
+    hits.slice(0,50).forEach(({p})=>{
+     const i=Math.max(0,p.fold.indexOf(w0)),from=Math.max(0,p.disp.lastIndexOf(' ',Math.max(0,i-35))),to=Math.min(p.disp.length,i+w0.length+90);
+     const b=document.createElement('button');b.type='button';b.className='reader-hit';
+     const h=document.createElement('b');h.textContent='পৃষ্ঠা '+bn(p.page);
+     const s=document.createElement('span'),m=document.createElement('mark');
+     m.textContent=p.disp.slice(i,i+w0.length);
+     s.append((from>0?'… ':'')+p.disp.slice(from,i),m,p.disp.slice(i+w0.length,to)+(to<p.disp.length?' …':''));
+     b.append(h,s);b.onclick=()=>{res.hidden=true;R.classList.remove('searching');show(p.page);q.blur()};res.appendChild(b)})
+   }).catch(()=>note('সার্চ এখন চালানো যাচ্ছে না। ইন্টারনেট সংযোগ দেখে আবার চেষ্টা করুন।'))}
+  function openReader(n,t){
+   if(isOpen)return;isOpen=true;trigger=t||document.activeElement;
+   R.hidden=false;document.body.classList.add('book-open');
+   if(!n){try{n=parseInt(localStorage.getItem('bookPage'),10)}catch(e){}}
+   show(n||1);
+   history.pushState({reader:1},'','#book');backB.focus()}
+  function doClose(){
+   if(!isOpen)return;isOpen=false;R.hidden=true;res.hidden=true;R.classList.remove('searching');q.value='';
+   document.body.classList.remove('book-open');
+   if(trigger&&trigger.isConnected)trigger.focus()}
+  function closeReader(){if(history.state&&history.state.reader)history.back();else doClose()}
+  window.addEventListener('popstate',e=>{if(isOpen&&!(e.state&&e.state.reader))doClose()});
+  backB.onclick=closeReader;
+  prevB.onclick=()=>show(page-1);nextB.onclick=()=>show(page+1);
+  zoomB.onclick=()=>{const on=R.classList.toggle('zoomed');zoomB.setAttribute('aria-pressed',on);zoomB.setAttribute('aria-label',on?'ছোট করে দেখুন':'বড় করে দেখুন');zoomB.textContent=on?'ছোট':'বড়'};
+  const go=()=>{const n=toNum(input.value);if(n>=1&&n<=TOTAL)show(n);else input.value=bn(page)};
+  input.onchange=go;input.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();go();input.blur()}};
+  input.onfocus=()=>input.select();
+  $('#reader-search').onsubmit=e=>{e.preventDefault();clearTimeout(timer);runSearch();q.blur()};
+  q.oninput=()=>{clearTimeout(timer);timer=setTimeout(runSearch,250)};
+  document.addEventListener('keydown',e=>{if(!isOpen||/^(INPUT|TEXTAREA)$/.test(e.target.tagName))return;
+   if(e.key==='Escape'){e.preventDefault();closeReader()}else if(e.key==='ArrowLeft')show(page-1);else if(e.key==='ArrowRight')show(page+1)});
+  // Swipe to turn pages (only when not zoomed).
+  let tx=0,ty=0;
+  stage.addEventListener('touchstart',e=>{if(e.touches.length===1){tx=e.touches[0].clientX;ty=e.touches[0].clientY}else tx=0},{passive:true});
+  stage.addEventListener('touchend',e=>{if(!tx||R.classList.contains('zoomed')||e.changedTouches.length!==1)return;
+   const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;tx=0;
+   if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*2)show(page+(dx<0?1:-1))},{passive:true});
+  document.querySelectorAll('.dashboard-guide').forEach(a=>a.addEventListener('click',e=>{
+   if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();openReader(0,a)}));
+ }
+}
