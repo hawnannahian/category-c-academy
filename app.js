@@ -439,7 +439,7 @@ function updateContinue(){
  if(ch&&$('#study-continue')){const[a,b2]=chapterRange(ch);let d=0;for(let n=a;n<=b2;n++)if(seen.has(n))d++;$('#study-continue-tag').textContent=$('#continue-tag').textContent;$('#study-continue-title').textContent=ch.bn;$('#study-continue-fill').style.width=(d/(b2-a+1)*100)+'%'}
  ($('#study-continue-go')||{}).textContent=q?'চালিয়ে যান':'শুরু';
  btn.textContent=q?'চালিয়ে যান':'শুরু';
-  if(q)heroPhoto(q);else{const p=$('#continue-photo');if(p){p.style.backgroundImage='';p.classList.remove('has-photo')}}
+ if(q)heroPhoto(q);else{const p=$('#continue-photo');if(p){p.style.backgroundImage='';p.classList.remove('has-photo')}}
  renderDashboard()}
 function renderDashboard(){
  if(!$('#home-stat-questions'))return;
