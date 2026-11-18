@@ -733,3 +733,14 @@ body[data-tab="quiz"]{overflow:hidden}
   .pq-body .question-image-wrap{float:left;width:36%;height:auto;min-height:0;max-height:none;margin-right:12px}
   .pq-body .question-photo{height:auto}
 }
+
+/* PDF BOOK call-to-action */
+.dashboard-heading{display:block;padding:6px 0 14px}
+.dashboard-heading .dashboard-guide{display:flex;align-items:center;gap:14px;width:100%;min-height:72px;padding:14px 18px;border-radius:var(--r-card);color:#fff;background:linear-gradient(135deg,#12978C,#0A625B);box-shadow:0 8px 22px rgba(10,98,91,.28);text-decoration:none;white-space:normal}
+.dashboard-heading .guide-icon{flex:none}
+.dashboard-heading .guide-text{display:flex;flex-direction:column;flex:1;min-width:0;line-height:1.25}
+.dashboard-heading .guide-text strong{font-size:1.4118rem;font-weight:800;letter-spacing:.06em}
+.dashboard-heading .guide-text small{font-size:.9412rem;font-weight:600;opacity:.92}
+.dashboard-heading .guide-arrow{flex:none;opacity:.9}
+.dashboard-heading .dashboard-guide:focus-visible{outline:3px solid var(--tint-line);outline-offset:2px}
+@media(prefers-color-scheme:dark){.dashboard-heading .dashboard-guide{background:linear-gradient(135deg,#1F8F85,#0F5C55);box-shadow:0 8px 22px rgba(0,0,0,.5)}}
